@@ -24,6 +24,8 @@ class Settings(BaseSettings):
     )
 
     auth_secret: str = "development-only-change-me"
+    secure_cookies: bool = False
+    allowed_hosts: str = "*"
     access_token_expire_minutes: int = 30
 
     cors_origins: str = "http://localhost:3000,http://localhost:5173"
@@ -49,6 +51,33 @@ class Settings(BaseSettings):
             origin.strip()
             for origin in self.cors_origins.split(",")
             if origin.strip()
+        ]
+
+    @property
+    def validate_production_security(self) -> None:
+        """Validate security-critical production configuration."""
+        if self.is_production:
+            if self.auth_secret == "development-only-change-me":
+                raise ValueError(
+                    "AUTH_SECRET must be changed in production."
+                )
+
+            if len(self.auth_secret) < 32:
+                raise ValueError(
+                    "AUTH_SECRET must contain at least 32 characters."
+                )
+
+            if "*" in self.cors_origin_list:
+                raise ValueError(
+                    "Wildcard CORS origins are not allowed in production."
+                )
+
+    def get_allowed_hosts(self) -> list[str]:
+        """Return configured trusted hosts."""
+        return [
+            host.strip()
+            for host in self.allowed_hosts.split(",")
+            if host.strip()
         ]
 
     @property

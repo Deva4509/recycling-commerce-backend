@@ -4,6 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.database.models import RoleName
+from app.dependencies.auth import require_roles
 from app.schemas.shipment import (
     ShipmentCreate,
     ShipmentRead,
@@ -14,6 +16,9 @@ from app.services.shipment import (
     ShipmentService,
     ShipmentValidationError,
 )
+
+
+admin_or_staff = require_roles(RoleName.ADMIN, RoleName.STAFF)
 
 
 router = APIRouter(
@@ -36,6 +41,7 @@ def get_shipment_service(
 def create_shipment(
     payload: ShipmentCreate,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.create_shipment(
@@ -93,6 +99,7 @@ def get_shipment_by_order(
 def process_shipment(
     shipment_id: UUID,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.process_shipment(shipment_id)
@@ -116,6 +123,7 @@ def ship_shipment(
     shipment_id: UUID,
     payload: ShipmentUpdate | None = None,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     payload = payload or ShipmentUpdate()
 
@@ -144,6 +152,7 @@ def ship_shipment(
 def mark_in_transit(
     shipment_id: UUID,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.mark_in_transit(shipment_id)
@@ -166,6 +175,7 @@ def mark_in_transit(
 def mark_out_for_delivery(
     shipment_id: UUID,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.mark_out_for_delivery(shipment_id)
@@ -188,6 +198,7 @@ def mark_out_for_delivery(
 def mark_delivered(
     shipment_id: UUID,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.mark_delivered(shipment_id)
@@ -210,6 +221,7 @@ def mark_delivered(
 def cancel_shipment(
     shipment_id: UUID,
     service: ShipmentService = Depends(get_shipment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.cancel_shipment(shipment_id)

@@ -4,6 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.database.models import RoleName
+from app.dependencies.auth import require_roles
 from app.schemas.inventory import (
     InventoryItemCreate,
     InventoryItemRead,
@@ -17,6 +19,9 @@ from app.services.inventory import (
     InventoryService,
     InventoryValidationError,
 )
+
+admin_or_staff = require_roles(RoleName.ADMIN, RoleName.STAFF)
+
 
 router = APIRouter(prefix="/inventory", tags=["Inventory"])
 
@@ -35,6 +40,7 @@ def get_inventory_service(
 def create_location(
     payload: InventoryLocationCreate,
     service: InventoryService = Depends(get_inventory_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.create_location(
@@ -68,6 +74,7 @@ def list_locations(
 def create_inventory_item(
     payload: InventoryItemCreate,
     service: InventoryService = Depends(get_inventory_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.create_item(
@@ -110,6 +117,7 @@ def receive_stock(
     inventory_item_id: UUID,
     quantity: int,
     service: InventoryService = Depends(get_inventory_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.receive_stock(inventory_item_id, quantity)
@@ -133,6 +141,7 @@ def sell_stock(
     inventory_item_id: UUID,
     quantity: int,
     service: InventoryService = Depends(get_inventory_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.sell_stock(inventory_item_id, quantity)

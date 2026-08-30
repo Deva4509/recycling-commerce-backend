@@ -4,6 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
+from app.database.models import RoleName
+from app.dependencies.auth import require_roles
 from app.schemas.payment import (
     PaymentCreate,
     PaymentFailedRequest,
@@ -15,6 +17,9 @@ from app.services.payment import (
     PaymentService,
     PaymentValidationError,
 )
+
+admin_or_staff = require_roles(RoleName.ADMIN, RoleName.STAFF)
+
 
 router = APIRouter(prefix="/payments", tags=["Payments"])
 
@@ -88,6 +93,7 @@ def list_order_payments(
 def mark_processing(
     payment_id: UUID,
     service: PaymentService = Depends(get_payment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.mark_processing(payment_id)
@@ -111,6 +117,7 @@ def mark_paid(
     payment_id: UUID,
     payload: PaymentPaidRequest,
     service: PaymentService = Depends(get_payment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.mark_paid(
@@ -138,6 +145,7 @@ def mark_failed(
     payment_id: UUID,
     payload: PaymentFailedRequest,
     service: PaymentService = Depends(get_payment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.mark_failed(
@@ -163,6 +171,7 @@ def mark_failed(
 def refund_payment(
     payment_id: UUID,
     service: PaymentService = Depends(get_payment_service),
+    _: object = Depends(admin_or_staff),
 ):
     try:
         return service.refund_payment(payment_id)
