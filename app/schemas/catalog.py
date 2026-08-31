@@ -1,3 +1,4 @@
+from datetime import datetime
 from decimal import Decimal
 from uuid import UUID
 
@@ -17,8 +18,8 @@ class CategoryRead(CategoryCreate):
     model_config = ConfigDict(from_attributes=True)
 
     id: UUID
-    created_at: object
-    updated_at: object
+    created_at: datetime
+    updated_at: datetime
 
 
 class ProductCreate(BaseModel):
@@ -37,5 +38,5 @@ class ProductRead(ProductCreate):
     model_config = ConfigDict(from_attributes=True)
 
     id: UUID
-    created_at: object
-    updated_at: object
+    created_at: datetime
+    updated_at: datetime
