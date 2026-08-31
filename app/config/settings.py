@@ -58,6 +58,39 @@ class Settings(BaseSettings):
             if origin.strip()
         ]
 
+    def validate_production_security(self) -> None:
+        """Validate settings that must be safe for production."""
+        if not self.is_production:
+            return
+
+        if self.debug:
+            raise ValueError("DEBUG must be false in production.")
+
+        if len(self.auth_secret) < 32:
+            raise ValueError(
+                "AUTH_SECRET must contain at least 32 characters in production."
+            )
+
+        if self.auth_secret.startswith("REPLACE_WITH"):
+            raise ValueError("AUTH_SECRET must be replaced in production.")
+
+        if not self.database_url:
+            raise ValueError("DATABASE_URL is required in production.")
+
+        blocked_hosts = (
+            "localhost",
+            "127.0.0.1",
+            "host.docker.internal",
+        )
+
+        if any(host in self.database_url.lower() for host in blocked_hosts):
+            raise ValueError(
+                "DATABASE_URL must point to the production PostgreSQL database."
+            )
+
+        if "*" in self.cors_origins:
+            raise ValueError("Wildcard CORS origins are not allowed in production.")
+
     @property
     def is_production(self) -> bool:
         """Return whether the application is running in production."""
