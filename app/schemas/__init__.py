@@ -53,3 +53,5 @@ from app.schemas.cart import (
     CartItemUpdate,
     CartMessage,
 )
+
+from app.schemas.catalog import CategoryCreate, CategoryRead, ProductCreate, ProductRead
