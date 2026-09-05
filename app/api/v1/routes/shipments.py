@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.database.models import RoleName
-from app.dependencies.auth import require_roles
+from app.database.models import RoleName, User
+from app.dependencies.auth import get_current_user, require_roles
 from app.schemas.shipment import (
     ShipmentCreate,
     ShipmentRead,
@@ -58,16 +58,51 @@ def create_shipment(
         ) from exc
 
 
+def get_owned_shipment(
+    shipment_id: UUID,
+    current_user: User,
+    service: ShipmentService,
+):
+    """Return a shipment only when its order belongs to the user."""
+    shipment = service.get_shipment(shipment_id)
+
+    if shipment.order.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Shipment was not found.",
+        )
+
+    return shipment
+
+
+def get_owned_order_shipment(
+    order_id: UUID,
+    current_user: User,
+    service: ShipmentService,
+):
+    """Return a shipment only when its order belongs to the user."""
+    shipment = service.get_shipment_by_order(order_id)
+
+    if shipment.order.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Shipment was not found.",
+        )
+
+    return shipment
+
+
 @router.get(
     "/{shipment_id}",
     response_model=ShipmentRead,
 )
 def get_shipment(
     shipment_id: UUID,
+    current_user: User = Depends(get_current_user),
     service: ShipmentService = Depends(get_shipment_service),
 ):
     try:
-        return service.get_shipment(shipment_id)
+        return get_owned_shipment(shipment_id, current_user, service)
     except ShipmentNotFoundError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -81,10 +116,15 @@ def get_shipment(
 )
 def get_shipment_by_order(
     order_id: UUID,
+    current_user: User = Depends(get_current_user),
     service: ShipmentService = Depends(get_shipment_service),
 ):
     try:
-        return service.get_shipment_by_order(order_id)
+        return get_owned_order_shipment(
+            order_id,
+            current_user,
+            service,
+        )
     except ShipmentNotFoundError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

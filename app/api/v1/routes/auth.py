@@ -70,6 +70,7 @@ def register(
         session.add(user)
         session.flush()
         session.refresh(user)
+        session.commit()
     except IntegrityError as exc:
         session.rollback()
         raise HTTPException(
@@ -77,7 +78,16 @@ def register(
             detail="Unable to create account.",
         ) from exc
 
-    return user
+    return {
+        "id": user.id,
+        "email": user.email,
+        "first_name": user.first_name,
+        "last_name": user.last_name,
+        "phone": user.phone,
+        "status": user.status,
+        "email_verified": user.email_verified,
+        "role": user.role.name,
+    }
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -124,6 +134,15 @@ def login(
 @router.get("/me", response_model=CurrentUserResponse)
 def me(
     current_user: User = Depends(get_current_user),
-) -> User:
+) -> dict:
     """Return the authenticated user."""
-    return current_user
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "first_name": current_user.first_name,
+        "last_name": current_user.last_name,
+        "phone": current_user.phone,
+        "status": current_user.status,
+        "email_verified": current_user.email_verified,
+        "role": current_user.role.name,
+    }

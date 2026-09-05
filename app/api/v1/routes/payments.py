@@ -4,8 +4,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.database.models import RoleName
-from app.dependencies.auth import require_roles
+from app.database.models import RoleName, User
+from app.dependencies.auth import get_current_user, require_roles
 from app.schemas.payment import (
     PaymentCreate,
     PaymentFailedRequest,
@@ -37,6 +37,7 @@ def get_payment_service(
 )
 def create_payment(
     payload: PaymentCreate,
+    current_user: User = Depends(get_current_user),
     service: PaymentService = Depends(get_payment_service),
 ):
     try:
@@ -52,16 +53,54 @@ def create_payment(
         ) from exc
 
 
+def get_owned_payment(
+    payment_id: UUID,
+    current_user: User,
+    service: PaymentService,
+):
+    """Return a payment only when its order belongs to the user."""
+    payment = service.get_payment(payment_id)
+
+    if payment.order.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Payment was not found.",
+        )
+
+    return payment
+
+
+def get_owned_order_payments(
+    order_id: UUID,
+    current_user: User,
+    service: PaymentService,
+):
+    """Return payments only when the order belongs to the user."""
+    payments = service.list_order_payments(order_id)
+
+    if not payments:
+        return payments
+
+    if payments[0].order.user_id != current_user.id:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Order payments were not found.",
+        )
+
+    return payments
+
+
 @router.get(
     "/{payment_id}",
     response_model=PaymentRead,
 )
 def get_payment(
     payment_id: UUID,
+    current_user: User = Depends(get_current_user),
     service: PaymentService = Depends(get_payment_service),
 ):
     try:
-        return service.get_payment(payment_id)
+        return get_owned_payment(payment_id, current_user, service)
     except PaymentNotFoundError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
@@ -75,10 +114,11 @@ def get_payment(
 )
 def list_order_payments(
     order_id: UUID,
+    current_user: User = Depends(get_current_user),
     service: PaymentService = Depends(get_payment_service),
 ):
     try:
-        return service.list_order_payments(order_id)
+        return get_owned_order_payments(order_id, current_user, service)
     except PaymentValidationError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

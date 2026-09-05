@@ -40,4 +40,4 @@ class CurrentUserResponse(BaseModel):
     phone: str | None
     status: str
     email_verified: bool
-    role: str
+    role: str = ""
