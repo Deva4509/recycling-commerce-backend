@@ -1,4 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
+import { createPortal } from "react-dom";
 import {
   Bell,
   Check,
@@ -450,15 +451,16 @@ export default function AdminSettings() {
         </section>
       </div>
 
-      {passwordOpen && (
-        <div
-          className="rp-admin-settings-modal-backdrop"
-          onMouseDown={(event) => {
-            if (event.target === event.currentTarget && !passwordSaving) {
-              setPasswordOpen(false);
-            }
-          }}
-        >
+      {passwordOpen &&
+        createPortal(
+          <div
+            className="rp-admin-settings-modal-backdrop"
+            onMouseDown={(event) => {
+              if (event.target === event.currentTarget && !passwordSaving) {
+                setPasswordOpen(false);
+              }
+            }}
+          >
           <div className="rp-admin-settings-modal">
             <div className="rp-admin-settings-modal-header">
               <div>
@@ -539,8 +541,9 @@ export default function AdminSettings() {
               </div>
             </form>
           </div>
-        </div>
-      )}
+          </div>,
+          document.body
+        )}
     </div>
   );
 }

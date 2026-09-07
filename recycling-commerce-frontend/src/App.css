@@ -45273,3 +45273,199 @@ body:has(.rp-admin-modern-page) {
     font-size: 42px !important;
   }
 }
+
+/* =========================================================
+   GREENCORE PASSWORD MODAL — FINAL OVERRIDE
+   ========================================================= */
+
+.rp-admin-settings-modal-backdrop {
+  position: fixed !important;
+  inset: 0 !important;
+  z-index: 99999 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  min-height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  box-sizing: border-box !important;
+  background: rgba(0, 10, 7, .78) !important;
+  backdrop-filter: blur(7px) !important;
+  -webkit-backdrop-filter: blur(7px) !important;
+}
+
+.rp-admin-settings-modal {
+  position: relative !important;
+  width: min(440px, calc(100vw - 40px)) !important;
+  max-width: 440px !important;
+  max-height: calc(100vh - 40px) !important;
+  overflow-y: auto !important;
+  margin: 0 !important;
+  padding: 22px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(57, 230, 160, .34) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(145deg, #06382b 0%, #021f18 100%) !important;
+  color: #eafff6 !important;
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.55),
+    inset 0 1px 0 rgba(255,255,255,.035) !important;
+}
+
+.rp-admin-settings-modal-header {
+  display: flex !important;
+  align-items: flex-start !important;
+  justify-content: space-between !important;
+  gap: 15px !important;
+  margin: 0 0 20px !important;
+}
+
+.rp-admin-settings-modal-header > div > span {
+  display: block !important;
+  color: #43e8aa !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1.3px !important;
+}
+
+.rp-admin-settings-modal-header h2 {
+  margin: 5px 0 0 !important;
+  color: #eafff6 !important;
+  font-size: 21px !important;
+  line-height: 1.2 !important;
+}
+
+.rp-admin-settings-modal-header button {
+  width: 32px !important;
+  min-width: 32px !important;
+  height: 32px !important;
+  min-height: 32px !important;
+  display: grid !important;
+  place-items: center !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: 1px solid rgba(218,255,239,.14) !important;
+  border-radius: 8px !important;
+  background: rgba(0,0,0,.18) !important;
+  color: rgba(234,255,246,.72) !important;
+  cursor: pointer !important;
+}
+
+.rp-admin-settings-modal-header button:hover {
+  border-color: rgba(57,230,160,.55) !important;
+  color: #55e8aa !important;
+}
+
+.rp-admin-settings-modal form {
+  display: grid !important;
+  gap: 14px !important;
+  margin: 0 !important;
+}
+
+.rp-admin-settings-modal form label {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+}
+
+.rp-admin-settings-modal form label > span {
+  display: block !important;
+  margin: 0 0 6px !important;
+  color: rgba(218,255,239,.48) !important;
+  font-size: 9px !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+}
+
+.rp-admin-settings-modal input[type="password"] {
+  display: block !important;
+  width: 100% !important;
+  height: 42px !important;
+  min-height: 42px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(39,180,130,.25) !important;
+  border-radius: 9px !important;
+  outline: none !important;
+  background: rgba(0,20,15,.82) !important;
+  color: #eafff6 !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  box-shadow: none !important;
+  appearance: none !important;
+}
+
+.rp-admin-settings-modal input[type="password"]:focus {
+  border-color: rgba(57,230,160,.72) !important;
+  box-shadow: 0 0 0 3px rgba(57,230,160,.08) !important;
+}
+
+.rp-admin-settings-modal-actions {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-end !important;
+  gap: 8px !important;
+  margin: 4px 0 0 !important;
+}
+
+.rp-admin-settings-modal-actions button {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 36px !important;
+  min-height: 36px !important;
+  box-sizing: border-box !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  margin: 0 !important;
+  padding: 0 13px !important;
+  border-radius: 8px !important;
+  font-family: inherit !important;
+  font-size: 10px !important;
+  font-weight: 750 !important;
+  cursor: pointer !important;
+}
+
+.rp-admin-settings-modal-actions button:first-child {
+  border: 1px solid rgba(218,255,239,.14) !important;
+  background: transparent !important;
+  color: rgba(234,255,246,.65) !important;
+}
+
+.rp-admin-settings-modal-actions button:last-child {
+  border: 1px solid rgba(57,230,160,.42) !important;
+  background: rgba(57,230,160,.13) !important;
+  color: #eafff6 !important;
+}
+
+.rp-admin-settings-modal-actions button:last-child:hover {
+  background: rgba(57,230,160,.20) !important;
+  border-color: rgba(57,230,160,.70) !important;
+}
+
+.rp-admin-settings-password-error,
+.rp-admin-settings-modal .rp-admin-settings-success {
+  width: 100% !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+}
+
+/* Hide scrollbar inside modal while preserving scrolling. */
+.rp-admin-settings-modal {
+  scrollbar-width: none !important;
+}
+
+.rp-admin-settings-modal::-webkit-scrollbar {
+  display: none !important;
+}
+
+@media (max-width: 520px) {
+  .rp-admin-settings-modal {
+    width: calc(100vw - 28px) !important;
+    padding: 18px !important;
+    border-radius: 14px !important;
+  }
+}
