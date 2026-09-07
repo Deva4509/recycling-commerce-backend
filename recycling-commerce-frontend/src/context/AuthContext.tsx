@@ -136,6 +136,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   useEffect(() => {
+    const handleAuthExpired = () => {
+      clearStoredAuth();
+      setUser(null);
+      setIsLoading(false);
+      window.location.assign("/login");
+    };
+
+    window.addEventListener(
+      "recyclepro-auth-expired",
+      handleAuthExpired,
+    );
+
+    return () => {
+      window.removeEventListener(
+        "recyclepro-auth-expired",
+        handleAuthExpired,
+      );
+    };
+  }, []);
+
+
+  useEffect(() => {
     const token = getStoredToken();
 
     if (!token) {

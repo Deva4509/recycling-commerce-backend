@@ -563,7 +563,7 @@ export default function Checkout() {
               <div className="checkout-cod-note">
                 <ShieldCheck size={19} />
                 <span>
-                  You can pay safely in cash when your Recyclepro order is
+                  You can pay safely in cash when your GreenCore order is
                   delivered.
                 </span>
               </div>

@@ -49,7 +49,7 @@ export default function Register() {
 
         <Link to="/" className="auth-brand">
           <span><Leaf size={18} /></span>
-          Recycle<span>pro</span>
+          Green<span>Core</span>
         </Link>
 
         <div className="auth-visual-content">
@@ -90,14 +90,14 @@ export default function Register() {
           <div className="auth-mobile-brand">
             <Link to="/" className="auth-brand dark-brand">
               <span><Leaf size={18} /></span>
-              Recycle<span>pro</span>
+              Green<span>Core</span>
             </Link>
           </div>
 
           <div className="auth-heading">
             <span className="auth-form-label">GET STARTED</span>
             <h2>Create your account.</h2>
-            <p>Join Recyclepro and start shopping more consciously.</p>
+            <p>Join GreenCore and start shopping more consciously.</p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
@@ -176,7 +176,7 @@ export default function Register() {
           </p>
 
           <p className="auth-terms">
-            Your account is securely connected to your Recyclepro account.
+            Your account is securely connected to your GreenCore account.
           </p>
         </div>
       </section>

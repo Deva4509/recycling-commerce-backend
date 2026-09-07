@@ -69,7 +69,7 @@ export default function Footer() {
                 <Leaf size={22} strokeWidth={2.3} />
               </span>
               <span>
-                Recycle<span>pro</span>
+                Green<span>Core</span>
               </span>
             </Link>
 
@@ -86,9 +86,9 @@ export default function Footer() {
                     <span>Building a greener future</span>
                   </div>
 
-                  <a href="mailto:hello@recyclepro.com">
+                  <a href="mailto:hello@greencore.com">
                     <Mail size={15} />
-                    <span>hello@recyclepro.com</span>
+                    <span>hello@greencore.com</span>
                   </a>
                 </div>
               </>
@@ -107,7 +107,7 @@ export default function Footer() {
           </div>
 
           <div className="rp-footer-links">
-            <span className="rp-footer-heading">RECYCLEPRO</span>
+            <span className="rp-footer-heading">GREENCORE</span>
 
             <Link to="/categories">
               Our approach
@@ -150,7 +150,7 @@ export default function Footer() {
         </div>
 
         <div className="rp-footer-bottom">
-          <span>© 2026 Recyclepro. All rights reserved.</span>
+          <span>© 2026 GreenCore. All rights reserved.</span>
 
           <div className="rp-footer-socials">
             <a href="#" aria-label="Instagram">

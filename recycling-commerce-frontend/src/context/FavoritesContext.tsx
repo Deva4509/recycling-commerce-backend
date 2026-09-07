@@ -20,8 +20,8 @@ const FavoritesContext =
     undefined,
   );
 
-const GUEST_KEY = "recyclepro-favorites-guest";
-const KEY_PREFIX = "recyclepro-favorites:";
+const GUEST_KEY = "greencore-favorites-guest";
+const KEY_PREFIX = "greencore-favorites:";
 
 function getStorageKey(userId: string | null) {
   return userId

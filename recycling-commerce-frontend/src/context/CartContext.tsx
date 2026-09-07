@@ -27,8 +27,8 @@ const CartContext = createContext<CartContextValue | undefined>(
   undefined,
 );
 
-const GUEST_CART_KEY = "recyclepro-cart-guest";
-const CART_KEY_PREFIX = "recyclepro-cart:";
+const GUEST_CART_KEY = "greencore-cart-guest";
+const CART_KEY_PREFIX = "greencore-cart:";
 
 function getStorageKey(userId: string | null) {
   return userId

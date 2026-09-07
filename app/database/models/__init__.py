@@ -47,3 +47,5 @@ __all__ = [
     "SustainabilityProfile",
     "User",
 ]
+
+from app.database.models.admin_settings import AdminSettings

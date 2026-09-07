@@ -126,14 +126,14 @@ export default function Home() {
         <div className="home-container">
           <div className="home-section-heading">
             <div>
-              <p className="home-kicker">THE RECYCLEPRO IDEA</p>
+              <p className="home-kicker">THE GREENCORE IDEA</p>
               <h2>
                 Good design shouldn't have to
                 <em> cost the earth.</em>
               </h2>
             </div>
             <p>
-              Recyclepro brings sustainable products together in one place,
+              GreenCore brings sustainable products together in one place,
               making the better choice feel effortless.
             </p>
           </div>

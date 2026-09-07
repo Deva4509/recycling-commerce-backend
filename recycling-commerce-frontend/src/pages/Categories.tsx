@@ -99,7 +99,7 @@ export default function Categories() {
                 <Recycle size={30} />
               </div>
 
-              <span>RECYCLEPRO</span>
+              <span>GREENCORE</span>
 
               <strong>
                 Give materials
@@ -218,7 +218,7 @@ export default function Categories() {
           </h2>
 
           <p>
-            Recyclepro connects conscious design with materials already in
+            GreenCore connects conscious design with materials already in
             circulation, helping everyday objects become part of a longer
             story.
           </p>

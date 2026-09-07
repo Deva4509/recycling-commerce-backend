@@ -67,7 +67,7 @@ export default function Navbar() {
           </span>
 
           <span>
-            Recycle<span>pro</span>
+            Green<span>Core</span>
           </span>
         </Link>
 

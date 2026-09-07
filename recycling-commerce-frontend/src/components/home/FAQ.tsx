@@ -3,9 +3,9 @@ import { ChevronDown, HelpCircle } from "lucide-react";
 
 const faqs = [
   {
-    question: "What is Recyclepro?",
+    question: "What is GreenCore?",
     answer:
-      "Recyclepro is a sustainable marketplace that brings together thoughtfully designed everyday products made from recycled, reclaimed, recovered, and upcycled materials.",
+      "GreenCore is a sustainable marketplace that brings together thoughtfully designed everyday products made from recycled, reclaimed, recovered, and upcycled materials.",
   },
   {
     question: "How are your products made?",
@@ -25,7 +25,7 @@ const faqs = [
   {
     question: "What payment methods do you accept?",
     answer:
-      "Recyclepro supports Cash on Delivery, UPI, cards, net banking, and supported digital wallets.",
+      "GreenCore supports Cash on Delivery, UPI, cards, net banking, and supported digital wallets.",
   },
   {
     question: "How much does shipping cost?",
@@ -55,7 +55,7 @@ const faqs = [
   {
     question: "How can I contact support?",
     answer:
-      "For help with an order or any other question, contact the Recyclepro support team through the support contact information provided on the website.",
+      "For help with an order or any other question, contact the GreenCore support team through the support contact information provided on the website.",
   },
 ];
 
@@ -71,7 +71,7 @@ export default function FAQ() {
             <h2>Frequently asked questions</h2>
             <p>
               Everything you need to know about shopping sustainably with
-              Recyclepro.
+              GreenCore.
             </p>
           </div>
 

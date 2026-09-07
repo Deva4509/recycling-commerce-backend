@@ -285,7 +285,7 @@ export default function VisionMission() {
             </h2>
 
             <p>
-              These principles shape how Recyclepro
+              These principles shape how GreenCore
               thinks, builds, and grows.
             </p>
           </div>
@@ -405,7 +405,7 @@ export default function VisionMission() {
                 </a>
 
                 <a href="/shop" className="vm-cta-secondary">
-                  Explore Recyclepro
+                  Explore GreenCore
                 </a>
               </div>
             </div>

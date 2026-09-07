@@ -84,7 +84,7 @@ export default function Shop() {
     const product = products.find((item) => item.id === productId);
 
     if (!product) {
-      console.error("Recyclepro: product not found:", productId);
+      console.error("GreenCore: product not found:", productId);
       return;
     }
 
@@ -95,7 +95,7 @@ export default function Shop() {
     const product = products.find((item) => item.id === productId);
 
     if (!product) {
-      console.error("Recyclepro: product not found:", productId);
+      console.error("GreenCore: product not found:", productId);
       return;
     }
 
@@ -123,7 +123,7 @@ export default function Shop() {
               <span>
                 <Sparkles size={14} />
               </span>
-              THE RECYCLEPRO COLLECTION
+              THE GREENCORE COLLECTION
             </div>
 
             <h1>
@@ -181,7 +181,7 @@ export default function Shop() {
                 <div className="shop-sheet-icon">
                   <Leaf size={64} strokeWidth={1.15} />
                 </div>
-                <span>RECYCLEPRO</span>
+                <span>GREENCORE</span>
                 <strong>EVERYDAY<br />ESSENTIALS</strong>
               </motion.div>
             </div>

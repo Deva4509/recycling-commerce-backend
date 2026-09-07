@@ -23,7 +23,25 @@ export default function Login() {
       return;
     }
 
-    navigate("/");
+    const storedUser =
+      localStorage.getItem("recyclepro-user") ||
+      sessionStorage.getItem("recyclepro-user");
+
+    let role = "";
+
+    if (storedUser) {
+      try {
+        role = String(JSON.parse(storedUser)?.role || "").toUpperCase();
+      } catch {
+        role = "";
+      }
+    }
+
+    navigate(
+      role === "ADMIN" || role === "STAFF"
+        ? "/admin"
+        : "/",
+    );
   }
 
   return (
@@ -34,7 +52,7 @@ export default function Login() {
 
         <Link to="/" className="auth-brand">
           <span><Leaf size={18} /></span>
-          Recycle<span>pro</span>
+          Green<span>Core</span>
         </Link>
 
         <div className="auth-visual-content">
@@ -75,14 +93,14 @@ export default function Login() {
           <div className="auth-mobile-brand">
             <Link to="/" className="auth-brand dark-brand">
               <span><Leaf size={18} /></span>
-              Recycle<span>pro</span>
+              Green<span>Core</span>
             </Link>
           </div>
 
           <div className="auth-heading">
             <span className="auth-form-label">ACCOUNT</span>
             <h2>Welcome back.</h2>
-            <p>Sign in to continue to your Recyclepro account.</p>
+            <p>Sign in to continue to your GreenCore account.</p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
@@ -153,7 +171,7 @@ export default function Login() {
           </button>
 
           <p className="auth-switch">
-            New to Recyclepro?{" "}
+            New to GreenCore?{" "}
             <Link to="/register">Create an account</Link>
           </p>
 
