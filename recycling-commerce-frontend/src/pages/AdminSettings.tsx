@@ -1,3 +1,4 @@
+import { FormEvent, useEffect, useState } from "react";
 import {
   Bell,
   Check,
@@ -12,55 +13,170 @@ import {
   ShieldCheck,
   Store,
   UserRound,
+  X,
 } from "lucide-react";
-import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
+import {
+  getAdminSettings,
+  updateAdminPassword,
+  updateAdminProfile,
+  updateAdminSettings,
+  type AdminSettingsResponse,
+} from "../lib/api";
 
 export default function AdminSettings() {
-  const { user } = useAuth();
+  const [data, setData] = useState<AdminSettingsResponse | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState("");
 
-  const [saved, setSaved] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
 
-  const [profile, setProfile] = useState({
-    firstName: "",
-    lastName: "",
-    email: user?.email || "",
-    phone: "",
-  });
+  const [orderAlerts, setOrderAlerts] = useState(true);
+  const [paymentAlerts, setPaymentAlerts] = useState(true);
+  const [lowStockAlerts, setLowStockAlerts] = useState(true);
+  const [currency, setCurrency] = useState("INR");
+  const [timezone, setTimezone] = useState("Asia/Kolkata");
+  const [orderProcessing, setOrderProcessing] = useState(true);
 
-  const [notifications, setNotifications] = useState({
-    orderAlerts: true,
-    paymentAlerts: true,
-    lowStockAlerts: true,
-  });
+  const [passwordOpen, setPasswordOpen] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordSaving, setPasswordSaving] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState("");
+  const [passwordError, setPasswordError] = useState("");
 
-  const [operations, setOperations] = useState({
-    currency: "INR",
-    timezone: "Asia/Kolkata",
-    orderProcessing: true,
-  });
+  const loadSettings = async () => {
+    try {
+      setLoading(true);
+      const result = await getAdminSettings();
 
-  function handleSave() {
-    setSaved(true);
+      setData(result);
 
-    window.setTimeout(() => {
-      setSaved(false);
-    }, 2500);
+      setFirstName(result.profile.first_name || "");
+      setLastName(result.profile.last_name || "");
+      setPhone(result.profile.phone || "");
+
+      setOrderAlerts(result.settings.order_alerts);
+      setPaymentAlerts(result.settings.payment_alerts);
+      setLowStockAlerts(result.settings.low_stock_alerts);
+      setCurrency(result.settings.default_currency || "INR");
+      setTimezone(result.settings.timezone || "Asia/Kolkata");
+      setOrderProcessing(result.settings.order_processing_enabled);
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to load administrator settings."
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void loadSettings();
+  }, []);
+
+  const handleSave = async () => {
+    try {
+      setSaving(true);
+      setMessage("");
+
+      await updateAdminProfile({
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        phone: phone.trim() || null,
+      });
+
+      await updateAdminSettings({
+        order_alerts: orderAlerts,
+        payment_alerts: paymentAlerts,
+        low_stock_alerts: lowStockAlerts,
+        default_currency: currency,
+        timezone,
+        order_processing_enabled: orderProcessing,
+      });
+
+      setMessage("Changes saved successfully.");
+      await loadSettings();
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to save changes."
+      );
+    } finally {
+      setSaving(false);
+    }
+  };
+
+  const handlePasswordChange = async (event: FormEvent) => {
+    event.preventDefault();
+    setPasswordMessage("");
+    setPasswordError("");
+
+    if (newPassword.length < 8) {
+      setPasswordError("New password must be at least 8 characters.");
+      return;
+    }
+
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New password and confirmation do not match.");
+      return;
+    }
+
+    try {
+      setPasswordSaving(true);
+
+      await updateAdminPassword({
+        current_password: currentPassword,
+        new_password: newPassword,
+      });
+
+      setPasswordMessage("Password changed successfully.");
+      setCurrentPassword("");
+      setNewPassword("");
+      setConfirmPassword("");
+
+      window.setTimeout(() => {
+        setPasswordOpen(false);
+        setPasswordMessage("");
+      }, 1200);
+    } catch (error) {
+      setPasswordError(
+        error instanceof Error
+          ? error.message
+          : "Unable to change password."
+      );
+    } finally {
+      setPasswordSaving(false);
+    }
+  };
+
+  if (loading) {
+    return (
+      <div className="rp-admin-settings-page">
+        <div className="rp-admin-settings-loading">
+          <Settings2 size={24} />
+          <span>Loading settings...</span>
+        </div>
+      </div>
+    );
   }
 
   return (
-    <section className="rp-admin-settings-page">
+    <div className="rp-admin-settings-page">
       <div className="rp-admin-settings-hero">
         <div>
-          <span className="rp-admin-eyebrow">
+          <div className="rp-admin-settings-eyebrow">
             SYSTEM CONFIGURATION
-          </span>
-
+          </div>
           <h1>Settings</h1>
-
           <p>
-            Manage your GreenCore account, security and operational
-            preferences.
+            Manage your GreenCore account, security and operational preferences.
           </p>
         </div>
 
@@ -68,29 +184,28 @@ export default function AdminSettings() {
           type="button"
           className="rp-admin-settings-save"
           onClick={handleSave}
+          disabled={saving}
         >
-          {saved ? <Check size={17} /> : <Save size={17} />}
-          {saved ? "Saved" : "Save Changes"}
+          {saving ? <Settings2 size={17} /> : <Save size={17} />}
+          {saving ? "Saving..." : "Save Changes"}
         </button>
       </div>
 
-      {saved && (
+      {message && (
         <div className="rp-admin-settings-success">
-          <CircleCheck size={17} />
-          <span>Your settings have been saved.</span>
+          <CircleCheck size={18} />
+          <span>{message}</span>
         </div>
       )}
 
       <div className="rp-admin-settings-grid">
-        {/* PROFILE */}
         <section className="rp-admin-settings-card">
           <div className="rp-admin-settings-card-heading">
             <div className="rp-admin-settings-icon">
-              <UserRound size={19} />
+              <UserRound size={21} />
             </div>
-
             <div>
-              <h2>Profile & Account</h2>
+              <h2>Profile &amp; Account</h2>
               <p>Manage your administrator account information.</p>
             </div>
           </div>
@@ -99,13 +214,8 @@ export default function AdminSettings() {
             <label>
               <span>FIRST NAME</span>
               <input
-                value={profile.firstName}
-                onChange={(event) =>
-                  setProfile({
-                    ...profile,
-                    firstName: event.target.value,
-                  })
-                }
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
                 placeholder="First name"
               />
             </label>
@@ -113,61 +223,42 @@ export default function AdminSettings() {
             <label>
               <span>LAST NAME</span>
               <input
-                value={profile.lastName}
-                onChange={(event) =>
-                  setProfile({
-                    ...profile,
-                    lastName: event.target.value,
-                  })
-                }
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
                 placeholder="Last name"
-              />
-            </label>
-
-            <label className="full">
-              <span>EMAIL ADDRESS</span>
-              <div className="rp-admin-settings-input-with-icon">
-                <Mail size={16} />
-                <input
-                  value={profile.email}
-                  onChange={(event) =>
-                    setProfile({
-                      ...profile,
-                      email: event.target.value,
-                    })
-                  }
-                  type="email"
-                  placeholder="Email address"
-                />
-              </div>
-            </label>
-
-            <label className="full">
-              <span>PHONE NUMBER</span>
-              <input
-                value={profile.phone}
-                onChange={(event) =>
-                  setProfile({
-                    ...profile,
-                    phone: event.target.value,
-                  })
-                }
-                placeholder="+91"
               />
             </label>
           </div>
 
+          <label className="rp-admin-settings-full-field">
+            <span>EMAIL ADDRESS</span>
+            <div className="rp-admin-settings-input-with-icon">
+              <Mail size={17} />
+              <input
+                value={data?.profile.email || ""}
+                readOnly
+                aria-label="Email address"
+              />
+            </div>
+          </label>
+
+          <label className="rp-admin-settings-full-field">
+            <span>PHONE NUMBER</span>
+            <input
+              value={phone}
+              onChange={(event) => setPhone(event.target.value)}
+              placeholder="+91"
+            />
+          </label>
+
           <div className="rp-admin-settings-account-meta">
             <div>
               <span>ROLE</span>
-              <strong>
-                {String(user?.role || "ADMIN").toUpperCase()}
-              </strong>
+              <strong>ADMIN</strong>
             </div>
-
             <div>
               <span>ACCOUNT</span>
-              <strong className="settings-active">
+              <strong className="rp-admin-settings-active">
                 <i />
                 ACTIVE
               </strong>
@@ -175,139 +266,113 @@ export default function AdminSettings() {
           </div>
         </section>
 
-        {/* SECURITY */}
         <section className="rp-admin-settings-card">
           <div className="rp-admin-settings-card-heading">
-            <div className="rp-admin-settings-icon security">
-              <ShieldCheck size={19} />
+            <div className="rp-admin-settings-icon">
+              <ShieldCheck size={21} />
             </div>
-
             <div>
               <h2>Security</h2>
-              <p>Protect your administrator account.</p>
+              <p>Protect administrator account.</p>
             </div>
           </div>
 
           <div className="rp-admin-settings-security-row">
-            <div className="settings-security-symbol">
-              <LockKeyhole size={18} />
+            <div className="rp-admin-settings-security-icon">
+              <LockKeyhole size={19} />
             </div>
-
             <div>
               <strong>Password</strong>
-              <span>
-                Change your account password and keep your account secure.
-              </span>
+              <span>Change your account password and keep your account secure.</span>
             </div>
-
-            <button type="button">
-              <KeyRound size={15} />
+            <button
+              type="button"
+              onClick={() => {
+                setPasswordOpen(true);
+                setPasswordError("");
+                setPasswordMessage("");
+              }}
+            >
+              <KeyRound size={16} />
               Change Password
             </button>
           </div>
 
           <div className="rp-admin-settings-security-row">
-            <div className="settings-security-symbol">
-              <ShieldCheck size={18} />
+            <div className="rp-admin-settings-security-icon">
+              <ShieldCheck size={19} />
             </div>
-
             <div>
               <strong>Authentication</strong>
               <span>JWT authentication is enabled for this account.</span>
             </div>
-
-            <span className="settings-enabled">
+            <b className="rp-admin-settings-enabled">
               <i />
               Enabled
-            </span>
+            </b>
           </div>
         </section>
 
-        {/* NOTIFICATIONS */}
         <section className="rp-admin-settings-card">
           <div className="rp-admin-settings-card-heading">
-            <div className="rp-admin-settings-icon notification">
-              <Bell size={19} />
+            <div className="rp-admin-settings-icon">
+              <Bell size={21} />
             </div>
-
             <div>
               <h2>Notifications</h2>
-              <p>Choose which operational alerts you receive.</p>
+              <p>Choose which operational events require your attention.</p>
             </div>
           </div>
 
           <div className="rp-admin-settings-toggle-list">
             <label className="rp-admin-settings-toggle">
               <div>
-                <strong>Order alerts</strong>
-                <span>Notify when new orders are created.</span>
+                <strong>Order Alerts</strong>
+                <span>Notify when new orders require attention.</span>
               </div>
-
               <input
                 type="checkbox"
-                checked={notifications.orderAlerts}
-                onChange={(event) =>
-                  setNotifications({
-                    ...notifications,
-                    orderAlerts: event.target.checked,
-                  })
-                }
+                checked={orderAlerts}
+                onChange={(event) => setOrderAlerts(event.target.checked)}
               />
-
               <span className="settings-toggle-ui" />
             </label>
 
             <label className="rp-admin-settings-toggle">
               <div>
-                <strong>Payment alerts</strong>
-                <span>Notify about important payment events.</span>
+                <strong>Payment Alerts</strong>
+                <span>Notify about payment failures and updates.</span>
               </div>
-
               <input
                 type="checkbox"
-                checked={notifications.paymentAlerts}
-                onChange={(event) =>
-                  setNotifications({
-                    ...notifications,
-                    paymentAlerts: event.target.checked,
-                  })
-                }
+                checked={paymentAlerts}
+                onChange={(event) => setPaymentAlerts(event.target.checked)}
               />
-
               <span className="settings-toggle-ui" />
             </label>
 
             <label className="rp-admin-settings-toggle">
               <div>
-                <strong>Low-stock alerts</strong>
+                <strong>Low Stock Alerts</strong>
                 <span>Notify when inventory reaches its threshold.</span>
               </div>
-
               <input
                 type="checkbox"
-                checked={notifications.lowStockAlerts}
-                onChange={(event) =>
-                  setNotifications({
-                    ...notifications,
-                    lowStockAlerts: event.target.checked,
-                  })
-                }
+                checked={lowStockAlerts}
+                onChange={(event) => setLowStockAlerts(event.target.checked)}
               />
-
               <span className="settings-toggle-ui" />
             </label>
           </div>
         </section>
 
-        {/* OPERATIONS */}
         <section className="rp-admin-settings-card">
           <div className="rp-admin-settings-card-heading">
-            <div className="rp-admin-settings-icon operations">
-              <Store size={19} />
+            <div className="rp-admin-settings-icon">
+              <Store size={21} />
             </div>
-
             <div>
-              <h2>Store & Operations</h2>
+              <h2>Store &amp; Operations</h2>
               <p>Configure core GreenCore operating preferences.</p>
             </div>
           </div>
@@ -316,13 +381,8 @@ export default function AdminSettings() {
             <label>
               <span>DEFAULT CURRENCY</span>
               <select
-                value={operations.currency}
-                onChange={(event) =>
-                  setOperations({
-                    ...operations,
-                    currency: event.target.value,
-                  })
-                }
+                value={currency}
+                onChange={(event) => setCurrency(event.target.value)}
               >
                 <option value="INR">INR — Indian Rupee</option>
                 <option value="USD">USD — US Dollar</option>
@@ -333,91 +393,154 @@ export default function AdminSettings() {
             <label>
               <span>TIMEZONE</span>
               <select
-                value={operations.timezone}
-                onChange={(event) =>
-                  setOperations({
-                    ...operations,
-                    timezone: event.target.value,
-                  })
-                }
+                value={timezone}
+                onChange={(event) => setTimezone(event.target.value)}
               >
                 <option value="Asia/Kolkata">Asia/Kolkata</option>
                 <option value="UTC">UTC</option>
                 <option value="Asia/Dubai">Asia/Dubai</option>
+                <option value="Asia/Singapore">Asia/Singapore</option>
               </select>
             </label>
           </div>
 
-          <label className="rp-admin-settings-toggle operation-toggle">
+          <label className="rp-admin-settings-toggle">
             <div>
-              <strong>Order processing</strong>
-              <span>Allow administrators to process customer orders.</span>
+              <strong>Order Processing</strong>
+              <span>Allow normal order processing operations.</span>
             </div>
-
             <input
               type="checkbox"
-              checked={operations.orderProcessing}
-              onChange={(event) =>
-                setOperations({
-                  ...operations,
-                  orderProcessing: event.target.checked,
-                })
-              }
+              checked={orderProcessing}
+              onChange={(event) => setOrderProcessing(event.target.checked)}
             />
-
             <span className="settings-toggle-ui" />
           </label>
         </section>
 
-        {/* SYSTEM */}
-        <section className="rp-admin-settings-card system-card">
+        <section className="rp-admin-settings-card">
           <div className="rp-admin-settings-card-heading">
-            <div className="rp-admin-settings-icon system">
-              <Settings2 size={19} />
+            <div className="rp-admin-settings-icon">
+              <Server size={21} />
             </div>
-
             <div>
               <h2>System Information</h2>
-              <p>Current GreenCore platform status.</p>
+              <p>Current GreenCore platform configuration.</p>
             </div>
           </div>
 
           <div className="rp-admin-system-list">
             <div>
-              <div>
-                <Server size={16} />
-                <span>API Server</span>
-              </div>
-
-              <strong className="system-online">
-                <i />
-                Operational
-              </strong>
+              <span><Database size={16} /> Database</span>
+              <strong>PostgreSQL</strong>
             </div>
-
             <div>
-              <div>
-                <Database size={16} />
-                <span>PostgreSQL Database</span>
-              </div>
-
-              <strong className="system-online">
-                <i />
-                Connected
-              </strong>
+              <span><Server size={16} /> Backend</span>
+              <strong>FastAPI</strong>
             </div>
-
             <div>
-              <div>
-                <Settings2 size={16} />
-                <span>GreenCore Version</span>
-              </div>
-
-              <strong>1.0.0</strong>
+              <span><ShieldCheck size={16} /> Authentication</span>
+              <strong>JWT / HS256</strong>
+            </div>
+            <div>
+              <span><Check size={16} /> Settings Storage</span>
+              <strong>Database-backed</strong>
             </div>
           </div>
         </section>
       </div>
-    </section>
+
+      {passwordOpen && (
+        <div
+          className="rp-admin-settings-modal-backdrop"
+          onMouseDown={(event) => {
+            if (event.target === event.currentTarget && !passwordSaving) {
+              setPasswordOpen(false);
+            }
+          }}
+        >
+          <div className="rp-admin-settings-modal">
+            <div className="rp-admin-settings-modal-header">
+              <div>
+                <span>ACCOUNT SECURITY</span>
+                <h2>Change Password</h2>
+              </div>
+              <button
+                type="button"
+                onClick={() => !passwordSaving && setPasswordOpen(false)}
+                disabled={passwordSaving}
+                aria-label="Close"
+              >
+                <X size={19} />
+              </button>
+            </div>
+
+            <form onSubmit={handlePasswordChange}>
+              <label>
+                <span>CURRENT PASSWORD</span>
+                <input
+                  type="password"
+                  value={currentPassword}
+                  onChange={(event) => setCurrentPassword(event.target.value)}
+                  autoComplete="current-password"
+                  required
+                />
+              </label>
+
+              <label>
+                <span>NEW PASSWORD</span>
+                <input
+                  type="password"
+                  value={newPassword}
+                  onChange={(event) => setNewPassword(event.target.value)}
+                  autoComplete="new-password"
+                  minLength={8}
+                  required
+                />
+              </label>
+
+              <label>
+                <span>CONFIRM NEW PASSWORD</span>
+                <input
+                  type="password"
+                  value={confirmPassword}
+                  onChange={(event) => setConfirmPassword(event.target.value)}
+                  autoComplete="new-password"
+                  minLength={8}
+                  required
+                />
+              </label>
+
+              {passwordError && (
+                <div className="rp-admin-settings-password-error">
+                  {passwordError}
+                </div>
+              )}
+
+              {passwordMessage && (
+                <div className="rp-admin-settings-success">
+                  <CircleCheck size={17} />
+                  {passwordMessage}
+                </div>
+              )}
+
+              <div className="rp-admin-settings-modal-actions">
+                <button
+                  type="button"
+                  onClick={() => setPasswordOpen(false)}
+                  disabled={passwordSaving}
+                >
+                  Cancel
+                </button>
+                <button type="submit" disabled={passwordSaving}>
+                  <KeyRound size={16} />
+                  {passwordSaving ? "Changing..." : "Change Password"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
   );
 }

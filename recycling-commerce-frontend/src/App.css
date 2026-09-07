@@ -45115,3 +45115,161 @@ body:has(.rp-admin-modern-page) {
   }
 }
 
+
+/* =========================================================
+   GREENCORE SETTINGS — FINAL OVERRIDES
+   Must stay at the end of App.css
+   ========================================================= */
+
+.rp-admin-settings-page .rp-admin-settings-card input,
+.rp-admin-settings-page .rp-admin-settings-card select {
+  display: block !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  height: 40px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(39, 180, 130, .22) !important;
+  border-radius: 9px !important;
+  outline: none !important;
+  background: rgba(0, 27, 20, .72) !important;
+  background-color: rgba(0, 27, 20, .72) !important;
+  color: #eafff6 !important;
+  font-family: inherit !important;
+  font-size: 12px !important;
+  line-height: normal !important;
+  box-shadow: none !important;
+  appearance: none;
+  -webkit-appearance: none;
+}
+
+.rp-admin-settings-page .rp-admin-settings-card input:focus,
+.rp-admin-settings-page .rp-admin-settings-card select:focus {
+  border-color: rgba(57, 230, 160, .72) !important;
+  background: rgba(0, 32, 24, .86) !important;
+  box-shadow: 0 0 0 3px rgba(57, 230, 160, .07) !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-card input[readonly] {
+  color: rgba(234, 255, 246, .72) !important;
+  background: rgba(0, 27, 20, .72) !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-card label {
+  display: block !important;
+  width: 100% !important;
+  margin: 0 !important;
+  color: inherit !important;
+  font-size: inherit !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-card label > span:first-child,
+.rp-admin-settings-page .rp-admin-settings-full-field > span:first-child {
+  display: block !important;
+  width: auto !important;
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+  color: rgba(218, 255, 239, .42) !important;
+  font-size: 9px !important;
+  line-height: 1.2 !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  background: transparent !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-full-field {
+  display: block !important;
+  width: 100% !important;
+  margin: 15px 0 0 !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-input-with-icon {
+  position: relative !important;
+  display: block !important;
+  width: 100% !important;
+  height: 40px !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-input-with-icon input {
+  width: 100% !important;
+  height: 40px !important;
+  padding-left: 38px !important;
+}
+
+.rp-admin-settings-page .rp-admin-settings-input-with-icon svg {
+  position: absolute !important;
+  z-index: 2 !important;
+  left: 12px !important;
+  top: 50% !important;
+  width: 17px !important;
+  height: 17px !important;
+  transform: translateY(-50%) !important;
+  color: #42e6a7 !important;
+}
+
+/* Keep the desktop two-column admin layout at normal laptop widths. */
+@media (min-width: 761px) {
+  .rp-admin-settings-page .rp-admin-settings-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .rp-admin-settings-page .rp-admin-settings-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* Prevent the security button from inheriting generic button styles. */
+.rp-admin-settings-page .rp-admin-settings-security-row button {
+  width: auto !important;
+  min-width: 0 !important;
+  height: 34px !important;
+  margin: 0 !important;
+  padding: 0 11px !important;
+  border-radius: 8px !important;
+  background: rgba(16, 116, 79, .13) !important;
+  color: #eafff6 !important;
+  font-size: 9px !important;
+  font-weight: 750 !important;
+  line-height: normal !important;
+}
+
+/* Password modal fields must also beat global form rules. */
+.rp-admin-settings-modal input[type="password"] {
+  display: block !important;
+  width: 100% !important;
+  height: 42px !important;
+  box-sizing: border-box !important;
+  margin: 0 !important;
+  padding: 0 12px !important;
+  border: 1px solid rgba(39, 180, 130, .25) !important;
+  border-radius: 9px !important;
+  background: rgba(0, 20, 15, .72) !important;
+  color: #eafff6 !important;
+  font-size: 12px !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.rp-admin-settings-modal input[type="password"]:focus {
+  border-color: rgba(57, 230, 160, .72) !important;
+  box-shadow: 0 0 0 3px rgba(57, 230, 160, .07) !important;
+}
+
+/* Make the settings card consistent on laptop screens. */
+@media (min-width: 761px) and (max-width: 1200px) {
+  .rp-admin-settings-page {
+    padding: 28px 22px 45px !important;
+  }
+
+  .rp-admin-settings-card {
+    padding: 20px !important;
+  }
+
+  .rp-admin-settings-hero h1 {
+    font-size: 42px !important;
+  }
+}
