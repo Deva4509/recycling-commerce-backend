@@ -45941,3 +45941,467 @@ body:has(.rp-admin-modern-page) {
     min-width: 68px !important;
   }
 }
+
+/* =========================================================
+   FINAL COLLAPSED SIDEBAR — COMPACT CONTROL RAIL
+   ========================================================= */
+
+.rp-admin-layout.sidebar-collapsed {
+  --rp-sidebar-width: 76px !important;
+}
+
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar {
+  position: fixed !important;
+  left: 0 !important;
+  top: 0 !important;
+  bottom: 0 !important;
+  z-index: 100 !important;
+
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+
+  padding: 16px 8px !important;
+  margin: 0 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #032b21 0%,
+      #021f19 55%,
+      #011a15 100%
+    ) !important;
+
+  border-right: 1px solid rgba(57,230,160,.13) !important;
+}
+
+/* Sidebar inner containers must not create giant vertical gaps */
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar > *,
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar nav,
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar .rp-admin-nav {
+  width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+/* Brand / logo */
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar .rp-admin-brand {
+  width: 48px !important;
+  min-width: 48px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  margin: 0 auto 25px !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 14px !important;
+}
+
+/* Hide brand text */
+.rp-admin-layout.sidebar-collapsed .rp-admin-brand span,
+.rp-admin-layout.sidebar-collapsed .rp-admin-brand strong,
+.rp-admin-layout.sidebar-collapsed .rp-admin-brand small,
+.rp-admin-layout.sidebar-collapsed .rp-admin-brand div:not(:has(svg)) {
+  display: none !important;
+}
+
+/* Navigation is a compact vertical rail */
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar nav,
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 7px !important;
+  flex: 0 0 auto !important;
+}
+
+/* Remove section spacing */
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav-title,
+.rp-admin-layout.sidebar-collapsed .rp-admin-section-title {
+  display: none !important;
+}
+
+/* Icon buttons */
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav a,
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav button {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  gap: 0 !important;
+  border-radius: 11px !important;
+}
+
+/* Hide labels */
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav a span,
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav button span {
+  display: none !important;
+}
+
+/* Center icons */
+.rp-admin-layout.sidebar-collapsed .rp-admin-nav svg {
+  width: 19px !important;
+  height: 19px !important;
+  margin: 0 !important;
+}
+
+/* Bottom controls stay at bottom, but compact */
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar-bottom {
+  margin-top: auto !important;
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 8px !important;
+}
+
+/* User card */
+.rp-admin-layout.sidebar-collapsed .rp-admin-user {
+  width: 50px !important;
+  min-width: 50px !important;
+  height: 50px !important;
+  min-height: 50px !important;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 13px !important;
+}
+
+/* Hide email / role / logout text */
+.rp-admin-layout.sidebar-collapsed .rp-admin-user span,
+.rp-admin-layout.sidebar-collapsed .rp-admin-user strong,
+.rp-admin-layout.sidebar-collapsed .rp-admin-user p,
+.rp-admin-layout.sidebar-collapsed .rp-admin-user button {
+  display: none !important;
+}
+
+/* Collapse button */
+.rp-admin-layout.sidebar-collapsed .rp-admin-collapse {
+  width: 50px !important;
+  min-width: 50px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+
+  margin: 0 auto !important;
+  padding: 0 !important;
+
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+
+  border-radius: 10px !important;
+}
+
+/* Hide collapse text */
+.rp-admin-layout.sidebar-collapsed .rp-admin-collapse span {
+  display: none !important;
+}
+
+/* Main content gets exactly the compact rail width */
+.rp-admin-layout.sidebar-collapsed .rp-admin-main,
+.rp-admin-layout.sidebar-collapsed main {
+  margin-left: 76px !important;
+  width: calc(100% - 76px) !important;
+}
+
+/* Smooth transition */
+.rp-admin-sidebar,
+.rp-admin-main,
+.rp-admin-layout main {
+  transition:
+    width .22s ease,
+    margin-left .22s ease !important;
+}
+
+/* Never allow collapsed sidebar children to stretch the rail */
+.rp-admin-layout.sidebar-collapsed .rp-admin-sidebar * {
+  max-width: 100% !important;
+}
+
+@media (max-width: 760px) {
+  .rp-admin-layout.sidebar-collapsed .rp-admin-sidebar {
+    width: 68px !important;
+    min-width: 68px !important;
+    max-width: 68px !important;
+  }
+
+  .rp-admin-layout.sidebar-collapsed .rp-admin-main,
+  .rp-admin-layout.sidebar-collapsed main {
+    margin-left: 68px !important;
+    width: calc(100% - 68px) !important;
+  }
+}
+
+/* =========================================================
+   GREENCORE ADMIN — ACTUAL COLLAPSED SIDEBAR
+   State: .rp-admin-shell.is-collapsed
+   ========================================================= */
+
+/* Shell */
+.rp-admin-shell {
+  --admin-sidebar-width: 220px;
+}
+
+.rp-admin-shell.is-collapsed {
+  --admin-sidebar-width: 76px;
+}
+
+/* Sidebar */
+.rp-admin-shell .rp-admin-sidebar {
+  width: var(--admin-sidebar-width) !important;
+  min-width: var(--admin-sidebar-width) !important;
+  max-width: var(--admin-sidebar-width) !important;
+  transition:
+    width .25s cubic-bezier(.4,0,.2,1),
+    min-width .25s cubic-bezier(.4,0,.2,1) !important;
+  overflow: hidden !important;
+}
+
+/* Main area automatically follows sidebar */
+.rp-admin-shell .rp-admin-main {
+  width: calc(100% - var(--admin-sidebar-width)) !important;
+  margin-left: var(--admin-sidebar-width) !important;
+  transition:
+    width .25s cubic-bezier(.4,0,.2,1),
+    margin-left .25s cubic-bezier(.4,0,.2,1) !important;
+}
+
+/* =========================================================
+   COLLAPSED STATE
+   ========================================================= */
+
+.rp-admin-shell.is-collapsed .rp-admin-sidebar {
+  width: 76px !important;
+  min-width: 76px !important;
+  max-width: 76px !important;
+  padding: 14px 9px !important;
+  box-sizing: border-box !important;
+  background:
+    linear-gradient(180deg, #032d23 0%, #02241c 55%, #011c16 100%) !important;
+  border-right: 1px solid rgba(57,230,160,.12) !important;
+}
+
+/* Brand becomes a clean logo tile */
+.rp-admin-shell.is-collapsed .rp-admin-brand {
+  width: 50px !important;
+  min-width: 50px !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  margin: 0 auto 25px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  position: relative !important;
+  border-radius: 14px !important;
+  background: rgba(57,230,160,.055) !important;
+  border: 1px solid rgba(57,230,160,.17) !important;
+}
+
+/* Center logo mark */
+.rp-admin-shell.is-collapsed .rp-admin-brand-mark {
+  width: 36px !important;
+  height: 36px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  margin: 0 !important;
+}
+
+/* Hide text and mobile close button */
+.rp-admin-shell.is-collapsed .rp-admin-brand-copy,
+.rp-admin-shell.is-collapsed .rp-admin-mobile-close {
+  display: none !important;
+}
+
+/* Navigation label disappears */
+.rp-admin-shell.is-collapsed .rp-admin-nav-label {
+  display: none !important;
+}
+
+/* Navigation groups */
+.rp-admin-shell.is-collapsed .rp-admin-nav {
+  width: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 7px !important;
+  margin: 0 !important;
+}
+
+/* Navigation links */
+.rp-admin-shell.is-collapsed .rp-admin-nav-item {
+  position: relative !important;
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  height: 44px !important;
+  min-height: 44px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 11px !important;
+  gap: 0 !important;
+}
+
+/* Only icons remain */
+.rp-admin-shell.is-collapsed .rp-admin-nav-item span,
+.rp-admin-shell.is-collapsed .rp-admin-nav-item .nav-arrow {
+  display: none !important;
+}
+
+.rp-admin-shell.is-collapsed .rp-admin-nav-item svg {
+  width: 19px !important;
+  height: 19px !important;
+  margin: 0 !important;
+  flex: 0 0 auto !important;
+}
+
+/* Hover */
+.rp-admin-shell.is-collapsed .rp-admin-nav-item:hover {
+  background: rgba(57,230,160,.08) !important;
+  border-color: rgba(57,230,160,.18) !important;
+  color: #59e9af !important;
+}
+
+/* Active */
+.rp-admin-shell.is-collapsed .rp-admin-nav-item.active {
+  background:
+    linear-gradient(
+      135deg,
+      rgba(57,230,160,.14),
+      rgba(57,230,160,.035)
+    ) !important;
+  border: 1px solid rgba(57,230,160,.28) !important;
+  color: #59e9af !important;
+  box-shadow:
+    inset 2px 0 0 #4ce8aa,
+    0 5px 18px rgba(0,0,0,.08) !important;
+}
+
+/* Keep the divider/spacer compact */
+.rp-admin-shell.is-collapsed .rp-admin-sidebar-spacer {
+  flex: 1 1 auto !important;
+  min-height: 20px !important;
+}
+
+/* =========================================================
+   USER CARD
+   ========================================================= */
+
+.rp-admin-shell.is-collapsed .rp-admin-user-card {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  height: 50px !important;
+  min-height: 50px !important;
+  margin: 8px auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border-radius: 13px !important;
+  background: rgba(57,230,160,.045) !important;
+  border: 1px solid rgba(57,230,160,.14) !important;
+}
+
+.rp-admin-shell.is-collapsed .rp-admin-user-info,
+.rp-admin-shell.is-collapsed .rp-admin-logout {
+  display: none !important;
+}
+
+.rp-admin-shell.is-collapsed .rp-admin-avatar {
+  width: 34px !important;
+  height: 34px !important;
+  min-width: 34px !important;
+  min-height: 34px !important;
+  margin: 0 !important;
+  display: grid !important;
+  place-items: center !important;
+}
+
+/* =========================================================
+   COLLAPSE BUTTON
+   ========================================================= */
+
+.rp-admin-shell.is-collapsed .rp-admin-collapse {
+  width: 50px !important;
+  min-width: 50px !important;
+  max-width: 50px !important;
+  height: 40px !important;
+  min-height: 40px !important;
+  margin: 0 auto !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 0 !important;
+  border-radius: 10px !important;
+  border: 1px solid rgba(57,230,160,.15) !important;
+  background: rgba(57,230,160,.035) !important;
+}
+
+.rp-admin-shell.is-collapsed .rp-admin-collapse span {
+  display: none !important;
+}
+
+.rp-admin-shell.is-collapsed .rp-admin-collapse:hover {
+  background: rgba(57,230,160,.09) !important;
+  border-color: rgba(57,230,160,.30) !important;
+  color: #59e9af !important;
+}
+
+/* Content fills the space immediately */
+.rp-admin-shell.is-collapsed .rp-admin-content {
+  width: 100% !important;
+  max-width: none !important;
+}
+
+/* =========================================================
+   DESKTOP ONLY
+   ========================================================= */
+
+@media (min-width: 761px) {
+  .rp-admin-shell.is-collapsed .rp-admin-mobile-backdrop {
+    display: none !important;
+  }
+}
+
+/* Mobile should use the existing mobile drawer behavior */
+@media (max-width: 760px) {
+  .rp-admin-shell,
+  .rp-admin-shell.is-collapsed {
+    --admin-sidebar-width: 0px;
+  }
+
+  .rp-admin-shell .rp-admin-main {
+    width: 100% !important;
+    margin-left: 0 !important;
+  }
+}
