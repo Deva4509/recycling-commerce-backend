@@ -209,15 +209,18 @@ class InventoryService:
 
         item = self._get_locked_item(inventory_item_id)
 
-        available = item.quantity - item.reserved_quantity
-
-        if quantity > available:
+        if quantity > item.quantity:
             raise InsufficientStockError(
-                f"Insufficient available stock. "
-                f"Requested {quantity}, available {available}."
+                f"Insufficient stock. "
+                f"Requested {quantity}, stock {item.quantity}."
             )
 
         item.quantity -= quantity
+
+        # Keep the database reservation invariant valid when manually
+        # reducing physical stock below the currently reserved amount.
+        if item.reserved_quantity > item.quantity:
+            item.reserved_quantity = item.quantity
 
         self._record_movement(
             item=item,

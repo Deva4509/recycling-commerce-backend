@@ -21,6 +21,7 @@ import { useAuth } from "../../context/AuthContext";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "Shop", to: "/shop" },
+  { label: "Contact Us", to: "/contact" },
   { label: "Categories", to: "/categories" },
   { label: "Calculator", to: "/calculator" },
   { label: "Vision & Mission", to: "/vision-mission" },

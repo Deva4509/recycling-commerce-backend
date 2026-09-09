@@ -11,6 +11,7 @@ if TYPE_CHECKING:
     from app.database.models.address import Address
     from app.database.models.cart import Cart
     from app.database.models.order import Order
+    from app.database.models.review import Review
     from app.database.models.role import Role
 
 
@@ -104,4 +105,9 @@ class User(UUIDTimestampMixin, Base):
         back_populates="user",
         uselist=False,
         cascade="all, delete-orphan",
+    )
+
+    reviews: Mapped[list["Review"]] = relationship(
+        "Review",
+        back_populates="user",
     )

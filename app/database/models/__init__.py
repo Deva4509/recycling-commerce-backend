@@ -40,6 +40,7 @@ __all__ = [
     "ProductImage",
     "ProductSpecification",
     "ProductVariant",
+    "Review",
     "Role",
     "RoleName",
     "Shipment",
@@ -49,3 +50,5 @@ __all__ = [
 ]
 
 from app.database.models.admin_settings import AdminSettings
+
+from app.database.models.review import Review

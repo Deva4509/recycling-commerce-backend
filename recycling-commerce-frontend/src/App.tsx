@@ -29,6 +29,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/Register";
 import Shop from "./pages/Shop";
 import VisionMission from "./pages/VisionMission";
+import Contact from "./pages/Contact";
 
 import { useAuth } from "./context/AuthContext";
 
@@ -95,7 +96,8 @@ function App() {
         <Route path="/product/:slug" element={<ProductDetails />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
+                <Route path="/contact" element={<Contact />} />
+</Routes>
 
       {showCustomerChrome && <Footer />}
     </>

@@ -24,6 +24,14 @@ class OrderRepository:
         )
         return self.session.scalar(statement)
 
+    def list_all_orders(self) -> list[Order]:
+        """Return all orders ordered newest first."""
+        return list(
+            self.session.scalars(
+                select(Order).order_by(Order.created_at.desc())
+            ).all()
+        )
+
     def list_orders_by_user(self, user_id: UUID) -> list[Order]:
         """Return all orders belonging to a user."""
         statement = (

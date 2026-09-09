@@ -1,11 +1,13 @@
 from uuid import UUID
 
+from app.database.models.order import OrderStatus
+
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 
 from app.database import get_db
-from app.database.models import User
-from app.dependencies.auth import get_current_user
+from app.database.models import RoleName, User
+from app.dependencies.auth import get_current_user, require_roles
 from app.schemas.order import (
     OrderCreate,
     OrderRead,
@@ -22,6 +24,9 @@ from app.services.order import (
 )
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
+
+
+admin_or_staff = require_roles(RoleName.ADMIN, RoleName.STAFF)
 
 
 def get_order_service(
@@ -72,6 +77,18 @@ def create_order(
         ) from exc
 
 
+@router.get(
+    "/admin/all",
+    response_model=list[OrderRead],
+)
+def list_all_orders(
+    _: object = Depends(admin_or_staff),
+    service: OrderService = Depends(get_order_service),
+):
+    """Return all orders for admin/staff management."""
+    return service.repository.list_all_orders()
+
+
 def get_owned_order(
     order_id: UUID,
     current_user: User,
@@ -88,6 +105,58 @@ def get_owned_order(
 
     return order
 
+
+
+class AdminOrderStatusUpdate(__import__("pydantic").BaseModel):
+    status: str
+
+
+@router.patch(
+    "/{order_id}/status",
+    response_model=OrderRead,
+)
+def update_order_status(
+    order_id: UUID,
+    payload: AdminOrderStatusUpdate,
+    _: object = Depends(admin_or_staff),
+    service: OrderService = Depends(get_order_service),
+):
+    try:
+        order = service.get_order(order_id)
+
+        allowed_statuses = {
+            item.value
+            for item in OrderStatus
+        }
+
+        if payload.status.upper() not in allowed_statuses:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail=(
+                    f"Invalid order status '{payload.status}'. "
+                    f"Allowed statuses: {', '.join(sorted(allowed_statuses))}"
+                ),
+            )
+
+        # Customer-cancelled orders are immutable. Admin/staff cannot
+        # reopen or move a cancelled order to another status.
+        if order.status == OrderStatus.CANCELLED.value:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Cancelled orders cannot be modified.",
+            )
+
+        order.status = payload.status.upper()
+        service.session.commit()
+        service.session.refresh(order)
+
+        return order
+
+    except OrderNotFoundError as exc:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail=str(exc),
+        ) from exc
 
 @router.get(
     "/{order_id}",
@@ -129,7 +198,10 @@ def cancel_order(
 ):
     try:
         get_owned_order(order_id, current_user, service)
-        return service.cancel_order(order_id)
+        order = service.cancel_order(order_id)
+        service.session.commit()
+        service.session.refresh(order)
+        return order
     except OrderNotFoundError as exc:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,

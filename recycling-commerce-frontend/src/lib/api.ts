@@ -51,18 +51,48 @@ async function request<T>(
     headers.set("Authorization", `Bearer ${token}`);
   }
 
-  const response = await fetch(`${API_BASE}${path}`, {
-    ...options,
-    headers,
-  });
+  const controller = new AbortController();
+  const timeout = window.setTimeout(() => controller.abort(), 10000);
+
+  let response: Response;
+
+  try {
+    response = await fetch(`${API_BASE}${path}`, {
+      ...options,
+      headers,
+      signal: controller.signal,
+    });
+  } catch (error) {
+    if (error instanceof DOMException && error.name === "AbortError") {
+      throw new Error(
+        "The server took too long to respond. Please check that the backend is running.",
+      );
+    }
+
+    throw error;
+  } finally {
+    window.clearTimeout(timeout);
+  }
 
   if (!response.ok) {
     let message = `Request failed (${response.status})`;
 
     try {
       const data = await response.json();
+
       if (typeof data?.detail === "string") {
         message = data.detail;
+      } else if (Array.isArray(data?.detail)) {
+        message = data.detail
+          .map((item: { loc?: unknown[]; msg?: string }) => {
+            const location = Array.isArray(item.loc)
+              ? item.loc.join(".")
+              : "request";
+            return `${location}: ${item.msg || "Validation error"}`;
+          })
+          .join(" | ");
+      } else if (data?.message) {
+        message = String(data.message);
       }
     } catch {
       // Keep the default error message.
@@ -612,3 +642,79 @@ export async function updateAdminPassword(payload: {
     body: JSON.stringify(payload),
   });
 }
+
+export interface ApiReview {
+  id: string;
+  product_id: string;
+  user_id: string;
+  rating: number;
+  title?: string | null;
+  comment: string;
+  created_at: string;
+  updated_at: string;
+  user_name: string;
+}
+
+export interface ApiReviewListResponse {
+  items: ApiReview[];
+  total: number;
+  page: number;
+  page_size: number;
+  pages: number;
+}
+
+export interface ApiRatingDistribution {
+  one: number;
+  two: number;
+  three: number;
+  four: number;
+  five: number;
+}
+
+export interface ApiRatingSummary {
+  average: number;
+  total: number;
+  distribution: ApiRatingDistribution;
+}
+
+export interface CreateReviewPayload {
+  rating: number;
+  title?: string;
+  comment: string;
+}
+
+export const getProductReviews = (
+  productId: string,
+  page = 1,
+  pageSize = 10,
+) =>
+  request<ApiReviewListResponse>(
+    `/products/${productId}/reviews?page=${page}&page_size=${pageSize}`,
+  );
+
+export const getProductRating = (productId: string) =>
+  request<ApiRatingSummary>(`/products/${productId}/rating`);
+
+export const createProductReview = (
+  productId: string,
+  payload: CreateReviewPayload,
+) =>
+  request<ApiReview>(`/products/${productId}/reviews`, {
+    method: "POST",
+    body: JSON.stringify(payload),
+  });
+
+export const updateProductReview = (
+  reviewId: string,
+  payload: CreateReviewPayload,
+) =>
+  request<ApiReview>(`/reviews/${reviewId}`, {
+    method: "PATCH",
+    body: JSON.stringify(payload),
+  });
+
+export const deleteProductReview = (reviewId: string) =>
+  request<void>(`/reviews/${reviewId}`, {
+    method: "DELETE",
+  });
+

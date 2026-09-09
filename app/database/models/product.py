@@ -14,6 +14,7 @@ if TYPE_CHECKING:
     from app.database.models.specification import ProductSpecification
     from app.database.models.sustainability import SustainabilityProfile
     from app.database.models.variant import ProductVariant
+    from app.database.models.review import Review
 
 
 class Product(UUIDTimestampMixin, Base):
@@ -108,4 +109,9 @@ class Product(UUIDTimestampMixin, Base):
         back_populates="product",
         uselist=False,
         cascade="all, delete-orphan",
+    )
+
+    reviews: Mapped[list["Review"]] = relationship(
+        "Review",
+        back_populates="product",
     )

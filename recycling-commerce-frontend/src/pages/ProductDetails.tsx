@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -13,12 +13,25 @@ import {
   Sparkles,
   Star,
   Truck,
+  Pencil,
+  Trash2,
 } from "lucide-react";
 import { motion } from "framer-motion";
 
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
+import { useAuth } from "../context/AuthContext";
+import {
+  createProductReview,
+  deleteProductReview,
+  getProductRating,
+  getProductReviews,
+  getProducts,
+  updateProductReview,
+  ApiRatingSummary,
+  ApiReview,
+} from "../lib/api";
 
 function formatPrice(value: string | number) {
   return new Intl.NumberFormat("en-IN", {
@@ -28,9 +41,67 @@ function formatPrice(value: string | number) {
   }).format(Number(value));
 }
 
+function Stars({
+  rating,
+  size = 16,
+  interactive = false,
+  onSelect,
+}: {
+  rating: number;
+  size?: number;
+  interactive?: boolean;
+  onSelect?: (value: number) => void;
+}) {
+  const selectedRating = Math.max(0, Math.min(5, Math.round(rating)));
+
+  return (
+    <span
+      className="rating-stars"
+      aria-label={`${selectedRating} out of 5 stars`}
+    >
+      {[1, 2, 3, 4, 5].map((value) => {
+        const selected = value <= selectedRating;
+        const star = selected ? "★" : "☆";
+
+        if (interactive) {
+          return (
+            <button
+              key={value}
+              type="button"
+              className={`review-star-button ${
+                selected ? "selected" : "unselected"
+              }`}
+              onClick={() => onSelect?.(value)}
+              aria-label={`Rate ${value} out of 5`}
+              aria-pressed={selected}
+              style={{ fontSize: size }}
+            >
+              {star}
+            </button>
+          );
+        }
+
+        return (
+          <span
+            key={value}
+            className={`review-star-static ${
+              selected ? "selected" : "unselected"
+            }`}
+            style={{ fontSize: size }}
+            aria-hidden="true"
+          >
+            {star}
+          </span>
+        );
+      })}
+    </span>
+  );
+}
+
 export default function ProductDetails() {
   const { addToCart } = useCart();
   const { slug } = useParams();
+  const { user, isAuthenticated } = useAuth();
 
   const product = useMemo(
     () => products.find((item) => item.slug === slug || item.id === slug),
@@ -40,6 +111,251 @@ export default function ProductDetails() {
   const [quantity, setQuantity] = useState(1);
   const { isFavorite, toggleFavorite } = useFavorites();
   const [added, setAdded] = useState(false);
+
+  const [backendProductId, setBackendProductId] = useState<string | null>(null);
+
+  const [ratingSummary, setRatingSummary] =
+    useState<ApiRatingSummary | null>(null);
+  const [reviews, setReviews] = useState<ApiReview[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
+  const [reviewsError, setReviewsError] = useState("");
+
+  const [reviewRating, setReviewRating] = useState(5);
+  const [reviewTitle, setReviewTitle] = useState("");
+  const [reviewComment, setReviewComment] = useState("");
+  const [reviewSubmitting, setReviewSubmitting] = useState(false);
+  const [reviewMessage, setReviewMessage] = useState("");
+
+  const [editingReviewId, setEditingReviewId] = useState<string | null>(null);
+  const [deletingReviewId, setDeletingReviewId] = useState<string | null>(
+    null,
+  );
+
+  useEffect(() => {
+    if (!product) {
+      setBackendProductId(null);
+      return;
+    }
+
+    const currentProduct = product;
+    let cancelled = false;
+
+    async function resolveBackendProduct() {
+      try {
+        const backendProducts = await getProducts();
+
+        const match = backendProducts.find(
+          (item) =>
+            item.slug === currentProduct.slug ||
+            item.sku === currentProduct.sku ||
+            item.name.trim().toLowerCase() ===
+              currentProduct.name.trim().toLowerCase(),
+        );
+
+        if (!cancelled) {
+          setBackendProductId(match?.id ?? null);
+
+          if (!match) {
+            console.warn(
+              "No matching backend product found for:",
+              currentProduct.slug,
+              currentProduct.sku,
+              currentProduct.name,
+            );
+          }
+        }
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Failed to resolve backend product:", error);
+          setBackendProductId(null);
+        }
+      }
+    }
+
+    resolveBackendProduct();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [product]);
+
+  useEffect(() => {
+    const productId = backendProductId;
+    if (!productId) return;
+
+    let cancelled = false;
+
+    async function loadReviews() {
+      setReviewsLoading(true);
+      setReviewsError("");
+
+      try {
+        const [summary, reviewList] = await Promise.all([
+          getProductRating(productId!),
+          getProductReviews(productId!, 1, 10),
+        ]);
+
+        if (cancelled) return;
+
+        setRatingSummary(summary);
+        setReviews(reviewList.items);
+      } catch (error) {
+        if (cancelled) return;
+
+        setReviewsError(
+          error instanceof Error
+            ? error.message
+            : "Unable to load reviews right now.",
+        );
+      } finally {
+        if (!cancelled) {
+          setReviewsLoading(false);
+        }
+      }
+    }
+
+    loadReviews();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [backendProductId]);
+
+  function resetReviewForm() {
+    setEditingReviewId(null);
+    setReviewRating(5);
+    setReviewTitle("");
+    setReviewComment("");
+    setReviewMessage("");
+  }
+
+  function startEditingReview(review: ApiReview) {
+    setEditingReviewId(review.id);
+    setReviewRating(review.rating);
+    setReviewTitle(review.title ?? "");
+    setReviewComment(review.comment);
+    setReviewMessage("");
+  }
+
+  async function handleReviewSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!isAuthenticated) {
+      setReviewMessage("Please log in before submitting a review.");
+      return;
+    }
+
+    if (!backendProductId) {
+      setReviewMessage(
+        "Product connection is still loading. Please refresh and try again.",
+      );
+      return;
+    }
+
+    const comment = reviewComment.trim();
+
+    if (!comment) {
+      setReviewMessage("Please write a review comment.");
+      return;
+    }
+
+    setReviewSubmitting(true);
+    setReviewMessage("");
+
+    try {
+      const payload = {
+        rating: Number(reviewRating),
+        title: reviewTitle.trim() || undefined,
+        comment,
+      };
+
+      let savedReview: ApiReview;
+
+      if (editingReviewId) {
+        savedReview = await updateProductReview(
+          editingReviewId,
+          payload,
+        );
+
+        setReviews((current) =>
+          current.map((review) =>
+            review.id === savedReview.id ? savedReview : review,
+          ),
+        );
+
+        setReviewMessage("Your review has been updated.");
+      } else {
+        savedReview = await createProductReview(
+          backendProductId,
+          payload,
+        );
+
+        setReviews((current) => [savedReview, ...current]);
+        setReviewMessage("Thanks! Your review has been submitted.");
+      }
+
+      setEditingReviewId(null);
+      setReviewRating(5);
+      setReviewTitle("");
+      setReviewComment("");
+
+      // Refresh rating separately; it must never block submission.
+      void getProductRating(backendProductId)
+        .then((summary) => setRatingSummary(summary))
+        .catch(() => {});
+    } catch (error) {
+      setReviewMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to submit your review.",
+      );
+    } finally {
+      setReviewSubmitting(false);
+    }
+  }
+
+  async function handleDeleteReview(reviewId: string) {
+    if (!backendProductId) return;
+
+    setDeletingReviewId(reviewId);
+    setReviewMessage("");
+
+    try {
+      await deleteProductReview(reviewId);
+
+      setReviews((current) =>
+        current.filter((review) => review.id !== reviewId),
+      );
+
+      const summary = await getProductRating(backendProductId);
+      setRatingSummary(summary);
+
+      if (editingReviewId === reviewId) {
+        resetReviewForm();
+      }
+
+      setReviewMessage("Your review has been deleted.");
+    } catch (error) {
+      setReviewMessage(
+        error instanceof Error
+          ? error.message
+          : "Unable to delete your review.",
+      );
+    } finally {
+      setDeletingReviewId(null);
+    }
+  }
+
+  function handleAddToCart() {
+    if (!product) return;
+
+    addToCart(product, quantity);
+    setAdded(true);
+
+    window.setTimeout(() => {
+      setAdded(false);
+    }, 2200);
+  }
 
   if (!product) {
     return (
@@ -58,16 +374,9 @@ export default function ProductDetails() {
     );
   }
 
-  function handleAddToCart() {
-    if (!product) return;
-
-    addToCart(product, quantity);
-    setAdded(true);
-
-    window.setTimeout(() => {
-      setAdded(false);
-    }, 2200);
-  }
+  const averageRating = ratingSummary?.average ?? 0;
+  const reviewCount = ratingSummary?.total ?? 0;
+  const distribution = ratingSummary?.distribution;
 
   return (
     <main className="product-details-page">
@@ -124,16 +433,18 @@ export default function ProductDetails() {
             </div>
 
             <div className="product-detail-rating">
-              <span className="rating-stars">
-                <Star size={14} fill="currentColor" />
-                <Star size={14} fill="currentColor" />
-                <Star size={14} fill="currentColor" />
-                <Star size={14} fill="currentColor" />
-                <Star size={14} fill="currentColor" />
-              </span>
-
-              <strong>4.9</strong>
-              <span>124 reviews</span>
+              {ratingSummary ? (
+                <>
+                  <Stars rating={Math.round(averageRating)} size={14} />
+                  <strong>{averageRating.toFixed(1)}</strong>
+                  <span>
+                    {reviewCount}{" "}
+                    {reviewCount === 1 ? "review" : "reviews"}
+                  </span>
+                </>
+              ) : (
+                <span>Loading ratings...</span>
+              )}
             </div>
 
             <h1>{product.name}</h1>
@@ -261,6 +572,227 @@ export default function ProductDetails() {
             </div>
           </motion.section>
         </div>
+
+        <section className="product-reviews-section">
+          <div className="product-reviews-header">
+            <div>
+              <div className="product-detail-kicker">
+                <Star size={14} />
+                CUSTOMER REVIEWS
+              </div>
+              <h2>What our customers say</h2>
+              <p>Real feedback from the GreenCore community.</p>
+            </div>
+          </div>
+
+          {reviewsError && (
+            <div className="product-review-message error">
+              {reviewsError}
+            </div>
+          )}
+
+          <div className="product-rating-overview">
+            <div className="product-rating-score">
+              <strong>
+                {ratingSummary ? averageRating.toFixed(1) : "—"}
+              </strong>
+
+              <Stars rating={Math.round(averageRating)} size={18} />
+
+              <span>
+                {reviewCount}{" "}
+                {reviewCount === 1 ? "customer review" : "customer reviews"}
+              </span>
+            </div>
+
+            <div className="rating-distribution">
+              {[5, 4, 3, 2, 1].map((star) => {
+                const count =
+                  distribution?.[
+                    star === 5
+                      ? "five"
+                      : star === 4
+                        ? "four"
+                        : star === 3
+                          ? "three"
+                          : star === 2
+                            ? "two"
+                            : "one"
+                  ] ?? 0;
+
+                const percentage =
+                  reviewCount > 0 ? (count / reviewCount) * 100 : 0;
+
+                return (
+                  <div className="rating-distribution-row" key={star}>
+                    <span>{star}</span>
+                    <Star size={13} fill="currentColor" />
+                    <div className="rating-bar">
+                      <span style={{ width: `${percentage}%` }} />
+                    </div>
+                    <small>{count}</small>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {isAuthenticated ? (
+            <form
+              className="product-review-form"
+              onSubmit={handleReviewSubmit}
+            >
+              <div className="product-review-form-header">
+                <div>
+                  <h3>
+                    {editingReviewId ? "Edit your review" : "Share your review"}
+                  </h3>
+                  <p>
+                    {editingReviewId
+                      ? "Update this review."
+                      : "Share your experience with other customers."}
+                  </p>
+                </div>
+              </div>
+
+              <>
+                <div className="review-rating-picker">
+                  <span>Your rating</span>
+                  <Stars
+                    rating={reviewRating}
+                    size={24}
+                    interactive
+                    onSelect={setReviewRating}
+                  />
+                </div>
+
+                <input
+                  type="text"
+                  value={reviewTitle}
+                  onChange={(event) => setReviewTitle(event.target.value)}
+                  placeholder="Review title (optional)"
+                  maxLength={200}
+                />
+
+                <textarea
+                  value={reviewComment}
+                  onChange={(event) => setReviewComment(event.target.value)}
+                  placeholder="Write your review..."
+                  rows={5}
+                  maxLength={5000}
+                  required
+                />
+
+                {reviewMessage && (
+                  <div className="product-review-message">
+                    {reviewMessage}
+                  </div>
+                )}
+
+                <div className="review-form-actions">
+                  <button
+                    type="submit"
+                    className="product-detail-add"
+                    disabled={reviewSubmitting}
+                  >
+                    {reviewSubmitting
+                      ? "Saving..."
+                      : editingReviewId
+                        ? "Update review"
+                        : "Submit review"}
+                  </button>
+
+                  {editingReviewId && (
+                    <button
+                      type="button"
+                      className="review-cancel-button"
+                      onClick={resetReviewForm}
+                    >
+                      Cancel
+                    </button>
+                  )}
+                </div>
+              </>
+            </form>
+          ) : (
+            <div className="product-review-login">
+              <h3>Have you used this product?</h3>
+              <p>Log in to share your experience with other customers.</p>
+              <Link to="/login" className="product-detail-add">
+                Log in to review
+              </Link>
+            </div>
+          )}
+
+          {reviewMessage && !isAuthenticated && (
+            <div className="product-review-message">{reviewMessage}</div>
+          )}
+
+          <div className="product-review-list">
+            {reviewsLoading ? (
+              <div className="product-review-empty">
+                Loading customer reviews...
+              </div>
+            ) : reviews.length === 0 ? (
+              <div className="product-review-empty">
+                <Star size={28} />
+                <h3>No reviews yet</h3>
+                <p>Be the first customer to review this product.</p>
+              </div>
+            ) : (
+              reviews.map((review) => {
+                const isOwner = review.user_id === user?.id;
+
+                return (
+                  <article className="product-review-card" key={review.id}>
+                    <div className="product-review-card-top">
+                      <div>
+                        <strong>{review.user_name}</strong>
+                        <Stars rating={review.rating} size={14} />
+                      </div>
+
+                      <time dateTime={review.created_at}>
+                        {new Intl.DateTimeFormat("en-IN", {
+                          day: "numeric",
+                          month: "short",
+                          year: "numeric",
+                        }).format(new Date(review.created_at))}
+                      </time>
+                    </div>
+
+                    {review.title && <h3>{review.title}</h3>}
+
+                    <p>{review.comment}</p>
+
+                    {isOwner && (
+                      <div className="product-review-actions">
+                        <button
+                          type="button"
+                          onClick={() => startEditingReview(review)}
+                          disabled={deletingReviewId === review.id}
+                        >
+                          <Pencil size={14} />
+                          Edit
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => handleDeleteReview(review.id)}
+                          disabled={deletingReviewId === review.id}
+                        >
+                          <Trash2 size={14} />
+                          {deletingReviewId === review.id
+                            ? "Deleting..."
+                            : "Delete"}
+                        </button>
+                      </div>
+                    )}
+                  </article>
+                );
+              })
+            )}
+          </div>
+        </section>
       </div>
     </main>
   );

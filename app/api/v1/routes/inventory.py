@@ -1,10 +1,12 @@
 from uuid import UUID
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.database.models import RoleName
+from app.database.models.inventory import InventoryItem
 from app.dependencies.auth import require_roles
 from app.schemas.inventory import (
     InventoryItemCreate,
@@ -92,6 +94,21 @@ def create_inventory_item(
         ) from exc
 
 
+
+
+@router.get(
+    "/items",
+    response_model=list[InventoryItemRead],
+)
+def list_inventory_items(
+    service: InventoryService = Depends(get_inventory_service),
+    _: object = Depends(admin_or_staff),
+):
+    """Return all inventory items for admin/staff management."""
+    return service.session.scalars(
+        select(InventoryItem).order_by(InventoryItem.updated_at.desc())
+    ).all()
+
 @router.get(
     "/items/{inventory_item_id}",
     response_model=InventoryItemRead,
@@ -120,13 +137,21 @@ def receive_stock(
     _: object = Depends(admin_or_staff),
 ):
     try:
-        return service.receive_stock(inventory_item_id, quantity)
+        item = service.receive_stock(
+            inventory_item_id=inventory_item_id,
+            quantity=quantity,
+        )
+        service.session.commit()
+        service.session.refresh(item)
+        return item
     except InventoryNotFoundError as exc:
+        service.session.rollback()
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(exc),
         ) from exc
     except InventoryValidationError as exc:
+        service.session.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),
@@ -144,18 +169,27 @@ def sell_stock(
     _: object = Depends(admin_or_staff),
 ):
     try:
-        return service.sell_stock(inventory_item_id, quantity)
+        item = service.sell_stock(
+            inventory_item_id=inventory_item_id,
+            quantity=quantity,
+        )
+        service.session.commit()
+        service.session.refresh(item)
+        return item
     except InventoryNotFoundError as exc:
+        service.session.rollback()
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail=str(exc),
         ) from exc
     except InsufficientStockError as exc:
+        service.session.rollback()
         raise HTTPException(
             status_code=status.HTTP_409_CONFLICT,
             detail=str(exc),
         ) from exc
     except InventoryValidationError as exc:
+        service.session.rollback()
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),

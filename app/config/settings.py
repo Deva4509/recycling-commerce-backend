@@ -39,6 +39,8 @@ class Settings(BaseSettings):
 
     email_provider: str = "console"
     email_api_key: str = ""
+    email_from: str = "GreenCore <onboarding@resend.dev>"
+    contact_email: str = "dy3819@vidyagyan.in"
 
     log_level: str = "INFO"
 
