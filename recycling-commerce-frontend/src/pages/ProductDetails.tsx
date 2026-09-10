@@ -31,6 +31,7 @@ import {
   updateProductReview,
   ApiRatingSummary,
   ApiReview,
+  ApiProductImage,
 } from "../lib/api";
 
 function formatPrice(value: string | number) {
@@ -113,6 +114,8 @@ export default function ProductDetails() {
   const [added, setAdded] = useState(false);
 
   const [backendProductId, setBackendProductId] = useState<string | null>(null);
+  const [galleryImages, setGalleryImages] = useState<ApiProductImage[]>([]);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
 
   const [ratingSummary, setRatingSummary] =
     useState<ApiRatingSummary | null>(null);
@@ -134,8 +137,13 @@ export default function ProductDetails() {
   useEffect(() => {
     if (!product) {
       setBackendProductId(null);
+      setGalleryImages([]);
+      setActiveImageIndex(0);
       return;
     }
+
+    setGalleryImages([]);
+    setActiveImageIndex(0);
 
     const currentProduct = product;
     let cancelled = false;
@@ -154,6 +162,15 @@ export default function ProductDetails() {
 
         if (!cancelled) {
           setBackendProductId(match?.id ?? null);
+
+          const images = [...(match?.images ?? [])].sort(
+            (a, b) =>
+              Number(b.is_primary) - Number(a.is_primary) ||
+              a.sort_order - b.sort_order,
+          );
+
+          setGalleryImages(images);
+          setActiveImageIndex(0);
 
           if (!match) {
             console.warn(
@@ -389,36 +406,128 @@ export default function ProductDetails() {
         <div className="product-details-layout">
           <motion.section
             className="product-detail-visual"
-            initial={{ opacity: 0, x: -25 }}
-            animate={{ opacity: 1, x: 0 }}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.55 }}
           >
-            <div className="product-detail-glow" />
-            <div className="product-detail-orbit" />
+            {galleryImages.length > 0 ? (
+              <>
+                <div className="product-detail-gallery-main">
+                  <img
+                    src={galleryImages[activeImageIndex]?.image_url}
+                    alt={
+                      galleryImages[activeImageIndex]?.alt_text ||
+                      `${product.name} product image`
+                    }
+                    className="product-detail-gallery-image"
+                  />
 
-            <motion.div
-              className="product-detail-product"
-              animate={{
-                y: [0, -10, 0],
-                rotate: [-4, 0, -4],
-              }}
-              transition={{
-                duration: 5,
-                repeat: Infinity,
-                ease: "easeInOut",
-              }}
-            >
-              <Leaf size={110} strokeWidth={1.35} />
-            </motion.div>
+                  {galleryImages.length > 1 && (
+                    <>
+                      <button
+                        type="button"
+                        className="product-detail-gallery-nav prev"
+                        aria-label="Previous product image"
+                        onClick={() =>
+                          setActiveImageIndex(
+                            (current) =>
+                              (current - 1 + galleryImages.length) %
+                              galleryImages.length,
+                          )
+                        }
+                      >
+                        <ArrowLeft size={20} />
+                      </button>
 
-            <div className="product-detail-eco">
-              <Recycle size={15} />
-              ECO CERTIFIED
-            </div>
+                      <button
+                        type="button"
+                        className="product-detail-gallery-nav next"
+                        aria-label="Next product image"
+                        onClick={() =>
+                          setActiveImageIndex(
+                            (current) =>
+                              (current + 1) % galleryImages.length,
+                          )
+                        }
+                      >
+                        <ArrowLeft
+                          size={20}
+                          style={{ transform: "rotate(180deg)" }}
+                        />
+                      </button>
 
-            <div className="product-detail-material">
-              <span>MADE FROM</span>
-              <strong>RECYCLED MATERIALS</strong>
-            </div>
+                      <span className="product-detail-gallery-counter">
+                        {activeImageIndex + 1} / {galleryImages.length}
+                      </span>
+                    </>
+                  )}
+                </div>
+
+                {galleryImages.length > 1 && (
+                  <div className="product-detail-gallery-thumbnails">
+                    {galleryImages.map((image, index) => (
+                      <button
+                        key={image.id}
+                        type="button"
+                        className={`product-detail-gallery-thumbnail ${
+                          index === activeImageIndex ? "active" : ""
+                        }`}
+                        aria-label={`View product image ${index + 1}`}
+                        aria-current={
+                          index === activeImageIndex ? "true" : undefined
+                        }
+                        onClick={() => setActiveImageIndex(index)}
+                      >
+                        <img
+                          src={image.image_url}
+                          alt={
+                            image.alt_text ||
+                            `${product.name} thumbnail ${index + 1}`
+                          }
+                        />
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                <div className="product-detail-eco">
+                  <Recycle size={15} />
+                  Recycled & responsibly sourced
+                </div>
+
+                <div className="product-detail-material">
+                  <Sparkles size={14} />
+                  Premium circular materials
+                </div>
+              </>
+            ) : (
+              <>
+                <div className="product-detail-glow" />
+                <div className="product-detail-orbit" />
+
+                <motion.div
+                  className="product-detail-product"
+                  animate={{ y: [0, -8, 0] }}
+                  transition={{
+                    duration: 4,
+                    repeat: Infinity,
+                    ease: "easeInOut",
+                  }}
+                >
+                  <Leaf size={110} strokeWidth={1.35} />
+                </motion.div>
+
+                <div className="product-detail-eco">
+                  <Recycle size={15} />
+                  Recycled & responsibly sourced
+                </div>
+
+                <div className="product-detail-material">
+                  <Sparkles size={14} />
+                  Premium circular materials
+                </div>
+              </>
+            )}
           </motion.section>
 
           <motion.section

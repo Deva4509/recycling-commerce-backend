@@ -43,7 +43,11 @@ async function request<T>(
 
   const headers = new Headers(options.headers);
 
-  if (!headers.has("Content-Type") && options.body) {
+  if (
+    !headers.has("Content-Type") &&
+    options.body &&
+    !(options.body instanceof FormData)
+  ) {
     headers.set("Content-Type", "application/json");
   }
 
@@ -175,6 +179,7 @@ export interface ApiProduct {
   is_active?: boolean;
   created_at?: string;
   updated_at?: string;
+  images?: ApiProductImage[];
 }
 
 export interface ApiCategory {
@@ -297,6 +302,43 @@ export const deleteProductImage = (
     `/admin/products/${productId}/images/${imageId}`,
     {
       method: "DELETE",
+    },
+  );
+
+export const uploadProductImages = async (
+  productId: string,
+  files: File[],
+): Promise<ApiProductImage[]> => {
+  const formData = new FormData();
+
+  files.forEach((file) => {
+    formData.append("files", file);
+  });
+
+  return request<ApiProductImage[]>(
+    `/admin/products/${productId}/images/upload`,
+    {
+      method: "POST",
+      body: formData,
+    },
+  );
+};
+
+export const updateProductImage = (
+  productId: string,
+  imageId: string,
+  payload: {
+    image_url?: string;
+    alt_text?: string | null;
+    sort_order?: number;
+    is_primary?: boolean;
+  },
+) =>
+  request<ApiProductImage>(
+    `/admin/products/${productId}/images/${imageId}`,
+    {
+      method: "PATCH",
+      body: JSON.stringify(payload),
     },
   );
 

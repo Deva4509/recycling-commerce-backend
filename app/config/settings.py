@@ -32,6 +32,9 @@ class Settings(BaseSettings):
     storage_access_key: str = ""
     storage_secret_key: str = ""
     storage_endpoint: str = ""
+    cloudinary_cloud_name: str = ""
+    cloudinary_api_key: str = ""
+    cloudinary_api_secret: str = ""
 
     payment_provider: str = "mock"
     payment_key: str = ""

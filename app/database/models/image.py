@@ -26,6 +26,11 @@ class ProductImage(UUIDTimestampMixin, Base):
         nullable=False,
     )
 
+    storage_public_id: Mapped[str | None] = mapped_column(
+        String(500),
+        nullable=True,
+    )
+
     alt_text: Mapped[str | None] = mapped_column(
         String(255),
         nullable=True,

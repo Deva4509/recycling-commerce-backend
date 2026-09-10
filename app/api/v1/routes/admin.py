@@ -1,7 +1,7 @@
 from datetime import datetime, timezone
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from pydantic import BaseModel, ConfigDict, Field
 from sqlalchemy import func, select
 from sqlalchemy.orm import Session
@@ -24,6 +24,7 @@ from app.database.models.payment import Payment, PaymentStatus
 from app.dependencies.auth import require_roles
 from app.schemas.catalog import ProductCreate, ProductRead
 from app.schemas.order import OrderRead
+from app.services.cloudinary_storage import delete_product_image as delete_cloudinary_image, upload_product_image
 
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
@@ -296,6 +297,18 @@ def add_product_image(
             detail="Product not found.",
         )
 
+    image_count = db.scalar(
+        select(func.count(ProductImage.id)).where(
+            ProductImage.product_id == product_id
+        )
+    ) or 0
+
+    if image_count >= 5:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="A product can have a maximum of 5 images.",
+        )
+
     if payload.is_primary:
         db.query(ProductImage).filter(
             ProductImage.product_id == product_id
@@ -314,6 +327,67 @@ def add_product_image(
     db.refresh(image)
 
     return image
+
+
+@router.post(
+    "/products/{product_id}/images/upload",
+    response_model=list[ProductImageRead],
+    status_code=status.HTTP_201_CREATED,
+)
+async def upload_product_images(
+    product_id: UUID,
+    files: list[UploadFile] = File(...),
+    _: object = Depends(admin_or_staff),
+    db: Session = Depends(get_db),
+):
+    product = db.get(Product, product_id)
+    if product is None:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Product not found.")
+    existing_count = db.scalar(select(func.count(ProductImage.id)).where(ProductImage.product_id == product_id)) or 0
+    if not files:
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="At least one image is required.")
+    if existing_count + len(files) > 5:
+        remaining = max(0, 5 - existing_count)
+        raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail=f"A product can have a maximum of 5 images. You can upload {remaining} more.")
+    max_sort_order = db.scalar(select(func.coalesce(func.max(ProductImage.sort_order), -1)).where(ProductImage.product_id == product_id))
+    next_sort_order = int(max_sort_order) + 1
+    has_primary = (db.scalar(select(func.count(ProductImage.id)).where(ProductImage.product_id == product_id, ProductImage.is_primary.is_(True))) or 0) > 0
+    uploaded = []
+    created = []
+    try:
+        for index, file in enumerate(files):
+            image_url, public_id = await upload_product_image(file, str(product_id))
+            uploaded.append(public_id)
+            image = ProductImage(
+                product_id=product_id,
+                image_url=image_url,
+                storage_public_id=public_id,
+                alt_text=f"{product.name} image {existing_count + index + 1}",
+                sort_order=next_sort_order + index,
+                is_primary=not has_primary and index == 0,
+            )
+            db.add(image)
+            created.append(image)
+        db.commit()
+        for image in created:
+            db.refresh(image)
+    except HTTPException:
+        db.rollback()
+        for public_id in uploaded:
+            try:
+                delete_cloudinary_image(public_id)
+            except Exception:
+                pass
+        raise
+    except Exception:
+        db.rollback()
+        for public_id in uploaded:
+            try:
+                delete_cloudinary_image(public_id)
+            except Exception:
+                pass
+        raise HTTPException(status_code=status.HTTP_502_BAD_GATEWAY, detail="Unable to save the uploaded product images.") from None
+    return created
 
 
 @router.patch(
@@ -373,8 +447,40 @@ def delete_product_image(
             detail="Product image not found.",
         )
 
+    was_primary = image.is_primary
+    public_id = image.storage_public_id
+
     db.delete(image)
+    db.flush()
+
+    remaining = list(
+        db.scalars(
+            select(ProductImage)
+            .where(ProductImage.product_id == product_id)
+            .order_by(ProductImage.sort_order, ProductImage.created_at)
+        ).all()
+    )
+
+    for index, remaining_image in enumerate(remaining):
+        remaining_image.sort_order = index
+
+    if remaining and was_primary:
+        for remaining_image in remaining:
+            remaining_image.is_primary = False
+        remaining[0].is_primary = True
+    elif remaining and not any(
+        remaining_image.is_primary for remaining_image in remaining
+    ):
+        remaining[0].is_primary = True
+
     db.commit()
+
+    if public_id:
+        try:
+            delete_cloudinary_image(public_id)
+        except Exception:
+            # Database state is already correct; storage cleanup can be retried.
+            pass
 
 
 @router.get(

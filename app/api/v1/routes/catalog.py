@@ -3,7 +3,7 @@ from uuid import UUID
 from fastapi import APIRouter, Depends, HTTPException, Query, status
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, selectinload
 
 from app.database import get_db
 from app.database.models import Category, Product, RoleName
@@ -81,7 +81,7 @@ def list_products(
     search: str | None = Query(default=None, min_length=1, max_length=200),
     db: Session = Depends(get_db),
 ):
-    query = select(Product).where(Product.is_active.is_(True))
+    query = select(Product).options(selectinload(Product.images)).where(Product.is_active.is_(True))
 
     if category_id is not None:
         query = query.where(Product.category_id == category_id)
@@ -103,7 +103,7 @@ def get_product(
     product_id: UUID,
     db: Session = Depends(get_db),
 ):
-    product = db.get(Product, product_id)
+    product = db.scalar(select(Product).options(selectinload(Product.images)).where(Product.id == product_id))
 
     if product is None or not product.is_active:
         raise HTTPException(

@@ -22,6 +22,17 @@ class CategoryRead(CategoryCreate):
     updated_at: datetime
 
 
+class ProductImageRead(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: UUID
+    product_id: UUID
+    image_url: str
+    alt_text: str | None = None
+    sort_order: int
+    is_primary: bool
+
+
 class ProductCreate(BaseModel):
     name: str = Field(min_length=1, max_length=200)
     slug: str = Field(min_length=1, max_length=220)
@@ -40,3 +51,4 @@ class ProductRead(ProductCreate):
     id: UUID
     created_at: datetime
     updated_at: datetime
+    images: list[ProductImageRead] = Field(default_factory=list)

@@ -1,4 +1,5 @@
 import {
+  ChangeEvent,
   FormEvent,
   useEffect,
   useMemo,
@@ -15,7 +16,11 @@ import {
   Plus,
   Search,
   Trash2,
+  Upload,
   X,
+  ChevronLeft,
+  ChevronRight,
+  Star,
 } from "lucide-react";
 import {
   createAdminProduct,
@@ -23,8 +28,13 @@ import {
   getAdminProducts,
   getCategories,
   updateAdminProduct,
+  deleteProductImage,
+  getProductImages,
+  updateProductImage,
+  uploadProductImages,
   type ApiCategory,
   type ApiProduct,
+  type ApiProductImage,
 } from "../lib/api";
 
 type ProductForm = {
@@ -85,6 +95,11 @@ export default function AdminProducts() {
   const [form, setForm] = useState<ProductForm>(emptyForm);
   const [error, setError] = useState("");
   const [actionId, setActionId] = useState<string | null>(null);
+  const [existingImages, setExistingImages] = useState<ApiProductImage[]>([]);
+  const [pendingImages, setPendingImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(false);
+  const [imagesSaving, setImagesSaving] = useState(false);
 
   async function load() {
     setError("");
@@ -143,7 +158,17 @@ export default function AdminProducts() {
 
   const inactiveCount = products.length - activeCount;
 
+  function resetImageState() {
+    imagePreviews.forEach((url) => URL.revokeObjectURL(url));
+    setExistingImages([]);
+    setPendingImages([]);
+    setImagePreviews([]);
+    setImagesLoading(false);
+    setImagesSaving(false);
+  }
+
   function openCreate() {
+    resetImageState();
     setEditing(null);
     setForm({
       ...emptyForm,
@@ -153,7 +178,8 @@ export default function AdminProducts() {
     setModalOpen(true);
   }
 
-  function openEdit(product: ApiProduct) {
+  async function openEdit(product: ApiProduct) {
+    resetImageState();
     setEditing(product);
 
     setForm({
@@ -170,6 +196,224 @@ export default function AdminProducts() {
 
     setError("");
     setModalOpen(true);
+    setImagesLoading(true);
+
+    try {
+      const images = await getProductImages(product.id);
+      setExistingImages(
+        [...images].sort((a, b) => a.sort_order - b.sort_order),
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to load product images.",
+      );
+    } finally {
+      setImagesLoading(false);
+    }
+  }
+
+  function handleImageSelection(
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const files = Array.from(event.target.files || []);
+    event.target.value = "";
+
+    if (!files.length) {
+      return;
+    }
+
+    const available =
+      5 - existingImages.length - pendingImages.length;
+
+    if (files.length > available) {
+      setError(
+        `A product can have a maximum of 5 images. You can add ${Math.max(
+          available,
+          0,
+        )} more.`,
+      );
+      return;
+    }
+
+    const invalid = files.find((file) => {
+      const validType = [
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+      ].includes(file.type);
+
+      return !validType || file.size > 5 * 1024 * 1024;
+    });
+
+    if (invalid) {
+      setError(
+        "Only JPEG, PNG, and WEBP images up to 5 MB each are allowed.",
+      );
+      return;
+    }
+
+    setError("");
+
+    setPendingImages((current) => [
+      ...current,
+      ...files,
+    ]);
+
+    setImagePreviews((current) => [
+      ...current,
+      ...files.map((file) => URL.createObjectURL(file)),
+    ]);
+  }
+
+  function removePendingImage(index: number) {
+    setImagePreviews((current) => {
+      const url = current[index];
+
+      if (url) {
+        URL.revokeObjectURL(url);
+      }
+
+      return current.filter((_, i) => i !== index);
+    });
+
+    setPendingImages((current) =>
+      current.filter((_, i) => i !== index),
+    );
+  }
+
+  async function setPrimaryImage(image: ApiProductImage) {
+    if (imagesSaving || image.is_primary || !editing) {
+      return;
+    }
+
+    setImagesSaving(true);
+    setError("");
+
+    try {
+      const updated = await updateProductImage(
+        editing.id,
+        image.id,
+        { is_primary: true },
+      );
+
+      setExistingImages((current) =>
+        current.map((item) => ({
+          ...item,
+          is_primary: item.id === updated.id,
+        })),
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to set the primary image.",
+      );
+    } finally {
+      setImagesSaving(false);
+    }
+  }
+
+  async function moveExistingImage(
+    index: number,
+    direction: -1 | 1,
+  ) {
+    const target = index + direction;
+
+    if (
+      imagesSaving ||
+      !editing ||
+      target < 0 ||
+      target >= existingImages.length
+    ) {
+      return;
+    }
+
+    const ordered = [...existingImages];
+
+    [ordered[index], ordered[target]] = [
+      ordered[target],
+      ordered[index],
+    ];
+
+    setImagesSaving(true);
+    setError("");
+
+    try {
+      await Promise.all(
+        ordered.map((image, sortIndex) =>
+          updateProductImage(
+            editing.id,
+            image.id,
+            { sort_order: sortIndex },
+          ),
+        ),
+      );
+
+      setExistingImages(
+        ordered.map((image, sortIndex) => ({
+          ...image,
+          sort_order: sortIndex,
+        })),
+      );
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to reorder images.",
+      );
+    } finally {
+      setImagesSaving(false);
+    }
+  }
+
+  async function removeExistingImage(
+    image: ApiProductImage,
+  ) {
+    if (imagesSaving || !editing) {
+      return;
+    }
+
+    if (!window.confirm("Delete this product image?")) {
+      return;
+    }
+
+    setImagesSaving(true);
+    setError("");
+
+    try {
+      await deleteProductImage(editing.id, image.id);
+
+      const remaining = existingImages.filter(
+        (item) => item.id !== image.id,
+      );
+
+      if (remaining.length && image.is_primary) {
+        const promoted = await updateProductImage(
+          editing.id,
+          remaining[0].id,
+          { is_primary: true },
+        );
+
+        setExistingImages(
+          remaining.map((item) => ({
+            ...item,
+            is_primary: item.id === promoted.id,
+          })),
+        );
+      } else {
+        setExistingImages(remaining);
+      }
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to delete the image.",
+      );
+    } finally {
+      setImagesSaving(false);
+    }
   }
 
   async function saveProduct(event: FormEvent) {
@@ -191,13 +435,30 @@ export default function AdminProducts() {
     };
 
     try {
+      let productId: string;
+
       if (editing) {
         await updateAdminProduct(editing.id, payload);
+        productId = editing.id;
       } else {
-        await createAdminProduct(payload);
+        const created = await createAdminProduct(payload);
+        productId = created.id;
       }
 
+      if (pendingImages.length) {
+        setImagesSaving(true);
+        await uploadProductImages(
+          productId,
+          pendingImages,
+        );
+      }
+
+      imagePreviews.forEach((url) =>
+        URL.revokeObjectURL(url),
+      );
+
       setModalOpen(false);
+      resetImageState();
       await load();
     } catch (err) {
       setError(
@@ -207,6 +468,7 @@ export default function AdminProducts() {
       );
     } finally {
       setSaving(false);
+      setImagesSaving(false);
     }
   }
 
@@ -663,6 +925,293 @@ export default function AdminProducts() {
                   </small>
                 </span>
               </label>
+            </div>
+
+            <div
+              style={{
+                marginTop: 22,
+                padding: 18,
+                borderRadius: 16,
+                border: "1px solid rgba(255,255,255,.08)",
+                background: "rgba(255,255,255,.025)",
+              }}
+            >
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                  gap: 12,
+                  marginBottom: 14,
+                }}
+              >
+                <div>
+                  <strong style={{ display: "block" }}>
+                    Product images
+                  </strong>
+                  <small style={{ opacity: 0.7 }}>
+                    Up to 5 images · JPEG, PNG, WEBP · 5 MB each
+                  </small>
+                </div>
+
+                <label
+                  style={{
+                    display: "inline-flex",
+                    alignItems: "center",
+                    gap: 7,
+                    cursor:
+                      existingImages.length +
+                        pendingImages.length >=
+                        5 || imagesSaving
+                        ? "not-allowed"
+                        : "pointer",
+                    opacity:
+                      existingImages.length +
+                        pendingImages.length >=
+                        5 || imagesSaving
+                        ? 0.5
+                        : 1,
+                  }}
+                >
+                  <Upload size={16} />
+                  Add images
+
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    hidden
+                    disabled={
+                      existingImages.length +
+                        pendingImages.length >=
+                        5 || imagesSaving
+                    }
+                    onChange={handleImageSelection}
+                  />
+                </label>
+              </div>
+
+              {imagesLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 8,
+                    opacity: 0.7,
+                  }}
+                >
+                  <LoaderCircle
+                    size={17}
+                    className="rp-spin"
+                  />
+                  Loading images...
+                </div>
+              ) : (
+                <div
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns:
+                      "repeat(auto-fill,minmax(130px,1fr))",
+                    gap: 12,
+                  }}
+                >
+                  {existingImages.map((image, index) => (
+                    <div
+                      key={image.id}
+                      style={{
+                        position: "relative",
+                        overflow: "hidden",
+                        borderRadius: 12,
+                        border: image.is_primary
+                          ? "2px solid currentColor"
+                          : "1px solid rgba(255,255,255,.1)",
+                      }}
+                    >
+                      <img
+                        src={image.image_url}
+                        alt={
+                          image.alt_text ||
+                          `${form.name} image ${index + 1}`
+                        }
+                        style={{
+                          width: "100%",
+                          aspectRatio: "1",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+
+                      {image.is_primary && (
+                        <span
+                          style={{
+                            position: "absolute",
+                            left: 7,
+                            top: 7,
+                            padding: "4px 7px",
+                            borderRadius: 999,
+                            background: "rgba(0,0,0,.7)",
+                            fontSize: 11,
+                          }}
+                        >
+                          Primary
+                        </span>
+                      )}
+
+                      <div
+                        style={{
+                          display: "flex",
+                          gap: 4,
+                          padding: 6,
+                        }}
+                      >
+                        <button
+                          type="button"
+                          title="Move left"
+                          disabled={
+                            index === 0 || imagesSaving
+                          }
+                          onClick={() =>
+                            void moveExistingImage(
+                              index,
+                              -1,
+                            )
+                          }
+                        >
+                          <ChevronLeft size={14} />
+                        </button>
+
+                        <button
+                          type="button"
+                          title="Move right"
+                          disabled={
+                            index ===
+                              existingImages.length - 1 ||
+                            imagesSaving
+                          }
+                          onClick={() =>
+                            void moveExistingImage(
+                              index,
+                              1,
+                            )
+                          }
+                        >
+                          <ChevronRight size={14} />
+                        </button>
+
+                        <button
+                          type="button"
+                          title="Set primary"
+                          disabled={
+                            image.is_primary ||
+                            imagesSaving
+                          }
+                          onClick={() =>
+                            void setPrimaryImage(image)
+                          }
+                        >
+                          <Star size={14} />
+                        </button>
+
+                        <button
+                          type="button"
+                          title="Delete image"
+                          className="danger"
+                          disabled={imagesSaving}
+                          onClick={() =>
+                            void removeExistingImage(
+                              image,
+                            )
+                          }
+                        >
+                          <Trash2 size={14} />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+
+                  {pendingImages.map((file, index) => (
+                    <div
+                      key={`${file.name}-${file.lastModified}-${index}`}
+                      style={{
+                        position: "relative",
+                        overflow: "hidden",
+                        borderRadius: 12,
+                        border:
+                          "1px dashed rgba(255,255,255,.2)",
+                      }}
+                    >
+                      <img
+                        src={imagePreviews[index]}
+                        alt={file.name}
+                        style={{
+                          width: "100%",
+                          aspectRatio: "1",
+                          objectFit: "cover",
+                          display: "block",
+                        }}
+                      />
+
+                      <span
+                        style={{
+                          position: "absolute",
+                          left: 7,
+                          top: 7,
+                          padding: "4px 7px",
+                          borderRadius: 999,
+                          background: "rgba(0,0,0,.7)",
+                          fontSize: 11,
+                        }}
+                      >
+                        New
+                      </span>
+
+                      <button
+                        type="button"
+                        title="Remove selected image"
+                        onClick={() =>
+                          removePendingImage(index)
+                        }
+                        style={{
+                          position: "absolute",
+                          right: 7,
+                          top: 7,
+                        }}
+                      >
+                        <X size={14} />
+                      </button>
+                    </div>
+                  ))}
+
+                  {existingImages.length === 0 &&
+                    pendingImages.length === 0 && (
+                      <div
+                        style={{
+                          gridColumn: "1 / -1",
+                          padding: "24px 12px",
+                          textAlign: "center",
+                          opacity: 0.6,
+                        }}
+                      >
+                        No images added yet.
+                      </div>
+                    )}
+                </div>
+              )}
+
+              <small
+                style={{
+                  display: "block",
+                  marginTop: 12,
+                  opacity: 0.65,
+                }}
+              >
+                {existingImages.length +
+                  pendingImages.length}
+                /5 images selected
+                {imagesSaving
+                  ? " · Saving image changes..."
+                  : ""}
+              </small>
             </div>
 
             <div className="rp-admin-modal-actions">
