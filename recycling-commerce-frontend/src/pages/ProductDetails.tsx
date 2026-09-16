@@ -492,12 +492,12 @@ export default function ProductDetails() {
 
                 <div className="product-detail-eco">
                   <Recycle size={15} />
-                  Recycled & responsibly sourced
+                  
                 </div>
 
                 <div className="product-detail-material">
                   <Sparkles size={14} />
-                  Premium circular materials
+                  
                 </div>
               </>
             ) : (
@@ -519,12 +519,12 @@ export default function ProductDetails() {
 
                 <div className="product-detail-eco">
                   <Recycle size={15} />
-                  Recycled & responsibly sourced
+                  
                 </div>
 
                 <div className="product-detail-material">
                   <Sparkles size={14} />
-                  Premium circular materials
+                  
                 </div>
               </>
             )}

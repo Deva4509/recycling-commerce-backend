@@ -32,6 +32,7 @@ import VisionMission from "./pages/VisionMission";
 import Contact from "./pages/Contact";
 
 import { useAuth } from "./context/AuthContext";
+import Gallery from "./pages/Gallery";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useAuth();
@@ -97,6 +98,7 @@ function App() {
 
         <Route path="*" element={<Navigate to="/" replace />} />
                 <Route path="/contact" element={<Contact />} />
+        <Route path="/gallery" element={<Gallery />} />
 </Routes>
 
       {showCustomerChrome && <Footer />}

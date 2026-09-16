@@ -1201,6 +1201,50 @@ main {
   box-shadow: 0 30px 50px rgba(28,93,53,.12);
 }
 
+/* Real product gallery images */
+.shop-product-image-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 48px 28px 30px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(255,255,255,.96), transparent 52%),
+    linear-gradient(145deg, #edf7ee, #dcefe0);
+}
+
+.shop-product-image {
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+  object-fit: contain;
+  object-position: center;
+  border-radius: 14px;
+  filter: saturate(.96);
+  transition:
+    transform .45s cubic-bezier(.2,.7,.2,1),
+    filter .3s ease;
+}
+
+.shop-product-card:hover .shop-product-image {
+  transform: scale(1.045);
+  filter: saturate(1.03);
+}
+
+.shop-product-image-wrap::after {
+  content: "";
+  position: absolute;
+  inset: auto 18% 10px;
+  height: 18px;
+  border-radius: 50%;
+  background: rgba(35, 91, 60, .10);
+  filter: blur(12px);
+  pointer-events: none;
+}
+
 .shop-product-material {
   position: absolute;
   right: 16px;
@@ -47440,4 +47484,2745 @@ body:has(.rp-admin-modern-page) {
   opacity: 0.65;
   cursor: not-allowed;
   transform: none;
+}
+
+/* =========================================================
+   GREENCORE FUTURISTIC PRODUCT EXPERIENCE
+   Final visual override layer
+   ========================================================= */
+
+.product-details-page {
+  position: relative;
+  isolation: isolate;
+  background:
+    radial-gradient(circle at 12% 18%, rgba(40, 220, 150, .07), transparent 28%),
+    radial-gradient(circle at 88% 32%, rgba(34, 211, 238, .055), transparent 30%),
+    linear-gradient(135deg, #021914 0%, #031f18 48%, #021610 100%);
+}
+
+.product-details-page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  opacity: .32;
+  background-image:
+    linear-gradient(rgba(96, 255, 190, .055) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(96, 255, 190, .055) 1px, transparent 1px);
+  background-size: 52px 52px;
+  mask-image: linear-gradient(to bottom, black, transparent 88%);
+}
+
+.product-details-container {
+  position: relative;
+}
+
+.product-details-layout {
+  gap: clamp(30px, 4vw, 64px);
+  align-items: start;
+}
+
+/* Main product media */
+.product-detail-gallery-main {
+  position: relative;
+  min-height: 590px;
+  overflow: hidden;
+  border: 1px solid rgba(105, 255, 194, .22) !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(circle at 50% 42%, rgba(255,255,255,.09), transparent 42%),
+    linear-gradient(145deg, rgba(11, 70, 51, .72), rgba(2, 30, 23, .92)) !important;
+  box-shadow:
+    0 30px 90px rgba(0,0,0,.28),
+    inset 0 1px 0 rgba(255,255,255,.08),
+    0 0 0 1px rgba(67, 255, 181, .035);
+  backdrop-filter: blur(18px);
+}
+
+.product-detail-gallery-main::before {
+  content: "";
+  position: absolute;
+  inset: 14px;
+  z-index: 2;
+  pointer-events: none;
+  border: 1px solid rgba(108, 255, 194, .08);
+  border-radius: 22px;
+}
+
+.product-detail-gallery-main::after {
+  content: "GREENCORE • CIRCULAR PRODUCT";
+  position: absolute;
+  left: 28px;
+  bottom: 23px;
+  z-index: 4;
+  padding: 8px 12px;
+  border: 1px solid rgba(107, 255, 192, .16);
+  border-radius: 999px;
+  background: rgba(2, 35, 27, .68);
+  color: rgba(157, 255, 216, .68);
+  font-size: 8px;
+  font-weight: 800;
+  letter-spacing: .16em;
+  backdrop-filter: blur(12px);
+}
+
+.product-detail-gallery-image {
+  width: 100% !important;
+  height: 590px !important;
+  display: block;
+  object-fit: contain !important;
+  object-position: center;
+  padding: 34px;
+  border-radius: 28px;
+  filter: saturate(.96) contrast(1.02);
+  transition:
+    transform .6s cubic-bezier(.2,.7,.2,1),
+    filter .35s ease;
+}
+
+.product-detail-gallery-main:hover .product-detail-gallery-image {
+  transform: scale(1.025);
+  filter: saturate(1.04) contrast(1.04);
+}
+
+/* Futuristic navigation buttons */
+.product-detail-gallery-nav {
+  width: 46px !important;
+  height: 46px !important;
+  z-index: 5;
+  border: 1px solid rgba(102, 255, 193, .22) !important;
+  border-radius: 14px !important;
+  background: rgba(2, 31, 24, .78) !important;
+  color: #75f4b4 !important;
+  box-shadow:
+    0 10px 30px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.07);
+  backdrop-filter: blur(14px);
+  transition: all .25s ease;
+}
+
+.product-detail-gallery-nav:hover {
+  transform: translateY(-2px) scale(1.05);
+  border-color: rgba(101, 255, 190, .55) !important;
+  background: rgba(7, 67, 49, .9) !important;
+  box-shadow:
+    0 12px 35px rgba(0,0,0,.32),
+    0 0 24px rgba(61, 244, 159, .13);
+}
+
+/* Counter */
+.product-detail-gallery-counter {
+  z-index: 5;
+  border: 1px solid rgba(105, 255, 194, .16);
+  border-radius: 999px;
+  padding: 8px 13px;
+  background: rgba(2, 32, 24, .72);
+  color: rgba(215, 255, 235, .82);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  backdrop-filter: blur(14px);
+}
+
+/* Thumbnail strip */
+.product-detail-gallery-thumbnails {
+  display: grid !important;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 11px !important;
+  margin-top: 14px !important;
+  padding: 10px !important;
+  border: 1px solid rgba(104, 255, 193, .12);
+  border-radius: 21px;
+  background: rgba(3, 35, 27, .58);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.045),
+    0 14px 40px rgba(0,0,0,.16);
+  backdrop-filter: blur(16px);
+}
+
+.product-detail-gallery-thumbnail {
+  position: relative;
+  min-width: 0;
+  height: 82px !important;
+  overflow: hidden;
+  border: 1px solid rgba(106, 255, 193, .11) !important;
+  border-radius: 14px !important;
+  background: rgba(8, 57, 43, .7) !important;
+  opacity: .64;
+  cursor: pointer;
+  transition:
+    transform .25s ease,
+    opacity .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+.product-detail-gallery-thumbnail:hover {
+  transform: translateY(-3px);
+  opacity: .9;
+  border-color: rgba(104, 255, 193, .38) !important;
+}
+
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  border-color: #62efaa !important;
+  box-shadow:
+    0 0 0 1px rgba(98, 239, 170, .2),
+    0 0 24px rgba(65, 240, 157, .14);
+  transform: translateY(-2px);
+}
+
+.product-detail-gallery-thumbnail img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform .3s ease;
+}
+
+.product-detail-gallery-thumbnail:hover img,
+.product-detail-gallery-thumbnail.active img {
+  transform: scale(1.06);
+}
+
+/* Product information panel */
+.product-details-layout > :last-child {
+  position: relative;
+  padding: clamp(24px, 3vw, 38px);
+  border: 1px solid rgba(100, 255, 190, .12);
+  border-radius: 30px;
+  background:
+    linear-gradient(145deg, rgba(8, 57, 43, .48), rgba(2, 27, 21, .66));
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.2),
+    inset 0 1px 0 rgba(255,255,255,.055);
+  backdrop-filter: blur(22px);
+}
+
+/* Small futuristic separators */
+.product-details-layout > :last-child hr {
+  border-color: rgba(102, 255, 193, .13) !important;
+  opacity: 1;
+}
+
+/* Benefit/info cards */
+.product-details-page [class*="feature"],
+.product-details-page [class*="benefit"],
+.product-details-page [class*="info-card"] {
+  border-color: rgba(94, 255, 188, .13) !important;
+  background:
+    linear-gradient(145deg, rgba(7, 69, 51, .42), rgba(2, 36, 28, .52)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.035),
+    0 12px 30px rgba(0,0,0,.12);
+  backdrop-filter: blur(14px);
+  transition: transform .25s ease, border-color .25s ease;
+}
+
+.product-details-page [class*="feature"]:hover,
+.product-details-page [class*="benefit"]:hover,
+.product-details-page [class*="info-card"]:hover {
+  transform: translateY(-3px);
+  border-color: rgba(93, 255, 186, .28) !important;
+}
+
+/* Quantity control */
+.product-details-page input {
+  border-color: rgba(101, 255, 191, .16) !important;
+  background: rgba(2, 32, 24, .72) !important;
+  color: #eafff3 !important;
+}
+
+/* Cart CTA */
+.product-details-page button[class*="cart"],
+.product-details-page button[class*="Cart"] {
+  border: 1px solid rgba(106, 255, 193, .28) !important;
+  box-shadow:
+    0 12px 30px rgba(0,0,0,.2),
+    0 0 0 1px rgba(81, 244, 165, .04);
+  transition: transform .25s ease, box-shadow .25s ease, filter .25s ease;
+}
+
+.product-details-page button[class*="cart"]:hover,
+.product-details-page button[class*="Cart"]:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.08);
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.28),
+    0 0 28px rgba(59, 240, 157, .13);
+}
+
+/* Favorite */
+.product-details-page button[aria-label*="favorite"],
+.product-details-page button[aria-label*="Favorite"] {
+  border: 1px solid rgba(106, 255, 193, .18) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,.18);
+  backdrop-filter: blur(12px);
+  transition: transform .25s ease, border-color .25s ease;
+}
+
+.product-details-page button[aria-label*="favorite"]:hover,
+.product-details-page button[aria-label*="Favorite"]:hover {
+  transform: scale(1.05);
+  border-color: rgba(102, 255, 193, .45) !important;
+}
+
+/* Reviews section */
+.product-details-page [class*="review"] {
+  border-color: rgba(103, 255, 192, .11);
+}
+
+@media (max-width: 900px) {
+  .product-detail-gallery-main {
+    min-height: 480px;
+  }
+
+  .product-detail-gallery-image {
+    height: 480px !important;
+    padding: 25px;
+  }
+
+  .product-details-layout > :last-child {
+    padding: 24px;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-detail-gallery-main {
+    min-height: 380px;
+    border-radius: 22px !important;
+  }
+
+  .product-detail-gallery-image {
+    height: 380px !important;
+    padding: 18px;
+  }
+
+  .product-detail-gallery-thumbnails {
+    grid-template-columns: repeat(5, 1fr);
+    gap: 7px !important;
+    padding: 7px !important;
+  }
+
+  .product-detail-gallery-thumbnail {
+    height: 58px !important;
+    border-radius: 10px !important;
+  }
+
+  .product-detail-gallery-main::after {
+    display: none;
+  }
+
+  .product-details-layout > :last-child {
+    padding: 20px;
+    border-radius: 22px;
+  }
+}
+
+
+/* =========================================================
+   GREENCORE — FUTURISTIC PRODUCT GALLERY v2
+   Reference-inspired layout: thumbnails LEFT + main RIGHT
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  display: grid !important;
+  grid-template-columns: 92px minmax(0, 1fr) !important;
+  grid-template-rows: minmax(0, 1fr) auto !important;
+  column-gap: 16px !important;
+  row-gap: 14px !important;
+  align-items: stretch;
+  padding: 18px !important;
+  border: 1px solid rgba(77, 255, 178, .22) !important;
+  border-radius: 32px !important;
+  background:
+    radial-gradient(circle at 68% 38%, rgba(54, 236, 157, .075), transparent 35%),
+    linear-gradient(145deg, rgba(8, 67, 49, .72), rgba(2, 25, 19, .9)) !important;
+  box-shadow:
+    0 35px 90px rgba(0,0,0,.3),
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 0 45px rgba(43, 255, 165, .035);
+  backdrop-filter: blur(22px);
+}
+
+/* Main image becomes the large right-hand panel */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  min-height: 0 !important;
+  height: 560px !important;
+  border-radius: 25px !important;
+  border: 1px solid rgba(77, 255, 178, .25) !important;
+  background:
+    radial-gradient(circle at 50% 45%, rgba(255,255,255,.08), transparent 45%),
+    linear-gradient(145deg, rgba(10, 67, 49, .7), rgba(2, 31, 24, .95)) !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 20px 55px rgba(0,0,0,.22);
+}
+
+/* Image fills the right panel elegantly */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-image {
+  width: 100% !important;
+  height: 560px !important;
+  padding: 16px !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border-radius: 24px !important;
+  transform: none;
+}
+
+/* Premium hover */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main:hover
+.product-detail-gallery-image {
+  transform: scale(1.025);
+}
+
+/* Left thumbnail rail */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnails {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: flex-start !important;
+  gap: 12px !important;
+  width: 92px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Individual thumbnail */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail {
+  flex: 0 0 82px !important;
+  width: 92px !important;
+  height: 82px !important;
+  padding: 3px !important;
+  overflow: hidden;
+  border: 1px solid rgba(89, 255, 185, .16) !important;
+  border-radius: 16px !important;
+  background: rgba(5, 48, 36, .72) !important;
+  opacity: .58;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 8px 20px rgba(0,0,0,.15);
+  transition:
+    opacity .25s ease,
+    transform .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease;
+}
+
+/* Thumbnail image */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+/* Active thumbnail = futuristic neon frame */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  transform: translateX(4px);
+  border-color: #48f5a7 !important;
+  box-shadow:
+    0 0 0 1px rgba(72,245,167,.25),
+    0 0 24px rgba(72,245,167,.2),
+    0 10px 28px rgba(0,0,0,.25);
+}
+
+/* Hover thumbnails */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail:hover {
+  opacity: 1;
+  transform: translateX(3px);
+  border-color: rgba(72,245,167,.55) !important;
+}
+
+/* Navigation */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav {
+  width: 44px !important;
+  height: 44px !important;
+  border: 1px solid rgba(82,255,181,.25) !important;
+  border-radius: 50% !important;
+  background: rgba(2, 36, 27, .82) !important;
+  color: #75f4b4 !important;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.3),
+    inset 0 1px 0 rgba(255,255,255,.08);
+  backdrop-filter: blur(12px);
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav:hover {
+  background: rgba(5, 80, 57, .95) !important;
+  border-color: #57f3aa !important;
+  box-shadow:
+    0 0 28px rgba(69,246,163,.18),
+    0 12px 30px rgba(0,0,0,.3);
+  transform: scale(1.08);
+}
+
+/* Image counter */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-counter {
+  padding: 8px 14px !important;
+  border: 1px solid rgba(82,255,181,.2);
+  border-radius: 999px;
+  background: rgba(2,35,27,.78);
+  color: #dffff0;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  backdrop-filter: blur(14px);
+  box-shadow: 0 8px 20px rgba(0,0,0,.2);
+}
+
+/* Replace the old giant bottom label with a cleaner material badge */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::after {
+  content: "RECYCLED MATERIAL";
+  left: 22px;
+  bottom: 20px;
+  padding: 9px 14px;
+  border: 1px solid rgba(84,255,181,.18);
+  border-radius: 999px;
+  background: rgba(2,31,24,.78);
+  color: rgba(151,255,210,.78);
+  font-size: 8px;
+  font-weight: 900;
+  letter-spacing: .16em;
+  backdrop-filter: blur(14px);
+}
+
+/* Subtle futuristic corner glow */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  top: -90px;
+  right: -50px;
+  border-radius: 50%;
+  background: rgba(55,255,171,.08);
+  filter: blur(45px);
+  pointer-events: none;
+}
+
+/* Desktop gallery proportions */
+@media (min-width: 1100px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    min-height: 632px;
+  }
+}
+
+/* Tablet */
+@media (max-width: 900px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 72px minmax(0, 1fr) !important;
+    padding: 12px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main,
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-image {
+    height: 470px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    width: 72px !important;
+    flex-basis: 68px !important;
+    height: 68px !important;
+  }
+}
+
+/* Mobile: thumbnails become a horizontal rail */
+@media (max-width: 600px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 10px !important;
+    padding: 9px !important;
+    border-radius: 24px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    height: 360px !important;
+    border-radius: 20px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-image {
+    height: 360px !important;
+    padding: 10px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto;
+    padding: 2px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    flex: 0 0 68px !important;
+    width: 68px !important;
+    height: 60px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail.active {
+    transform: translateY(-2px);
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main::after {
+    display: none;
+  }
+}
+
+
+
+/* =========================================================
+   GREENCORE PRODUCT GALLERY — REFERENCE MATCH
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 86px minmax(0, 1fr) !important;
+  gap: 18px !important;
+  padding: 18px !important;
+  min-width: 0 !important;
+  border: 1px solid rgba(58, 255, 174, .48) !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(circle at 72% 35%, rgba(25, 255, 155, .09), transparent 35%),
+    linear-gradient(145deg, rgba(4, 48, 35, .94), rgba(1, 27, 20, .98)) !important;
+  box-shadow:
+    0 0 0 1px rgba(67,255,181,.04),
+    0 25px 70px rgba(0,0,0,.34),
+    0 0 55px rgba(32,255,160,.08),
+    inset 0 1px 0 rgba(255,255,255,.07) !important;
+  overflow: hidden !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 12px !important;
+  pointer-events: none !important;
+  border: 1px solid rgba(83,255,185,.10) !important;
+  border-radius: 24px !important;
+}
+
+/* LEFT THUMBNAILS */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnails {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  width: 86px !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  z-index: 4 !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail {
+  flex: 0 0 78px !important;
+  width: 86px !important;
+  height: 78px !important;
+  padding: 3px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(74,255,177,.20) !important;
+  border-radius: 15px !important;
+  background: rgba(3,42,31,.82) !important;
+  opacity: .62 !important;
+  transition: all .28s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 11px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail:hover {
+  opacity: 1 !important;
+  transform: translateX(3px) !important;
+  border-color: rgba(72,255,173,.65) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  transform: translateX(4px) !important;
+  border: 2px solid #39f6a0 !important;
+  box-shadow:
+    0 0 0 2px rgba(57,246,160,.10),
+    0 0 22px rgba(57,246,160,.35) !important;
+}
+
+/* MAIN IMAGE */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  position: relative !important;
+  width: 100% !important;
+  height: 560px !important;
+  min-height: 560px !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(67,255,177,.50) !important;
+  border-radius: 25px !important;
+  background: #062b20 !important;
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.07),
+    0 20px 55px rgba(0,0,0,.30) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-image {
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 24px !important;
+  transition: transform .55s cubic-bezier(.2,.7,.2,1), filter .35s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main:hover
+.product-detail-gallery-image {
+  transform: scale(1.025) !important;
+  filter: saturate(1.04) contrast(1.03) !important;
+}
+
+/* DARK GLASS OVERLAY */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::before {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+  background:
+    linear-gradient(to bottom, rgba(0,20,14,.08), transparent 30%),
+    linear-gradient(to top, rgba(0,25,18,.20), transparent 28%) !important;
+}
+
+/* REMOVE OLD PREMIUM TEXT COMPLETELY */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::after {
+  content: none !important;
+}
+
+/* NAVIGATION */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav {
+  z-index: 5 !important;
+  width: 48px !important;
+  height: 48px !important;
+  border: 1px solid rgba(73,255,175,.34) !important;
+  border-radius: 50% !important;
+  background: rgba(1,43,31,.78) !important;
+  color: #d9ffec !important;
+  box-shadow:
+    0 10px 25px rgba(0,0,0,.30),
+    0 0 18px rgba(47,255,164,.08) !important;
+  backdrop-filter: blur(14px) !important;
+  transition: all .25s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav:hover {
+  background: rgba(4,83,57,.92) !important;
+  border-color: #4dffae !important;
+  box-shadow:
+    0 0 28px rgba(54,255,166,.22),
+    0 12px 30px rgba(0,0,0,.35) !important;
+  transform: scale(1.08) !important;
+}
+
+/* COUNTER */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-counter {
+  z-index: 5 !important;
+  right: 24px !important;
+  bottom: 24px !important;
+  padding: 9px 16px !important;
+  border: 1px solid rgba(71,255,174,.25) !important;
+  border-radius: 999px !important;
+  background: rgba(1,42,31,.82) !important;
+  color: #effff6 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  backdrop-filter: blur(15px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25) !important;
+}
+
+/* MATERIAL FOOTER — ONLY EXISTING TEXT */
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  padding-bottom: 92px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+  content: "RECYCLED MATERIAL" !important;
+  position: absolute !important;
+  left: 122px !important;
+  right: 20px !important;
+  bottom: 18px !important;
+  height: 58px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding-left: 28px !important;
+  border: 1px solid rgba(69,255,174,.12) !important;
+  border-radius: 17px !important;
+  background: rgba(2,38,28,.52) !important;
+  color: rgba(219,255,235,.86) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .20em !important;
+  box-sizing: border-box !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 72px minmax(0,1fr) !important;
+    padding: 13px !important;
+    padding-bottom: 82px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    width: 72px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    width: 72px !important;
+    height: 66px !important;
+    flex-basis: 66px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    height: 460px !important;
+    min-height: 460px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+    left: 102px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 10px !important;
+    padding: 9px !important;
+    padding-bottom: 76px !important;
+    border-radius: 24px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    height: 350px !important;
+    min-height: 350px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    flex: 0 0 68px !important;
+    width: 68px !important;
+    height: 60px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+    left: 12px !important;
+    right: 12px !important;
+    bottom: 9px !important;
+    height: 48px !important;
+  }
+}
+
+/* =========================================================
+   GREENCORE — FINAL PRODUCT GALLERY REFERENCE LAYOUT
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 92px minmax(0, 1fr) !important;
+  grid-template-rows: auto 72px !important;
+  column-gap: 18px !important;
+  row-gap: 16px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  padding: 18px !important;
+  padding-bottom: 18px !important;
+  border: 1px solid rgba(56, 255, 174, .42) !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(
+      circle at 75% 35%,
+      rgba(36, 255, 165, .075),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(4, 55, 40, .96),
+      rgba(1, 27, 20, .98)
+    ) !important;
+  box-shadow:
+    0 30px 80px rgba(0,0,0,.34),
+    0 0 45px rgba(41,255,167,.07),
+    inset 0 1px 0 rgba(255,255,255,.07) !important;
+  overflow: hidden !important;
+}
+
+/* Remove old generated pseudo content */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::before {
+  content: none !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+  content: none !important;
+}
+
+/* =========================================================
+   THUMBNAILS — LEFT RAIL
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnails {
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  width: 92px !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  z-index: 10 !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail {
+  position: relative !important;
+  flex: 0 0 78px !important;
+  width: 92px !important;
+  height: 78px !important;
+  min-height: 78px !important;
+  padding: 3px !important;
+  border: 1px solid rgba(75,255,177,.20) !important;
+  border-radius: 16px !important;
+  background: rgba(2,42,31,.78) !important;
+  opacity: .58 !important;
+  overflow: hidden !important;
+  cursor: pointer !important;
+  transition:
+    transform .25s ease,
+    opacity .25s ease,
+    border-color .25s ease,
+    box-shadow .25s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail img {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+  border-radius: 12px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail:hover {
+  opacity: 1 !important;
+  transform: translateX(3px) !important;
+  border-color: rgba(72,255,174,.55) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  transform: translateX(4px) !important;
+  border: 2px solid #3ff5a5 !important;
+  box-shadow:
+    0 0 0 2px rgba(63,245,165,.10),
+    0 0 26px rgba(63,245,165,.30) !important;
+}
+
+/* =========================================================
+   MAIN IMAGE — WIDE LANDSCAPE
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 10 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(67,255,177,.48) !important;
+  border-radius: 26px !important;
+  background: #052c21 !important;
+  box-shadow:
+    0 22px 55px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.08) !important;
+}
+
+/* Product image — full landscape frame */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-image {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 25px !important;
+  transform: none !important;
+  filter: saturate(.98) contrast(1.01) !important;
+  transition:
+    transform .55s cubic-bezier(.2,.7,.2,1),
+    filter .35s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main:hover
+.product-detail-gallery-image {
+  transform: scale(1.018) !important;
+  filter: saturate(1.03) contrast(1.03) !important;
+}
+
+/* =========================================================
+   IMAGE CONTROLS
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav {
+  position: absolute !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
+  z-index: 20 !important;
+  width: 48px !important;
+  height: 48px !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(81,255,180,.30) !important;
+  border-radius: 50% !important;
+  background: rgba(1,42,31,.80) !important;
+  color: #e3fff1 !important;
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.32),
+    0 0 20px rgba(55,255,168,.08) !important;
+  backdrop-filter: blur(14px) !important;
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav.prev {
+  left: 20px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav.next {
+  right: 20px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav:hover {
+  transform: translateY(-50%) scale(1.08) !important;
+  background: rgba(5,79,55,.92) !important;
+  border-color: #52ffb0 !important;
+  box-shadow:
+    0 0 28px rgba(67,255,175,.20),
+    0 12px 30px rgba(0,0,0,.34) !important;
+}
+
+/* =========================================================
+   COUNTER — BOTTOM RIGHT
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-counter {
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 22px !important;
+  z-index: 21 !important;
+  padding: 9px 16px !important;
+  border: 1px solid rgba(75,255,179,.28) !important;
+  border-radius: 999px !important;
+  background: rgba(1,40,29,.82) !important;
+  color: #effff7 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  backdrop-filter: blur(14px) !important;
+  box-shadow: 0 10px 25px rgba(0,0,0,.25) !important;
+}
+
+/* =========================================================
+   REMOVE UNWANTED GALLERY TEXT/BADGES
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+[class*="badge"],
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+[class*="label"] {
+  /* Keep actual product UI intact; only hide gallery overlays */
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="badge"],
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="label"] {
+  display: none !important;
+}
+
+/* =========================================================
+   BOTTOM MATERIAL STRIP
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + * {
+  grid-column: 2 !important;
+}
+
+/* Material text from existing gallery markup */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+[class*="material"] {
+  position: relative;
+}
+
+/* Clean footer panel */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::after {
+  content: "RECYCLED MATERIAL" !important;
+  position: absolute !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: -88px !important;
+  height: 70px !important;
+  display: flex !important;
+  align-items: center !important;
+  padding-left: 76px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(72,255,174,.14) !important;
+  border-radius: 18px !important;
+  background: rgba(2,43,31,.58) !important;
+  color: rgba(222,255,238,.88) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .22em !important;
+  pointer-events: none !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 72px minmax(0,1fr) !important;
+    grid-template-rows: auto 64px !important;
+    gap: 12px !important;
+    padding: 13px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    width: 72px !important;
+    gap: 10px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    width: 72px !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    flex-basis: 66px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav {
+    width: 42px !important;
+    height: 42px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav.prev {
+    left: 14px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav.next {
+    right: 14px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 10px !important;
+    padding: 9px !important;
+    border-radius: 24px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    aspect-ratio: 4 / 3 !important;
+    border-radius: 20px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    height: auto !important;
+    overflow-x: auto !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    flex: 0 0 68px !important;
+    width: 68px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-counter {
+    right: 14px !important;
+    bottom: 14px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main::after {
+    display: none !important;
+  }
+}
+
+
+/* =========================================================
+   GREENCORE — GALLERY FINAL FIX
+   ========================================================= */
+
+/* Gallery shell */
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 92px minmax(0, 1fr) !important;
+  grid-template-rows: minmax(0, 1fr) !important;
+  gap: 18px !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  padding: 18px !important;
+  padding-bottom: 92px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(55,255,174,.40) !important;
+  border-radius: 30px !important;
+  background:
+    radial-gradient(
+      circle at 72% 35%,
+      rgba(38,255,166,.08),
+      transparent 38%
+    ),
+    linear-gradient(
+      145deg,
+      #063b2b 0%,
+      #022b20 48%,
+      #011d16 100%
+    ) !important;
+  box-shadow:
+    0 25px 70px rgba(0,0,0,.35),
+    0 0 45px rgba(46,255,169,.06),
+    inset 0 1px 0 rgba(255,255,255,.07) !important;
+}
+
+/* =========================================================
+   THUMBNAILS — FORCE THEM INTO THE LEFT COLUMN
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnails {
+  position: static !important;
+  inset: auto !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  align-self: start !important;
+  justify-self: start !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 14px !important;
+  width: 92px !important;
+  height: auto !important;
+  max-height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  z-index: 20 !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail {
+  position: relative !important;
+  inset: auto !important;
+  flex: 0 0 78px !important;
+  width: 92px !important;
+  height: 78px !important;
+  min-width: 92px !important;
+  min-height: 78px !important;
+  max-width: 92px !important;
+  max-height: 78px !important;
+  margin: 0 !important;
+  padding: 3px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(70,255,176,.22) !important;
+  border-radius: 16px !important;
+  background: rgba(2,39,29,.88) !important;
+  opacity: .58 !important;
+  overflow: hidden !important;
+  transform: none !important;
+  transition: all .25s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail img {
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+  border-radius: 12px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail:hover {
+  opacity: 1 !important;
+  transform: translateX(3px) !important;
+  border-color: rgba(66,255,175,.65) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  transform: translateX(4px) !important;
+  border: 2px solid #40f6a6 !important;
+  box-shadow:
+    0 0 0 2px rgba(64,246,166,.12),
+    0 0 25px rgba(64,246,166,.32) !important;
+}
+
+/* =========================================================
+   MAIN IMAGE — WIDE REFERENCE FRAME
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main {
+  position: relative !important;
+  inset: auto !important;
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  align-self: start !important;
+  justify-self: stretch !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  aspect-ratio: 16 / 10 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(67,255,177,.55) !important;
+  border-radius: 25px !important;
+  background: #062d21 !important;
+  box-shadow:
+    0 20px 50px rgba(0,0,0,.32),
+    inset 0 1px 0 rgba(255,255,255,.07) !important;
+}
+
+/* Actual product image */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-image {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  display: block !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 24px !important;
+  transform: none !important;
+  filter: saturate(.98) contrast(1.02) !important;
+  transition: transform .5s ease, filter .3s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main:hover
+.product-detail-gallery-image {
+  transform: scale(1.018) !important;
+  filter: saturate(1.04) contrast(1.03) !important;
+}
+
+/* =========================================================
+   REMOVE ALL UNWANTED GALLERY OVERLAYS
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::before,
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::after {
+  content: none !important;
+}
+
+/* Hide the unwanted "Recycled & responsibly sourced" overlay */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="badge"],
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="label"] {
+  display: none !important;
+}
+
+/* =========================================================
+   ARROW CONTROLS
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav {
+  position: absolute !important;
+  top: 50% !important;
+  width: 48px !important;
+  height: 48px !important;
+  z-index: 30 !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(70,255,177,.34) !important;
+  border-radius: 50% !important;
+  background: rgba(2,48,35,.82) !important;
+  color: #e2fff0 !important;
+  box-shadow:
+    0 10px 28px rgba(0,0,0,.32),
+    0 0 20px rgba(54,255,168,.08) !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav.prev {
+  left: calc(92px + 18px + 20px) !important;
+  transform: translateY(-50%) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav.next {
+  right: 20px !important;
+  transform: translateY(-50%) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav:hover {
+  background: rgba(5,88,61,.94) !important;
+  border-color: #50ffb0 !important;
+  box-shadow:
+    0 0 28px rgba(58,255,169,.22),
+    0 12px 30px rgba(0,0,0,.35) !important;
+}
+
+/* =========================================================
+   1 / 4 COUNTER
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-counter {
+  position: absolute !important;
+  right: 22px !important;
+  bottom: 22px !important;
+  z-index: 31 !important;
+  padding: 9px 16px !important;
+  border: 1px solid rgba(74,255,178,.30) !important;
+  border-radius: 999px !important;
+  background: rgba(2,43,31,.86) !important;
+  color: #effff7 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  letter-spacing: .08em !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+/* =========================================================
+   MATERIAL FOOTER
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  --gallery-footer-height: 70px;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+  content: "RECYCLED MATERIAL" !important;
+  position: absolute !important;
+  left: 116px !important;
+  right: 18px !important;
+  bottom: 18px !important;
+  height: var(--gallery-footer-height) !important;
+  display: flex !important;
+  align-items: center !important;
+  padding-left: 30px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(72,255,174,.13) !important;
+  border-radius: 18px !important;
+  background: rgba(2,42,31,.55) !important;
+  color: rgba(225,255,239,.88) !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  letter-spacing: .20em !important;
+  pointer-events: none !important;
+  backdrop-filter: blur(14px) !important;
+}
+
+/* =========================================================
+   DESKTOP — KEEP THE IMAGE WIDE
+   ========================================================= */
+
+@media (min-width: 1100px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    min-height: 650px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    aspect-ratio: 16 / 10 !important;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 72px minmax(0,1fr) !important;
+    gap: 12px !important;
+    padding: 13px !important;
+    padding-bottom: 82px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    width: 72px !important;
+    gap: 10px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    width: 72px !important;
+    min-width: 72px !important;
+    height: 66px !important;
+    min-height: 66px !important;
+    flex-basis: 66px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav.prev {
+    left: 105px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+    left: 97px !important;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 600px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 10px !important;
+    padding: 9px !important;
+    padding-bottom: 70px !important;
+    border-radius: 24px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+    aspect-ratio: 4 / 3 !important;
+    border-radius: 20px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    grid-column: 1 !important;
+    grid-row: 2 !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    flex: 0 0 68px !important;
+    width: 68px !important;
+    min-width: 68px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav.prev {
+    left: 14px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-nav.next {
+    right: 14px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)::after {
+    left: 9px !important;
+    right: 9px !important;
+    bottom: 9px !important;
+    height: 48px !important;
+  }
+}
+
+/* =========================================================
+   GREENCORE PRODUCT GALLERY — CLEAN FINAL
+   ========================================================= */
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main) {
+  position: relative !important;
+  display: grid !important;
+  grid-template-columns: 82px minmax(0, 1fr) !important;
+  grid-template-rows: auto auto !important;
+  gap: 14px !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  padding: 14px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(55, 255, 174, .32) !important;
+  border-radius: 24px !important;
+  background:
+    linear-gradient(145deg, rgba(5, 55, 41, .82), rgba(2, 28, 21, .96)) !important;
+  box-shadow:
+    0 20px 55px rgba(0,0,0,.25),
+    inset 0 1px 0 rgba(255,255,255,.05) !important;
+  overflow: hidden !important;
+}
+
+/* LEFT THUMBNAILS */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnails {
+  position: static !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px !important;
+  width: 82px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border: 0 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  overflow: visible !important;
+  align-self: start !important;
+  z-index: 5 !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail {
+  position: relative !important;
+  inset: auto !important;
+  flex: 0 0 70px !important;
+  width: 82px !important;
+  height: 70px !important;
+  min-width: 82px !important;
+  min-height: 70px !important;
+  max-width: 82px !important;
+  max-height: 70px !important;
+  margin: 0 !important;
+  padding: 2px !important;
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(76,255,178,.20) !important;
+  border-radius: 12px !important;
+  background: rgba(3,42,31,.75) !important;
+  opacity: .58 !important;
+  transform: none !important;
+  cursor: pointer !important;
+  transition: all .2s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail img {
+  position: static !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 9px !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail:hover {
+  opacity: 1 !important;
+  transform: translateX(2px) !important;
+  border-color: rgba(75,255,178,.55) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  transform: translateX(2px) !important;
+  border: 2px solid #45f5a8 !important;
+  box-shadow:
+    0 0 0 1px rgba(69,245,168,.14),
+    0 0 16px rgba(69,245,168,.20) !important;
+}
+
+/* MAIN IMAGE */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main {
+  position: relative !important;
+  inset: auto !important;
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  height: auto !important;
+  min-width: 0 !important;
+  min-height: 0 !important;
+  aspect-ratio: 1.38 / 1 !important;
+  overflow: hidden !important;
+  border: 1px solid rgba(69,255,177,.36) !important;
+  border-radius: 20px !important;
+  background: #052d21 !important;
+  box-shadow:
+    0 16px 38px rgba(0,0,0,.24),
+    inset 0 1px 0 rgba(255,255,255,.06) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-image {
+  position: absolute !important;
+  inset: 0 !important;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border-radius: 19px !important;
+  transform: none !important;
+  transition: transform .35s ease !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main:hover
+.product-detail-gallery-image {
+  transform: scale(1.015) !important;
+}
+
+/* NAVIGATION */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav {
+  position: absolute !important;
+  top: 50% !important;
+  z-index: 10 !important;
+  width: 40px !important;
+  height: 40px !important;
+  display: grid !important;
+  place-items: center !important;
+  border: 1px solid rgba(75,255,178,.30) !important;
+  border-radius: 50% !important;
+  background: rgba(2,45,33,.78) !important;
+  color: #dffff0 !important;
+  backdrop-filter: blur(10px) !important;
+  box-shadow: 0 8px 20px rgba(0,0,0,.28) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav.prev {
+  left: 14px !important;
+  transform: translateY(-50%) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav.next {
+  right: 14px !important;
+  transform: translateY(-50%) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-nav:hover {
+  background: rgba(5,82,58,.92) !important;
+  border-color: #4dffae !important;
+}
+
+/* COUNTER */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-counter {
+  position: absolute !important;
+  right: 14px !important;
+  bottom: 14px !important;
+  z-index: 11 !important;
+  padding: 7px 11px !important;
+  border: 1px solid rgba(76,255,179,.28) !important;
+  border-radius: 999px !important;
+  background: rgba(2,40,29,.82) !important;
+  color: #fff !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* REMOVE ALL GALLERY PSEUDO CONTENT */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::before,
+.product-details-layout > :first-child:has(.product-detail-gallery-main)::after,
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::before,
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main::after {
+  content: none !important;
+}
+
+/* REMOVE UNWANTED GALLERY BADGES */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="badge"],
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="label"] {
+  display: none !important;
+}
+
+/* NO EXTRA MATERIAL FOOTER */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + * {
+  display: none !important;
+}
+
+/* TABLET */
+@media (max-width: 900px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    grid-template-columns: 68px minmax(0,1fr) !important;
+    gap: 10px !important;
+    padding: 10px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    width: 68px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    width: 68px !important;
+    min-width: 68px !important;
+    height: 60px !important;
+    min-height: 60px !important;
+    flex-basis: 60px !important;
+  }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main) {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 9px !important;
+    padding: 8px !important;
+    border-radius: 20px !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-main {
+    order: 1 !important;
+    width: 100% !important;
+    aspect-ratio: 1.15 / 1 !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    order: 2 !important;
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnail {
+    flex: 0 0 62px !important;
+    width: 62px !important;
+    min-width: 62px !important;
+    height: 56px !important;
+    min-height: 56px !important;
+  }
+}
+
+
+/* =========================================================
+   GALLERY — RESTORE LEFT THUMBNAILS
+   ========================================================= */
+
+/* Never hide the thumbnail gallery */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + .product-detail-gallery-thumbnails {
+  display: flex !important;
+  position: static !important;
+  grid-column: 1 !important;
+  grid-row: 1 !important;
+  width: 82px !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  gap: 10px !important;
+  overflow: visible !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 20 !important;
+}
+
+/* Thumbnail boxes */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + .product-detail-gallery-thumbnails
+.product-detail-gallery-thumbnail {
+  display: block !important;
+  position: relative !important;
+  width: 82px !important;
+  height: 70px !important;
+  min-width: 82px !important;
+  min-height: 70px !important;
+  flex: 0 0 70px !important;
+  padding: 2px !important;
+  margin: 0 !important;
+  overflow: hidden !important;
+  visibility: visible !important;
+  opacity: .58 !important;
+  border: 1px solid rgba(70,255,176,.25) !important;
+  border-radius: 12px !important;
+  background: rgba(3,42,31,.85) !important;
+  cursor: pointer !important;
+  box-sizing: border-box !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + .product-detail-gallery-thumbnails
+.product-detail-gallery-thumbnail.active {
+  opacity: 1 !important;
+  border: 2px solid #45f5a8 !important;
+  box-shadow:
+    0 0 0 1px rgba(69,245,168,.18),
+    0 0 18px rgba(69,245,168,.22) !important;
+}
+
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + .product-detail-gallery-thumbnails
+.product-detail-gallery-thumbnail img {
+  display: block !important;
+  position: static !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 9px !important;
+}
+
+/* Remove accidental hiding rule from previous version */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main + * {
+  display: revert !important;
+}
+
+/* But keep thumbnails visible even if an older rule interferes */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-thumbnails {
+  display: flex !important;
+}
+
+/* Remove unwanted gallery badge/icon overlays */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="badge"],
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main [class*="label"] {
+  display: none !important;
+}
+
+/* Main gallery remains on the right */
+.product-details-layout > :first-child:has(.product-detail-gallery-main)
+.product-detail-gallery-main {
+  grid-column: 2 !important;
+  grid-row: 1 !important;
+  width: 100% !important;
+  aspect-ratio: 1.38 / 1 !important;
+}
+
+/* Desktop thumbnail proportions */
+@media (min-width: 901px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    grid-column: 1 !important;
+    grid-row: 1 !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .product-details-layout > :first-child:has(.product-detail-gallery-main)
+  .product-detail-gallery-thumbnails {
+    flex-direction: row !important;
+    width: 100% !important;
+    overflow-x: auto !important;
+  }
+}
+
+
+/* =========================================================
+   GREENCORE SHOP CARDS — FULL PRODUCT IMAGE
+   ========================================================= */
+
+/* Full visual area */
+.shop-product-visual {
+  position: relative !important;
+  width: 100% !important;
+  height: 285px !important;
+  min-height: 285px !important;
+  padding: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  background:
+    linear-gradient(145deg, #edf7ee 0%, #dcefe1 100%) !important;
+}
+
+/* Image wrapper fills the complete visual */
+.shop-product-image-wrap {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+}
+
+/* Show the COMPLETE uploaded image */
+.shop-product-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  object-fit: contain !important;
+  object-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent !important;
+  transform: none !important;
+  transition: transform .4s ease !important;
+}
+
+/* Gentle zoom without cropping the initial image */
+.shop-product-card:hover .shop-product-image {
+  transform: scale(1.025) !important;
+}
+
+/* Remove the old decorative orb when a real image exists */
+.shop-product-image-wrap ~ .shop-product-orb,
+.shop-product-visual:has(.shop-product-image-wrap) .shop-product-orb {
+  display: none !important;
+}
+
+/* Keep the eco label above the image */
+.shop-product-visual .shop-eco-label {
+  z-index: 10 !important;
+}
+
+/* Keep wishlist above the image */
+.shop-product-visual .shop-favorite {
+  z-index: 11 !important;
+}
+
+/* Material label stays readable over image */
+.shop-product-visual .shop-product-material {
+  z-index: 10 !important;
+  right: 12px !important;
+  bottom: 10px !important;
+  padding: 5px 7px !important;
+  border-radius: 6px !important;
+  background: rgba(235,248,238,.72) !important;
+  color: #52776a !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* =========================================================
+   RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 900px) {
+  .shop-product-visual {
+    height: 260px !important;
+    min-height: 260px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .shop-product-visual {
+    height: 250px !important;
+    min-height: 250px !important;
+  }
+}
+
+
+/* =========================================================
+   GREENCORE — PREMIUM SHOP PRODUCT CARD
+   Full-width product photography
+   ========================================================= */
+
+.shop-product-card {
+  overflow: hidden !important;
+  border: 1px solid rgba(66, 245, 168, .28) !important;
+  border-radius: 22px !important;
+  background:
+    linear-gradient(
+      180deg,
+      #063b2b 0%,
+      #022f23 48%,
+      #02281e 100%
+    ) !important;
+  box-shadow:
+    0 18px 45px rgba(0,0,0,.20),
+    inset 0 1px 0 rgba(255,255,255,.05) !important;
+}
+
+/* ---------------------------------------------------------
+   IMAGE AREA
+   --------------------------------------------------------- */
+
+.shop-product-visual {
+  position: relative !important;
+  width: 100% !important;
+  height: auto !important;
+  min-height: 0 !important;
+  aspect-ratio: 1.48 / 1 !important;
+  padding: 0 !important;
+  display: block !important;
+  overflow: hidden !important;
+  background: #e7f2e9 !important;
+}
+
+/* Real image fills the complete photography area */
+.shop-product-image-wrap {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: #e7f2e9 !important;
+}
+
+/* Keep complete photograph visible */
+.shop-product-image {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  max-width: none !important;
+  max-height: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  object-fit: cover !important;
+  object-position: center !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  transform: none !important;
+  transition: transform .45s cubic-bezier(.2,.7,.2,1) !important;
+}
+
+/* Very subtle premium hover */
+.shop-product-card:hover .shop-product-image {
+  transform: scale(1.025) !important;
+}
+
+/* Remove old decorative orb whenever a real photo exists */
+.shop-product-visual:has(.shop-product-image-wrap) .shop-product-orb {
+  display: none !important;
+}
+
+/* Remove any old image-frame decoration */
+.shop-product-image-wrap::before,
+.shop-product-image-wrap::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ---------------------------------------------------------
+   ECO BADGE
+   --------------------------------------------------------- */
+
+.shop-product-visual .shop-eco-label {
+  position: absolute !important;
+  top: 13px !important;
+  left: 13px !important;
+  z-index: 20 !important;
+  padding: 7px 10px !important;
+  border: 1px solid rgba(255,255,255,.35) !important;
+  border-radius: 999px !important;
+  background: rgba(255,255,255,.88) !important;
+  color: #6ca58a !important;
+  font-size: 7px !important;
+  font-weight: 900 !important;
+  letter-spacing: .07em !important;
+  box-shadow: 0 5px 18px rgba(0,0,0,.08) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+/* ---------------------------------------------------------
+   WISHLIST
+   --------------------------------------------------------- */
+
+.shop-product-visual .shop-favorite {
+  position: absolute !important;
+  top: 13px !important;
+  right: 13px !important;
+  z-index: 20 !important;
+  width: 38px !important;
+  height: 38px !important;
+  border: 1px solid rgba(255,255,255,.28) !important;
+  background: rgba(8,78,57,.82) !important;
+  color: #8ef4c0 !important;
+  box-shadow: 0 7px 18px rgba(0,0,0,.18) !important;
+  backdrop-filter: blur(10px) !important;
+}
+
+.shop-product-visual .shop-favorite:hover,
+.shop-product-visual .shop-favorite.active {
+  color: #8ef4c0 !important;
+  background: rgba(5,95,67,.92) !important;
+}
+
+/* ---------------------------------------------------------
+   MATERIAL LABEL — OVERLAY, NOT A GREEN STRIP
+   --------------------------------------------------------- */
+
+.shop-product-visual .shop-product-material {
+  position: absolute !important;
+  right: 12px !important;
+  bottom: 11px !important;
+  z-index: 20 !important;
+  padding: 5px 8px !important;
+  border-radius: 6px !important;
+  background: rgba(240,249,242,.82) !important;
+  color: #54796b !important;
+  font-size: 7px !important;
+  font-weight: 900 !important;
+  letter-spacing: .10em !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+/* ---------------------------------------------------------
+   CONTENT
+   --------------------------------------------------------- */
+
+.shop-product-content {
+  padding: 16px 16px 15px !important;
+}
+
+/* Rating */
+.shop-product-content .shop-rating {
+  margin-bottom: 7px !important;
+}
+
+.shop-product-content .shop-rating span {
+  font-weight: 800 !important;
+}
+
+.shop-product-content .shop-rating small {
+  opacity: .62 !important;
+}
+
+/* Product name */
+.shop-product-content .shop-product-title {
+  display: block !important;
+  margin-bottom: 14px !important;
+  color: #f2fff8 !important;
+  font-size: 16px !important;
+  line-height: 1.18 !important;
+  font-weight: 850 !important;
+  letter-spacing: -.025em !important;
+}
+
+/* ---------------------------------------------------------
+   ACTION BUTTONS
+   --------------------------------------------------------- */
+
+.shop-product-actions {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 9px !important;
+  margin-bottom: 13px !important;
+}
+
+.shop-product-actions button {
+  width: 100% !important;
+  min-height: 43px !important;
+  border-radius: 11px !important;
+  font-weight: 800 !important;
+  transition:
+    transform .2s ease,
+    background .2s ease,
+    border-color .2s ease,
+    box-shadow .2s ease !important;
+}
+
+.shop-buy-now {
+  border: 1px solid rgba(65,245,168,.28) !important;
+  background: rgba(4,72,52,.52) !important;
+  color: #e9fff3 !important;
+}
+
+.shop-buy-now:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(7,91,64,.72) !important;
+  border-color: rgba(65,245,168,.52) !important;
+  box-shadow: 0 7px 20px rgba(0,0,0,.14) !important;
+}
+
+.shop-add-cart {
+  border: 1px solid rgba(65,245,168,.24) !important;
+  background: rgba(2,55,40,.48) !important;
+  color: #e9fff3 !important;
+}
+
+.shop-add-cart:hover {
+  transform: translateY(-1px) !important;
+  background: rgba(6,77,55,.70) !important;
+  border-color: rgba(65,245,168,.48) !important;
+}
+
+/* ---------------------------------------------------------
+   BENEFITS
+   --------------------------------------------------------- */
+
+.shop-product-benefits {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 5px !important;
+  padding: 11px 0 !important;
+  border-top: 1px solid rgba(214,255,231,.22) !important;
+  border-bottom: 1px solid rgba(214,255,231,.22) !important;
+}
+
+.shop-product-benefits span {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 5px !important;
+  color: rgba(218,246,229,.76) !important;
+  font-size: 8px !important;
+  font-weight: 700 !important;
+  white-space: nowrap !important;
+}
+
+.shop-product-benefits span + span {
+  border-left: 1px solid rgba(214,255,231,.25) !important;
+  padding-left: 9px !important;
+}
+
+/* Description */
+.shop-product-content > p {
+  margin: 12px 0 14px !important;
+  color: rgba(213,239,224,.70) !important;
+  font-size: 12px !important;
+  line-height: 1.55 !important;
+}
+
+/* ---------------------------------------------------------
+   PRICE + VIEW
+   --------------------------------------------------------- */
+
+.shop-product-bottom {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: space-between !important;
+  gap: 10px !important;
+}
+
+.shop-product-bottom strong {
+  color: #74d9a5 !important;
+  font-size: 16px !important;
+  font-weight: 850 !important;
+  letter-spacing: -.02em !important;
+}
+
+.shop-product-button {
+  min-width: 68px !important;
+  height: 35px !important;
+  padding: 0 12px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 6px !important;
+  border-radius: 10px !important;
+  background: linear-gradient(135deg,#07945e,#0dbb72) !important;
+  color: white !important;
+  font-size: 10px !important;
+  font-weight: 850 !important;
+  box-shadow: 0 8px 20px rgba(0,150,92,.18) !important;
+  transition: transform .2s ease, box-shadow .2s ease !important;
+}
+
+.shop-product-button:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 10px 24px rgba(0,150,92,.26) !important;
+}
+
+/* ---------------------------------------------------------
+   RESPONSIVE
+   --------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  .shop-product-visual {
+    aspect-ratio: 1.48 / 1 !important;
+  }
+
+  .shop-product-content {
+    padding: 14px !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .shop-product-visual {
+    aspect-ratio: 1.48 / 1 !important;
+  }
+
+  .shop-product-content .shop-product-title {
+    font-size: 15px !important;
+  }
+}
+
+
+/* ECO CHOICE — HIGH VISIBILITY */
+.shop-product-visual .shop-eco-label {
+  top: 14px !important;
+  left: 14px !important;
+  z-index: 50 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 8px 12px !important;
+  min-height: 32px !important;
+  box-sizing: border-box !important;
+  border: 1px solid rgba(255,255,255,.55) !important;
+  border-radius: 999px !important;
+  background: rgba(248,255,250,.96) !important;
+  color: #238b61 !important;
+  font-size: 8px !important;
+  font-weight: 900 !important;
+  letter-spacing: .08em !important;
+  line-height: 1 !important;
+  white-space: nowrap !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  box-shadow:
+    0 5px 18px rgba(0,0,0,.20),
+    0 0 0 1px rgba(35,139,97,.08) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+}
+
+.shop-product-visual .shop-eco-label svg {
+  width: 13px !important;
+  height: 13px !important;
+  color: #35b77b !important;
+  opacity: 1 !important;
+  stroke-width: 2 !important;
+}
+
+
+/* =========================================================
+   GALLERY HERO — CLEAN FUTURISTIC DECORATION
+   Removes the oversized decorative artwork and keeps the
+   hero clean, balanced and premium.
+   ========================================================= */
+
+.gallery-page [class*="hero-orb"],
+.gallery-page [class*="hero-globe"],
+.gallery-page [class*="hero-art"],
+.gallery-page [class*="hero-visual"],
+.gallery-page [class*="hero-decoration"],
+.gallery-page [class*="gallery-orb"],
+.gallery-page [class*="gallery-globe"],
+.gallery-page [class*="gallery-decoration"],
+.gallery-page [class*="hero-side"] {
+  display: none !important;
+}
+
+/* Hide the old decorative People / Ideas / Impact block */
+.gallery-page [class*="People"],
+.gallery-page [class*="people"],
+.gallery-page [class*="hero-words"],
+.gallery-page [class*="hero-caption"],
+.gallery-page [class*="hero-side-text"] {
+  display: none !important;
+}
+
+/* Give the hero a clean futuristic atmosphere */
+.gallery-page .gallery-hero,
+.gallery-page [class*="gallery-hero"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Subtle ambient glow — CSS only */
+.gallery-page .gallery-hero::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  right: 4%;
+  top: -230px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(35, 220, 139, 0.16) 0%,
+      rgba(35, 220, 139, 0.07) 32%,
+      rgba(35, 220, 139, 0.025) 55%,
+      transparent 72%
+    );
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Small futuristic ring instead of the huge old graphic */
+.gallery-page .gallery-hero::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: 12%;
+  top: -145px;
+  border: 1px solid rgba(68, 230, 155, 0.16);
+  border-radius: 50%;
+  box-shadow:
+    0 0 70px rgba(30, 210, 125, 0.08),
+    inset 0 0 50px rgba(30, 210, 125, 0.035);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Keep hero content properly centered */
+.gallery-page .gallery-hero > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Prevent oversized decorative SVGs from escaping the hero */
+.gallery-page .gallery-hero svg {
+  max-width: 100%;
+}
+
+/* Mobile: remove decorative ring entirely */
+@media (max-width: 768px) {
+  .gallery-page .gallery-hero::before,
+  .gallery-page .gallery-hero::after {
+    display: none;
+  }
+}
+
+/* =========================================================
+   GALLERY HERO — CLEAN FUTURISTIC DECORATION
+   Removes the oversized decorative artwork and keeps the
+   hero clean, balanced and premium.
+   ========================================================= */
+
+.gallery-page [class*="hero-orb"],
+.gallery-page [class*="hero-globe"],
+.gallery-page [class*="hero-art"],
+.gallery-page [class*="hero-visual"],
+.gallery-page [class*="hero-decoration"],
+.gallery-page [class*="gallery-orb"],
+.gallery-page [class*="gallery-globe"],
+.gallery-page [class*="gallery-decoration"],
+.gallery-page [class*="hero-side"] {
+  display: none !important;
+}
+
+/* Hide the old decorative People / Ideas / Impact block */
+.gallery-page [class*="People"],
+.gallery-page [class*="people"],
+.gallery-page [class*="hero-words"],
+.gallery-page [class*="hero-caption"],
+.gallery-page [class*="hero-side-text"] {
+  display: none !important;
+}
+
+/* Give the hero a clean futuristic atmosphere */
+.gallery-page .gallery-hero,
+.gallery-page [class*="gallery-hero"] {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+}
+
+/* Subtle ambient glow — CSS only */
+.gallery-page .gallery-hero::before {
+  content: "";
+  position: absolute;
+  width: 520px;
+  height: 520px;
+  right: 4%;
+  top: -230px;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle,
+      rgba(35, 220, 139, 0.16) 0%,
+      rgba(35, 220, 139, 0.07) 32%,
+      rgba(35, 220, 139, 0.025) 55%,
+      transparent 72%
+    );
+  filter: blur(8px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Small futuristic ring instead of the huge old graphic */
+.gallery-page .gallery-hero::after {
+  content: "";
+  position: absolute;
+  width: 280px;
+  height: 280px;
+  right: 12%;
+  top: -145px;
+  border: 1px solid rgba(68, 230, 155, 0.16);
+  border-radius: 50%;
+  box-shadow:
+    0 0 70px rgba(30, 210, 125, 0.08),
+    inset 0 0 50px rgba(30, 210, 125, 0.035);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Keep hero content properly centered */
+.gallery-page .gallery-hero > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* Prevent oversized decorative SVGs from escaping the hero */
+.gallery-page .gallery-hero svg {
+  max-width: 100%;
+}
+
+/* Mobile: remove decorative ring entirely */
+@media (max-width: 768px) {
+  .gallery-page .gallery-hero::before,
+  .gallery-page .gallery-hero::after {
+    display: none;
+  }
 }
