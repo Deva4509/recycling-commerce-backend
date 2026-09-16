@@ -15,6 +15,7 @@ import {
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 import { products } from "../data/products";
+import { getProducts } from "../lib/api";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
 
@@ -43,6 +44,27 @@ export default function Shop() {
   const [category, setCategory] = useState("all");
   const [sort, setSort] = useState("featured");
   const { favorites, isFavorite, toggleFavorite } = useFavorites();
+  const [backendProducts, setBackendProducts] = useState<
+    Awaited<ReturnType<typeof getProducts>>
+  >([]);
+
+  useEffect(() => {
+    let mounted = true;
+
+    getProducts()
+      .then((data) => {
+        if (mounted) {
+          setBackendProducts(data);
+        }
+      })
+      .catch((error) => {
+        console.error("GreenCore: failed to load product images:", error);
+      });
+
+    return () => {
+      mounted = false;
+    };
+  }, []);
 
   useEffect(() => {
     setSearch(urlSearch);
@@ -280,9 +302,47 @@ export default function Shop() {
                         />
                       </button>
 
-                      <div className="shop-product-orb">
-                        <Leaf size={65} strokeWidth={1.15} />
-                      </div>
+                      {(() => {
+                        const backendProduct = backendProducts.find(
+                          (item) =>
+                            item.slug === product.slug ||
+                            item.sku === product.sku ||
+                            item.name === product.name
+                        );
+
+                        const galleryImages = [
+                          ...(backendProduct?.images ?? []),
+                        ].sort(
+                          (a, b) =>
+                            Number(b.is_primary) - Number(a.is_primary) ||
+                            a.sort_order - b.sort_order
+                        );
+
+                        const primaryImage =
+                          galleryImages.find((image) => image.is_primary)
+                            ?.image_url ||
+                          galleryImages[0]?.image_url;
+
+                        return primaryImage ? (
+                          <div className="shop-product-image-wrap">
+                            <img
+                              src={primaryImage}
+                              alt={
+                                galleryImages.find(
+                                  (image) => image.is_primary
+                                )?.alt_text ||
+                                `${product.name} product image`
+                              }
+                              className="shop-product-image"
+                              loading="lazy"
+                            />
+                          </div>
+                        ) : (
+                          <div className="shop-product-orb">
+                            <Leaf size={65} strokeWidth={1.15} />
+                          </div>
+                        );
+                      })()}
 
                       <div className="shop-product-material">
                         RECYCLED MATERIAL

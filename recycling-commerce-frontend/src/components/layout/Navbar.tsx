@@ -25,6 +25,7 @@ const navItems = [
   { label: "Categories", to: "/categories" },
   { label: "Calculator", to: "/calculator" },
   { label: "Vision & Mission", to: "/vision-mission" },
+    { label: "Gallery", to: "/gallery" },
 ];
 
 export default function Navbar() {
@@ -76,7 +77,7 @@ export default function Navbar() {
           {navItems.map((item) => (
             <NavLink
               key={item.to}
-              to={item.to}
+              to={item.to} end={item.to === "/"}
               className={({ isActive }) =>
                 `site-nav-link ${isActive ? "active" : ""}`
               }
@@ -154,7 +155,7 @@ export default function Navbar() {
         {navItems.map((item) => (
           <NavLink
             key={item.to}
-            to={item.to}
+            to={item.to} end={item.to === "/"}
             onClick={closeMobile}
             className={({ isActive }) =>
               `mobile-nav-link ${isActive ? "active" : ""}`
