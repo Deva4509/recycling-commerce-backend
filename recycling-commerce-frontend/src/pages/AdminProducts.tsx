@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import {
   createAdminProduct,
-  deactivateAdminProduct,
+  deleteAdminProduct,
   getAdminProducts,
   getCategories,
   updateAdminProduct,
@@ -472,10 +472,10 @@ export default function AdminProducts() {
     }
   }
 
-  async function deactivate(product: ApiProduct) {
+  async function deleteProduct(product: ApiProduct) {
     if (
       !window.confirm(
-        `Deactivate "${product.name}"? It will no longer appear in the customer catalog.`,
+        `Permanently delete "${product.name}"? This cannot be undone.`,
       )
     ) {
       return;
@@ -485,18 +485,19 @@ export default function AdminProducts() {
     setError("");
 
     try {
-      await deactivateAdminProduct(product.id);
+      await deleteAdminProduct(product.id);
       await load();
     } catch (err) {
       setError(
         err instanceof Error
           ? err.message
-          : "Unable to deactivate the product.",
+          : "Unable to permanently delete the product.",
       );
     } finally {
       setActionId(null);
     }
   }
+
 
   if (loading) {
     return (
@@ -615,22 +616,13 @@ export default function AdminProducts() {
           </select>
 
           <div className="rp-admin-product-filters">
-            {(["ALL", "ACTIVE", "INACTIVE"] as const).map(
-              (value) => (
-                <button
-                  type="button"
-                  key={value}
-                  className={filter === value ? "active" : ""}
-                  onClick={() => setFilter(value)}
-                >
-                  {value === "ALL"
-                    ? "All"
-                    : value === "ACTIVE"
-                      ? "Active"
-                      : "Inactive"}
-                </button>
-              ),
-            )}
+            <button
+              type="button"
+              className="active"
+              onClick={() => setFilter("ALL")}
+            >
+              All
+            </button>
           </div>
         </div>
 
@@ -719,24 +711,22 @@ export default function AdminProducts() {
                       )}
                     </button>
 
-                    {active && (
-                      <button
-                        type="button"
-                        className="danger"
-                        title="Deactivate product"
-                        disabled={actionId === product.id}
-                        onClick={() => void deactivate(product)}
-                      >
-                        {actionId === product.id ? (
-                          <LoaderCircle
-                            size={15}
-                            className="rp-spin"
-                          />
-                        ) : (
-                          <Trash2 size={15} />
-                        )}
-                      </button>
-                    )}
+                    <button
+                      type="button"
+                      className="danger"
+                      title="Permanently delete product"
+                      disabled={actionId === product.id}
+                      onClick={() => void deleteProduct(product)}
+                    >
+                      {actionId === product.id ? (
+                        <LoaderCircle
+                          size={15}
+                          className="rp-spin"
+                        />
+                      ) : (
+                        <Trash2 size={15} />
+                      )}
+                    </button>
                   </div>
                 </div>
               );

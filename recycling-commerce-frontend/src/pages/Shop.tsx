@@ -14,7 +14,6 @@ import {
 } from "lucide-react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
-import { products } from "../data/products";
 import { getProducts } from "../lib/api";
 import { useCart } from "../context/CartContext";
 import { useFavorites } from "../context/FavoritesContext";
@@ -73,7 +72,7 @@ export default function Shop() {
   const filteredProducts = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    const filtered = products.filter((product) => {
+    const filtered = backendProducts.filter((product) => {
       const matchesCategory =
         category === "all" || product.category_id === category;
 
@@ -103,30 +102,25 @@ export default function Shop() {
   }, [search, category, sort]);
 
   function handleAddToCart(productId: string) {
-    const product = products.find((item) => item.id === productId);
+    const product = backendProducts.find((item) => item.id === productId);
 
     if (!product) {
       console.error("GreenCore: product not found:", productId);
       return;
     }
 
-    addToCart(product, 1);
+    addToCart(product as Parameters<typeof addToCart>[0], 1);
   }
 
   function handleBuyNow(productId: string) {
-    const product = products.find((item) => item.id === productId);
+    const product = backendProducts.find((item) => item.id === productId);
 
     if (!product) {
       console.error("GreenCore: product not found:", productId);
       return;
     }
 
-    navigate("/checkout", {
-      state: {
-        buyNowProduct: product,
-        quantity: 1,
-      },
-    });
+    navigate(`/product/${product.slug}`);
   }
 
   return (
@@ -303,15 +297,8 @@ export default function Shop() {
                       </button>
 
                       {(() => {
-                        const backendProduct = backendProducts.find(
-                          (item) =>
-                            item.slug === product.slug ||
-                            item.sku === product.sku ||
-                            item.name === product.name
-                        );
-
                         const galleryImages = [
-                          ...(backendProduct?.images ?? []),
+                          ...(product.images ?? []),
                         ].sort(
                           (a, b) =>
                             Number(b.is_primary) - Number(a.is_primary) ||
@@ -407,7 +394,7 @@ export default function Shop() {
                       </p>
 
                       <div className="shop-product-bottom">
-                        <strong>{formatPrice(product.base_price)}</strong>
+                        <strong>{formatPrice(product.base_price ?? 0)}</strong>
 
                         <Link
                           to={`/product/${product.slug}`}

@@ -267,7 +267,7 @@ export const updateAdminProduct = (
     body: JSON.stringify(payload),
   });
 
-export const deactivateAdminProduct = (productId: string) =>
+export const deleteAdminProduct = (productId: string) =>
   request<void>(`/admin/products/${productId}`, {
     method: "DELETE",
   });
