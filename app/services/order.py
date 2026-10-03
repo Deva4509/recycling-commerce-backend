@@ -266,6 +266,39 @@ class OrderService:
                 f"'{order.status}'."
             )
 
+        inventory = InventoryService(self.session)
+
+        for item in order.items:
+            inventory_item = (
+                inventory.repository.get_item_by_product_location(
+                    item.product_id,
+                    item.location_id,
+                    for_update=True,
+                )
+            )
+
+            if inventory_item is None:
+                continue
+
+            if order.payment_status == PaymentStatus.PAID.value:
+                inventory.return_stock(
+                    inventory_item_id=inventory_item.id,
+                    quantity=item.quantity,
+                    reference_id=order.id,
+                    reason=f"Cancelled order {order.order_number}",
+                )
+            else:
+                reserved = min(
+                    item.quantity,
+                    inventory_item.reserved_quantity,
+                )
+
+                if reserved > 0:
+                    inventory.release_reservation(
+                        inventory_item_id=inventory_item.id,
+                        quantity=reserved,
+                    )
+
         order.status = OrderStatus.CANCELLED.value
         self.session.flush()
 

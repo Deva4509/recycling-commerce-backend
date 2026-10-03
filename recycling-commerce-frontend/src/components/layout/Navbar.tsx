@@ -25,7 +25,7 @@ const navItems = [
   { label: "Categories", to: "/categories" },
   { label: "Calculator", to: "/calculator" },
   { label: "Vision & Mission", to: "/vision-mission" },
-    { label: "Gallery", to: "/gallery" },
+  { label: "Gallery", to: "/gallery" },  { label: "Orders", to: "/account/orders" },
 ];
 
 export default function Navbar() {
@@ -74,7 +74,9 @@ export default function Navbar() {
         </Link>
 
         <nav className="site-nav">
-          {navItems.map((item) => (
+          {navItems
+              .filter((item) => item.to !== "/account/orders" || isAuthenticated)
+              .map((item) => (
             <NavLink
               key={item.to}
               to={item.to} end={item.to === "/"}

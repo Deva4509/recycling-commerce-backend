@@ -7,6 +7,11 @@ from app.database.models.order import Order, PaymentStatus as OrderPaymentStatus
 from app.database.models.payment import Payment, PaymentMethod, PaymentStatus
 from app.repositories.payment import PaymentRepository
 from app.repositories.order import OrderRepository
+from app.services.inventory import InventoryService, InventoryNotFoundError
+from app.services.razorpay import (
+    RazorpayConfigurationError,
+    get_razorpay_service,
+)
 
 
 class PaymentServiceError(Exception):
@@ -77,6 +82,79 @@ class PaymentService:
 
         return payment
 
+    def attach_razorpay_order(
+        self,
+        payment_id: UUID,
+        *,
+        provider_order_id: str,
+    ) -> Payment:
+        """Attach a Razorpay order to a pending payment."""
+        payment = self._get_locked_payment(payment_id)
+
+        self._require_status(
+            payment,
+            {PaymentStatus.PENDING, PaymentStatus.PROCESSING},
+        )
+
+        if payment.provider not in {"razorpay", "Razorpay"}:
+            payment.provider = "razorpay"
+
+        if (
+            payment.provider_order_id
+            and payment.provider_order_id != provider_order_id
+        ):
+            raise PaymentValidationError(
+                "Payment already has a different provider order."
+            )
+
+        payment.provider_order_id = provider_order_id
+        self.session.flush()
+
+        return payment
+
+    def get_payment_for_webhook(
+        self,
+        *,
+        provider_order_id: str | None = None,
+        provider_payment_id: str | None = None,
+    ) -> Payment | None:
+        """Find a payment using Razorpay identifiers."""
+        if provider_payment_id:
+            payment = self.repository.get_by_provider_id(
+                provider_payment_id,
+            )
+            if payment is not None:
+                return payment
+
+        if provider_order_id:
+            return self.repository.get_by_provider_order_id(
+                provider_order_id,
+            )
+
+        return None
+
+    def mark_webhook_event_processed(
+        self,
+        payment_id: UUID,
+        *,
+        event_id: str,
+    ) -> Payment:
+        """Record a webhook event after validating payment ownership."""
+        payment = self._get_locked_payment(payment_id)
+
+        if payment.provider_event_id:
+            if payment.provider_event_id == event_id:
+                return payment
+
+            raise PaymentValidationError(
+                "A different webhook event is already recorded for this payment."
+            )
+
+        payment.provider_event_id = event_id
+        self.session.flush()
+
+        return payment
+
     def get_payment(self, payment_id: UUID) -> Payment:
         """Return a payment by ID."""
         payment = self.repository.get_payment(payment_id)
@@ -143,7 +221,41 @@ class PaymentService:
                 f"Order '{payment.order_id}' was not found."
             )
 
+        inventory = InventoryService(self.session)
+
+        try:
+            for item in order.items:
+                inventory_item = (
+                    inventory.repository.get_item_by_product_location(
+                        item.product_id,
+                        item.location_id,
+                        for_update=True,
+                    )
+                )
+
+                if inventory_item is None:
+                    raise InventoryNotFoundError(
+                        f"Inventory for product '{item.product_id}' was not found."
+                    )
+
+                inventory.sell_stock(
+                    inventory_item_id=inventory_item.id,
+                    quantity=item.quantity,
+                    reference_id=order.id,
+                    reason=f"Order {order.order_number} paid",
+                )
+
+                if inventory_item.reserved_quantity >= item.quantity:
+                    inventory.release_reservation(
+                        inventory_item_id=inventory_item.id,
+                        quantity=item.quantity,
+                    )
+        except Exception:
+            self.session.rollback()
+            raise
+
         order.payment_status = OrderPaymentStatus.PAID.value
+        order.status = "CONFIRMED"
 
         self.session.flush()
 
@@ -169,6 +281,29 @@ class PaymentService:
         order = self.order_repository.get_order(payment.order_id)
 
         if order is not None:
+            inventory = InventoryService(self.session)
+
+            for item in order.items:
+                inventory_item = (
+                    inventory.repository.get_item_by_product_location(
+                        item.product_id,
+                        item.location_id,
+                        for_update=True,
+                    )
+                )
+
+                if inventory_item is not None:
+                    reserved = min(
+                        item.quantity,
+                        inventory_item.reserved_quantity,
+                    )
+
+                    if reserved > 0:
+                        inventory.release_reservation(
+                            inventory_item_id=inventory_item.id,
+                            quantity=reserved,
+                        )
+
             order.payment_status = OrderPaymentStatus.FAILED.value
 
         self.session.flush()
@@ -187,11 +322,57 @@ class PaymentService:
             {PaymentStatus.PAID},
         )
 
+        # Online Razorpay payments must be refunded through Razorpay
+        # before the internal payment is marked refunded.
+        if (
+            payment.provider
+            and payment.provider.lower() == "razorpay"
+            and payment.provider_payment_id
+        ):
+            try:
+                razorpay_service = get_razorpay_service()
+                razorpay_service.refund_payment(
+                    payment.provider_payment_id,
+                    amount=payment.amount,
+                )
+            except RazorpayConfigurationError as exc:
+                raise PaymentValidationError(str(exc)) from exc
+            except Exception as exc:
+                raise PaymentValidationError(
+                    "Razorpay refund could not be created. "
+                    "The payment was not marked as refunded."
+                ) from exc
+
         payment.status = PaymentStatus.REFUNDED.value
 
         order = self.order_repository.get_order(payment.order_id)
 
         if order is not None:
+            # A paid order has already consumed physical stock.
+            # Refund returns that sold quantity to inventory unless
+            # the order was already cancelled and returned.
+            if order.status != "CANCELLED":
+                inventory = InventoryService(self.session)
+
+                for item in order.items:
+                    inventory_item = (
+                        inventory.repository.get_item_by_product_location(
+                            item.product_id,
+                            item.location_id,
+                            for_update=True,
+                        )
+                    )
+
+                    if inventory_item is not None:
+                        inventory.return_stock(
+                            inventory_item_id=inventory_item.id,
+                            quantity=item.quantity,
+                            reference_id=order.id,
+                            reason=f"Refund for order {order.order_number}",
+                        )
+
+                order.status = "CANCELLED"
+
             order.payment_status = OrderPaymentStatus.REFUNDED.value
 
         self.session.flush()

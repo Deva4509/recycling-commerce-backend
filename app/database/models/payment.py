@@ -85,6 +85,13 @@ class Payment(UUIDTimestampMixin, Base):
         index=True,
     )
 
+    provider_event_id: Mapped[str | None] = mapped_column(
+        String(255),
+        nullable=True,
+        unique=True,
+        index=True,
+    )
+
     failure_reason: Mapped[str | None] = mapped_column(
         Text,
         nullable=True,

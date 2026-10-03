@@ -25,6 +25,7 @@ import {
 import {
   createAdminProduct,
   deleteAdminProduct,
+  setAdminProductStatus,
   getAdminProducts,
   getCategories,
   updateAdminProduct,
@@ -469,6 +470,37 @@ export default function AdminProducts() {
     } finally {
       setSaving(false);
       setImagesSaving(false);
+    }
+  }
+
+  async function toggleProductActive(product: ApiProduct) {
+    const nextActive = product.is_active === false;
+
+    setActionId(product.id);
+    setError("");
+
+    try {
+      await updateAdminProduct(product.id, {
+        name: product.name,
+        slug: product.slug,
+        sku: product.sku,
+        short_description: product.short_description ?? null,
+        description: product.description ?? null,
+        base_price: Number(product.base_price ?? 0),
+        currency: product.currency || "INR",
+        category_id: product.category_id,
+        is_active: nextActive,
+      });
+
+      await load();
+    } catch (err) {
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Unable to change product visibility.",
+      );
+    } finally {
+      setActionId(null);
     }
   }
 

@@ -99,7 +99,7 @@ export default function Shop() {
 
       return 0;
     });
-  }, [search, category, sort]);
+  }, [backendProducts, search, category, sort]);
 
   function handleAddToCart(productId: string) {
     const product = backendProducts.find((item) => item.id === productId);

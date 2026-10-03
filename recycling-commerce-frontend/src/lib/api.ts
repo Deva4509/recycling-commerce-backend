@@ -267,6 +267,17 @@ export const updateAdminProduct = (
     body: JSON.stringify(payload),
   });
 
+export const setAdminProductStatus = (
+  productId: string,
+  isActive: boolean,
+) =>
+  request<ApiProduct>(
+    `/admin/products/${productId}/status/${isActive}`,
+    {
+      method: "PATCH",
+    },
+  );
+
 export const deleteAdminProduct = (productId: string) =>
   request<void>(`/admin/products/${productId}`, {
     method: "DELETE",

@@ -31,6 +31,7 @@ import {
   updateProductReview,
   ApiRatingSummary,
   ApiReview,
+  ApiProduct,
   ApiProductImage,
 } from "../lib/api";
 
@@ -104,14 +105,21 @@ export default function ProductDetails() {
   const { slug } = useParams();
   const { user, isAuthenticated } = useAuth();
 
-  const product = useMemo(
+  const staticProduct = useMemo(
     () => products.find((item) => item.slug === slug || item.id === slug),
     [slug],
   );
 
+  const [backendProduct, setBackendProduct] = useState<ApiProduct | null>(null);
+
+const product =
+    staticProduct ??
+    (backendProduct as unknown as typeof staticProduct);
+
   const [quantity, setQuantity] = useState(1);
   const { isFavorite, toggleFavorite } = useFavorites();
   const [added, setAdded] = useState(false);
+
 
   const [backendProductId, setBackendProductId] = useState<string | null>(null);
   const [galleryImages, setGalleryImages] = useState<ApiProductImage[]>([]);
@@ -135,18 +143,10 @@ export default function ProductDetails() {
   );
 
   useEffect(() => {
-    if (!product) {
-      setBackendProductId(null);
-      setGalleryImages([]);
-      setActiveImageIndex(0);
-      return;
-    }
+    let cancelled = false;
 
     setGalleryImages([]);
     setActiveImageIndex(0);
-
-    const currentProduct = product;
-    let cancelled = false;
 
     async function resolveBackendProduct() {
       try {
@@ -154,47 +154,53 @@ export default function ProductDetails() {
 
         const match = backendProducts.find(
           (item) =>
-            item.slug === currentProduct.slug ||
-            item.sku === currentProduct.sku ||
-            item.name.trim().toLowerCase() ===
-              currentProduct.name.trim().toLowerCase(),
+            item.slug === slug ||
+            item.id === slug ||
+            (staticProduct &&
+              (item.sku === staticProduct.sku ||
+                item.name.trim().toLowerCase() ===
+                  staticProduct.name.trim().toLowerCase())),
         );
 
-        if (!cancelled) {
-          setBackendProductId(match?.id ?? null);
+        if (cancelled) return;
 
-          const images = [...(match?.images ?? [])].sort(
-            (a, b) =>
-              Number(b.is_primary) - Number(a.is_primary) ||
-              a.sort_order - b.sort_order,
+        setBackendProduct(match ?? null);
+        setBackendProductId(match?.id ?? null);
+
+        const images = [...(match?.images ?? [])].sort(
+          (a, b) =>
+            Number(b.is_primary) - Number(a.is_primary) ||
+            a.sort_order - b.sort_order,
+        );
+
+        setGalleryImages(images);
+        setActiveImageIndex(0);
+
+        if (!match) {
+          console.warn(
+            "No matching backend product found for:",
+            slug,
           );
-
-          setGalleryImages(images);
-          setActiveImageIndex(0);
-
-          if (!match) {
-            console.warn(
-              "No matching backend product found for:",
-              currentProduct.slug,
-              currentProduct.sku,
-              currentProduct.name,
-            );
-          }
         }
       } catch (error) {
         if (!cancelled) {
-          console.error("Failed to resolve backend product:", error);
+          console.error(
+            "Failed to resolve backend product:",
+            error,
+          );
+          setBackendProduct(null);
           setBackendProductId(null);
+          setGalleryImages([]);
         }
       }
     }
 
-    resolveBackendProduct();
+    void resolveBackendProduct();
 
     return () => {
       cancelled = true;
     };
-  }, [product]);
+  }, [slug, staticProduct]);
 
   useEffect(() => {
     const productId = backendProductId;
@@ -492,12 +498,12 @@ export default function ProductDetails() {
 
                 <div className="product-detail-eco">
                   <Recycle size={15} />
-                  
+
                 </div>
 
                 <div className="product-detail-material">
                   <Sparkles size={14} />
-                  
+
                 </div>
               </>
             ) : (
@@ -519,12 +525,12 @@ export default function ProductDetails() {
 
                 <div className="product-detail-eco">
                   <Recycle size={15} />
-                  
+
                 </div>
 
                 <div className="product-detail-material">
                   <Sparkles size={14} />
-                  
+
                 </div>
               </>
             )}

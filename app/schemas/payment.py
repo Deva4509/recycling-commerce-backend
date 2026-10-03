@@ -51,3 +51,33 @@ class PaymentFailedRequest(BaseModel):
     """Payment failure information."""
 
     failure_reason: str | None = None
+
+class RazorpayCreateOrderRequest(BaseModel):
+    """Create a Razorpay order for an existing pending payment."""
+
+    payment_id: UUID
+
+
+class RazorpayCreateOrderResponse(BaseModel):
+    """Safe Razorpay checkout configuration returned to the frontend."""
+
+    payment_id: UUID
+    razorpay_order_id: str
+    amount: int
+    currency: str
+    key_id: str
+
+
+class RazorpayVerifyRequest(BaseModel):
+    """Razorpay Checkout callback data."""
+
+    payment_id: UUID
+    razorpay_order_id: str = Field(..., min_length=1, max_length=255)
+    razorpay_payment_id: str = Field(..., min_length=1, max_length=255)
+    razorpay_signature: str = Field(..., min_length=1, max_length=255)
+
+
+class RazorpayWebhookResponse(BaseModel):
+    """Webhook acknowledgement."""
+
+    status: str

@@ -231,6 +231,30 @@ def admin_update_product(
     return product
 
 
+@router.patch(
+    "/products/{product_id}/status/{is_active}",
+    response_model=ProductRead,
+)
+def admin_set_product_status(
+    product_id: UUID,
+    is_active: bool,
+    _: object = Depends(admin_or_staff),
+    db: Session = Depends(get_db),
+):
+    product = db.get(Product, product_id)
+
+    if product is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Product not found.",
+        )
+
+    product.is_active = is_active
+    db.commit()
+    db.refresh(product)
+    return product
+
+
 @router.delete(
     "/products/{product_id}",
     status_code=status.HTTP_204_NO_CONTENT,
@@ -248,8 +272,57 @@ def admin_delete_product(
             detail="Product not found.",
         )
 
-    product.is_active = False
-    db.commit()
+    from sqlalchemy.exc import IntegrityError
+    from app.database.models.cart_item import CartItem
+    from app.database.models.inventory import InventoryItem
+    from app.database.models.review import Review
+    from app.database.models.order_item import OrderItem
+
+    try:
+        order_refs = db.query(OrderItem).filter(
+            OrderItem.product_id == product_id
+        ).count()
+
+        is_test_product = (
+            "test" in product.name.lower()
+            or product.sku.upper().startswith(("TEST-", "CART-"))
+        )
+
+        if order_refs and not is_test_product:
+            raise HTTPException(
+                status_code=status.HTTP_409_CONFLICT,
+                detail="Product cannot be permanently deleted because it is used by existing order history.",
+            )
+
+        if is_test_product:
+            db.query(OrderItem).filter(
+                OrderItem.product_id == product_id
+            ).delete(synchronize_session=False)
+
+        db.query(CartItem).filter(
+            CartItem.product_id == product_id
+        ).delete(synchronize_session=False)
+
+        db.query(InventoryItem).filter(
+            InventoryItem.product_id == product_id
+        ).delete(synchronize_session=False)
+
+        db.query(Review).filter(
+            Review.product_id == product_id
+        ).delete(synchronize_session=False)
+
+        db.delete(product)
+        db.commit()
+    except HTTPException:
+        db.rollback()
+        raise
+    except IntegrityError:
+        db.rollback()
+        raise HTTPException(
+            status_code=status.HTTP_409_CONFLICT,
+            detail="Product cannot be permanently deleted because it is referenced by existing data.",
+        ) from None
+
 
 
 @router.get(

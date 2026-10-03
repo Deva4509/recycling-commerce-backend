@@ -136,6 +136,45 @@ def create_product(
     db.add(product)
 
     try:
+        db.flush()
+
+        location = (
+            db.query(InventoryLocation)
+            .filter(InventoryLocation.code == "MAIN")
+            .first()
+        )
+
+        if location is None:
+            location = InventoryLocation(
+                name="Main Warehouse",
+                code="MAIN",
+                description="Default inventory location",
+                is_active=True,
+            )
+            db.add(location)
+            db.flush()
+
+        existing_inventory = (
+            db.query(InventoryItem)
+            .filter(
+                InventoryItem.product_id == product.id,
+                InventoryItem.location_id == location.id,
+            )
+            .first()
+        )
+
+        if existing_inventory is None:
+            db.add(
+                InventoryItem(
+                    product_id=product.id,
+                    location_id=location.id,
+                    quantity=0,
+                    reserved_quantity=0,
+                    low_stock_threshold=10,
+                    is_active=True,
+                )
+            )
+
         db.commit()
         db.refresh(product)
     except IntegrityError:

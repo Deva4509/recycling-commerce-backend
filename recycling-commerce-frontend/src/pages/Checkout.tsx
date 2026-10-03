@@ -36,7 +36,42 @@ type OrderResponse = {
   payment_status: string;
 };
 
+
 const MAIN_LOCATION_ID = "7842c031-8767-4d67-a4d8-fe90f18236b7";
+
+declare global {
+  interface Window {
+    Razorpay?: new (options: Record<string, unknown>) => {
+      open: () => void;
+    };
+  }
+}
+
+const loadRazorpay = (): Promise<boolean> =>
+  new Promise((resolve) => {
+    if (window.Razorpay) {
+      resolve(true);
+      return;
+    }
+
+    const existing = document.querySelector(
+      'script[src="https://checkout.razorpay.com/v1/checkout.js"]',
+    );
+
+    if (existing) {
+      existing.addEventListener("load", () => resolve(true));
+      existing.addEventListener("error", () => resolve(false));
+      return;
+    }
+
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    script.onload = () => resolve(true);
+    script.onerror = () => resolve(false);
+    document.body.appendChild(script);
+  });
+
 
 const API_BASE = "/api/v1";
 
@@ -86,10 +121,6 @@ export default function Checkout() {
     city: "",
     state: "",
     pincode: "",
-    cardNumber: "",
-    expiry: "",
-    cvv: "",
-    upi: "",
   });
 
   const subtotal = checkoutSubtotal;
@@ -225,9 +256,7 @@ export default function Checkout() {
           provider:
             payment === "cod"
               ? "cash_on_delivery"
-              : payment === "upi"
-                ? "upi"
-                : "card",
+              : "razorpay",
         }),
       });
 
@@ -241,13 +270,147 @@ export default function Checkout() {
         );
       }
 
-      setOrderNumber(order.order_number);
-      setOrderTotal(Number(order.total_amount));
-      setPlaced(true);
+      const internalPayment = paymentPayload as {
+        id: string;
+      };
 
-      if (!buyNowProduct) {
-        clearCart();
+      /*
+       * COD does not use Razorpay. The order remains pending payment
+       * until an authorized payment action marks it as paid.
+       */
+      if (payment === "cod") {
+        setOrderNumber(order.order_number);
+        setOrderTotal(Number(order.total_amount));
+        setPlaced(true);
+
+        if (!buyNowProduct) {
+          clearCart();
+        }
+
+        return;
       }
+
+      /*
+       * Card / UPI:
+       * Never show the success page until Razorpay has completed
+       * and the backend has verified the payment.
+       */
+      const razorpayOrderResponse = await fetch(
+        `${API_BASE}/payments/create-order`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            payment_id: internalPayment.id,
+          }),
+        },
+      );
+
+      const razorpayOrder = await razorpayOrderResponse
+        .json()
+        .catch(() => null);
+
+      if (!razorpayOrderResponse.ok) {
+        throw new Error(
+          razorpayOrder?.detail ||
+            "Unable to initialize secure payment checkout.",
+        );
+      }
+
+      const razorpayLoaded = await loadRazorpay();
+
+      if (!razorpayLoaded || !window.Razorpay) {
+        throw new Error(
+          "Secure payment checkout could not be loaded. Please try again.",
+        );
+      }
+
+      const razorpay = new window.Razorpay({
+        key: razorpayOrder.key_id,
+        amount: razorpayOrder.amount,
+        currency: razorpayOrder.currency,
+        order_id: razorpayOrder.razorpay_order_id,
+        name: "GreenCore",
+        description: `Order ${order.order_number}`,
+        prefill: {
+          name: `${form.firstName} ${form.lastName}`.trim(),
+          contact: form.phone,
+        },
+        notes: {
+          order_id: order.id,
+          payment_id: internalPayment.id,
+        },
+        theme: {
+          color: "#0f8a57",
+        },
+        handler: async (response: {
+          razorpay_payment_id: string;
+          razorpay_order_id: string;
+          razorpay_signature: string;
+        }) => {
+          try {
+            setPlacingOrder(true);
+            setError("");
+
+            const verifyResponse = await fetch(
+              `${API_BASE}/payments/verify`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({
+                  payment_id: internalPayment.id,
+                  razorpay_order_id: response.razorpay_order_id,
+                  razorpay_payment_id: response.razorpay_payment_id,
+                  razorpay_signature: response.razorpay_signature,
+                }),
+              },
+            );
+
+            const verifyPayload = await verifyResponse
+              .json()
+              .catch(() => null);
+
+            if (!verifyResponse.ok) {
+              throw new Error(
+                verifyPayload?.detail ||
+                  "Payment verification failed. Your order has not been confirmed.",
+              );
+            }
+
+            setOrderNumber(order.order_number);
+            setOrderTotal(Number(order.total_amount));
+            setPlaced(true);
+
+            if (!buyNowProduct) {
+              clearCart();
+            }
+          } catch (verificationError) {
+            setError(
+              verificationError instanceof Error
+                ? verificationError.message
+                : "Payment verification failed. Please contact support.",
+            );
+          } finally {
+            setPlacingOrder(false);
+          }
+        },
+        modal: {
+          ondismiss: () => {
+            setError(
+              "Payment was cancelled or the checkout window was closed. Your order has not been confirmed.",
+            );
+            setPlacingOrder(false);
+          },
+        },
+      });
+
+      razorpay.open();
     } catch (requestError) {
       setError(
         requestError instanceof Error
@@ -503,61 +666,22 @@ export default function Checkout() {
               </button>
             </div>
 
-            {payment === "card" && (
+            {(payment === "card" || payment === "upi") && (
               <div className="checkout-payment-fields">
-                <label>
-                  Card number
-                  <input
-                    required
-                    inputMode="numeric"
-                    value={form.cardNumber}
-                    onChange={(e) =>
-                      updateField("cardNumber", e.target.value)
-                    }
-                    placeholder="1234 5678 9012 3456"
-                  />
-                </label>
-
-                <div className="checkout-fields-two">
-                  <label>
-                    Expiry date
-                    <input
-                      required
-                      value={form.expiry}
-                      onChange={(e) => updateField("expiry", e.target.value)}
-                      placeholder="MM / YY"
-                    />
-                  </label>
-
-                  <label>
-                    CVV
-                    <input
-                      required
-                      type="password"
-                      inputMode="numeric"
-                      maxLength={4}
-                      value={form.cvv}
-                      onChange={(e) => updateField("cvv", e.target.value)}
-                      placeholder="•••"
-                    />
-                  </label>
+                <div className="checkout-payment-secure">
+                  <LockKeyhole size={18} />
+                  <div>
+                    <strong>Secure payment with Razorpay</strong>
+                    <span>
+                      Your payment details are handled securely by Razorpay.
+                      GreenCore never stores your card number, CVV, or UPI PIN.
+                    </span>
+                  </div>
                 </div>
               </div>
             )}
 
-            {payment === "upi" && (
-              <div className="checkout-payment-fields">
-                <label>
-                  UPI ID
-                  <input
-                    required
-                    value={form.upi}
-                    onChange={(e) => updateField("upi", e.target.value)}
-                    placeholder="yourname@upi"
-                  />
-                </label>
-              </div>
-            )}
+
 
             {payment === "cod" && (
               <div className="checkout-cod-note">
