@@ -128,7 +128,9 @@ async function request<T>(
 export interface ApiOrderSummary {
   id: string;
   status?: string;
+  payment_status?: string;
   total_amount?: number | string;
+  currency?: string;
   created_at?: string;
 }
 

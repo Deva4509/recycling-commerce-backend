@@ -5,6 +5,7 @@ from sqlalchemy.orm import Session
 
 from app.database import get_db
 from app.database.models import RoleName, User
+from app.database.models.payment import PaymentMethod
 from app.dependencies.auth import get_current_user, require_roles
 from app.schemas.payment import (
     RazorpayCreateOrderRequest,
@@ -54,6 +55,7 @@ def create_payment(
             order_id=payload.order_id,
             method=payload.method,
             provider=payload.provider,
+            user_id=current_user.id,
         )
         service.session.commit()
         return payment
@@ -478,10 +480,21 @@ def mark_paid(
 def mark_failed(
     payment_id: UUID,
     payload: PaymentFailedRequest,
+    current_user: User = Depends(get_current_user),
     service: PaymentService = Depends(get_payment_service),
-    _: object = Depends(admin_or_staff),
 ):
     try:
+        payment = get_owned_payment(
+            payment_id,
+            current_user,
+            service,
+        )
+
+        if payment.method == PaymentMethod.COD.value:
+            raise PaymentValidationError(
+                "COD payments cannot be marked as an online payment failure."
+            )
+
         return service.mark_failed(
             payment_id,
             failure_reason=payload.failure_reason,

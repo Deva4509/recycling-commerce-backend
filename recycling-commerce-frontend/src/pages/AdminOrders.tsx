@@ -369,7 +369,8 @@ export default function AdminOrders() {
           <div>ITEMS</div>
           <div>TOTAL</div>
           <div>DATE</div>
-          <div>STATUS</div>
+          <div>ORDER STATUS</div>
+          <div>PAYMENT STATUS</div>
         </div>
 
         {loading ? (
@@ -523,6 +524,17 @@ export default function AdminOrders() {
                       </div>
                     )}
                   </div>
+                </div>
+
+                <div className="rp-admin-payment-status">
+                  <span>Payment</span>
+                  <strong
+                    className={`rp-admin-payment-status-value ${String(
+                      order.payment_status ?? "PENDING",
+                    ).toLowerCase()}`}
+                  >
+                    {String(order.payment_status ?? "PENDING").toUpperCase()}
+                  </strong>
                 </div>
               </div>
             );

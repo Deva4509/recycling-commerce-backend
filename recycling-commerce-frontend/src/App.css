@@ -50226,3 +50226,45 @@ body:has(.rp-admin-modern-page) {
     display: none;
   }
 }
+
+/* =========================================================
+   GreenCore — Order / Payment Status
+   Keeps order status and payment status visually separate.
+   ========================================================= */
+
+.rp-admin-payment-status {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 70px;
+}
+
+.rp-admin-payment-status span {
+  font-size: 10px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.6;
+}
+
+.rp-admin-payment-status-value {
+  font-size: 12px;
+  line-height: 1.3;
+  font-weight: 600;
+}
+
+.rp-admin-payment-status-value.paid {
+  color: #22c55e;
+}
+
+.rp-admin-payment-status-value.failed {
+  color: #ef4444;
+}
+
+.rp-admin-payment-status-value.refunded {
+  color: #f59e0b;
+}
+
+.rp-admin-payment-status-value.pending {
+  color: #f59e0b;
+}

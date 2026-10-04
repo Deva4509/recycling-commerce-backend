@@ -146,7 +146,37 @@ def update_order_status(
                 detail="Cancelled orders cannot be modified.",
             )
 
-        order.status = payload.status.upper()
+        next_status = payload.status.upper()
+
+        # Online orders cannot enter fulfilment until their payment has
+        # actually been verified and marked PAID. COD is the exception:
+        # COD orders are confirmed before payment because payment happens
+        # on delivery.
+        fulfilment_statuses = {
+            OrderStatus.PROCESSING.value,
+            OrderStatus.SHIPPED.value,
+            OrderStatus.DELIVERED.value,
+        }
+
+        if (
+            next_status in fulfilment_statuses
+            and order.payment_status != "PAID"
+        ):
+            is_cod = any(
+                payment.method == "COD"
+                for payment in order.payments
+            )
+
+            if not is_cod:
+                raise HTTPException(
+                    status_code=status.HTTP_409_CONFLICT,
+                    detail=(
+                        "Online orders cannot enter fulfilment until "
+                        "payment is verified and marked PAID."
+                    ),
+                )
+
+        order.status = next_status
         service.session.commit()
         service.session.refresh(order)
 

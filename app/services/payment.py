@@ -40,6 +40,7 @@ class PaymentService:
         order_id: UUID,
         method: PaymentMethod,
         provider: str | None = None,
+        user_id: UUID | None = None,
     ) -> Payment:
         """Create a pending payment for an order."""
         order = self.order_repository.get_order(order_id)
@@ -47,6 +48,11 @@ class PaymentService:
         if order is None:
             raise PaymentValidationError(
                 f"Order '{order_id}' was not found."
+            )
+
+        if user_id is not None and order.user_id != user_id:
+            raise PaymentValidationError(
+                "Order was not found."
             )
 
         if order.status == "CANCELLED":
@@ -77,6 +83,12 @@ class PaymentService:
         self.repository.add_payment(payment)
 
         order.payment_status = OrderPaymentStatus.PENDING.value
+
+        # COD does not require an online payment before the order
+        # can be confirmed. The payment record remains PENDING because
+        # the customer pays when the order is delivered.
+        if method == PaymentMethod.COD:
+            order.status = "CONFIRMED"
 
         self.session.flush()
 
@@ -305,6 +317,12 @@ class PaymentService:
                         )
 
             order.payment_status = OrderPaymentStatus.FAILED.value
+
+            # An online payment failure must never leave the order
+            # available for fulfilment. Inventory reservations are
+            # released above before cancelling the order.
+            if payment.method != PaymentMethod.COD.value:
+                order.status = "CANCELLED"
 
         self.session.flush()
 

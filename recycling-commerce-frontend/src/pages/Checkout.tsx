@@ -314,6 +314,29 @@ export default function Checkout() {
         .catch(() => null);
 
       if (!razorpayOrderResponse.ok) {
+        // Razorpay could not be initialized. Mark the internal payment
+        // failed so the backend cancels the unpaid online order and
+        // releases its inventory reservation.
+        try {
+          await fetch(
+            `${API_BASE}/payments/${internalPayment.id}/failed`,
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+              body: JSON.stringify({
+                failure_reason:
+                  razorpayOrder?.detail ||
+                  "Unable to initialize secure payment checkout.",
+              }),
+            },
+          );
+        } catch {
+          // Keep the original payment initialization error visible.
+        }
+
         throw new Error(
           razorpayOrder?.detail ||
             "Unable to initialize secure payment checkout.",
@@ -401,9 +424,29 @@ export default function Checkout() {
           }
         },
         modal: {
-          ondismiss: () => {
+          ondismiss: async () => {
+            try {
+              await fetch(
+                `${API_BASE}/payments/${internalPayment.id}/failed`,
+                {
+                  method: "POST",
+                  headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                  },
+                  body: JSON.stringify({
+                    failure_reason:
+                      "Customer cancelled Razorpay checkout.",
+                  }),
+                },
+              );
+            } catch {
+              // The checkout cancellation message remains useful even
+              // if the cleanup request cannot be completed immediately.
+            }
+
             setError(
-              "Payment was cancelled or the checkout window was closed. Your order has not been confirmed.",
+              "Payment was cancelled. The order remains unpaid and has been cancelled.",
             );
             setPlacingOrder(false);
           },
