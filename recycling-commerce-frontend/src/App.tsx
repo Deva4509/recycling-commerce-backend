@@ -18,7 +18,6 @@ import AdminProducts from "./pages/AdminProducts";
 import Account from "./pages/Account";
 import Calculator from "./pages/Calculator";
 import Cart from "./pages/Cart";
-import Categories from "./pages/Categories";
 import Checkout from "./pages/Checkout";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
@@ -29,6 +28,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/Register";
 import Shop from "./pages/Shop";
 import VisionMission from "./pages/VisionMission";
+import Vidyagyan from "./pages/Vidyagyan";
 import Contact from "./pages/Contact";
 
 import { useAuth } from "./context/AuthContext";
@@ -73,9 +73,9 @@ function App() {
             ===================================================== */}
         <Route path="/" element={<Home />} />
         <Route path="/shop" element={<Shop />} />
-        <Route path="/categories" element={<Categories />} />
         <Route path="/calculator" element={<Calculator />} />
         <Route path="/vision-mission" element={<VisionMission />} />
+        <Route path="/vidyagyan" element={<Vidyagyan />} />
         <Route path="/cart" element={<Cart />} />
 
         <Route element={<CustomerRoute />}>

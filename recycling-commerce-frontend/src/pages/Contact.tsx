@@ -53,7 +53,7 @@ export default function Contact() {
   }
 
   return (
-    <main className="contact-page">
+    <main className="contact-page relative isolate overflow-x-clip bg-[#01140d] text-white">
       <div className="contact-page-container">
 <section className="contact-hero">
           <div className="contact-hero-content">
@@ -269,7 +269,330 @@ export default function Contact() {
           </div>
         </section>
 
-        <section className="contact-bottom-cta">
+
+      {/* =====================================================
+          CONTACT EXTRA INFORMATION — V5
+          ===================================================== */}
+
+      <section className="contact-extra-v5">
+
+        {/* HELP CATEGORIES */}
+        <div className="contact-help-hub">
+
+          <div className="contact-v5-section-head">
+            <div>
+              <span className="contact-v5-eyebrow">
+                HOW GREENCORE CAN HELP
+              </span>
+
+              <h2>
+                One place for every
+                <span> GreenCore question.</span>
+              </h2>
+            </div>
+
+            <p>
+              Whether you are checking an order, exploring our products,
+              asking about payments, or sharing an idea, find the support
+              path that matches what you need.
+            </p>
+          </div>
+
+          <div className="contact-help-grid">
+
+            <article className="contact-help-card contact-help-orders">
+              <div className="contact-help-icon">01</div>
+
+              <div className="contact-help-content">
+                <span>ORDERS &amp; DELIVERY</span>
+                <h3>Need help with an order?</h3>
+                <p>
+                  Track your order, understand delivery timelines,
+                  shipping partners and what happens after checkout.
+                </p>
+              </div>
+
+              <b>↗</b>
+            </article>
+
+            <article className="contact-help-card contact-help-products">
+              <div className="contact-help-icon">02</div>
+
+              <div className="contact-help-content">
+                <span>PRODUCTS &amp; MATERIALS</span>
+                <h3>Want to know more?</h3>
+                <p>
+                  Learn about recycled, reclaimed and upcycled materials
+                  used across the GreenCore collection.
+                </p>
+              </div>
+
+              <b>↗</b>
+            </article>
+
+            <article className="contact-help-card contact-help-payments">
+              <div className="contact-help-icon">03</div>
+
+              <div className="contact-help-content">
+                <span>PAYMENTS &amp; ACCOUNT</span>
+                <h3>Payment question?</h3>
+                <p>
+                  Get help with payment methods, refunds, invoices and
+                  account-related questions.
+                </p>
+              </div>
+
+              <b>↗</b>
+            </article>
+
+            <article className="contact-help-card contact-help-ideas">
+              <div className="contact-help-icon">04</div>
+
+              <div className="contact-help-content">
+                <span>SUSTAINABILITY IDEAS</span>
+                <h3>Have a sustainability idea?</h3>
+                <p>
+                  Share your ideas, feedback or collaboration opportunities
+                  that could help create a more circular future.
+                </p>
+              </div>
+
+              <b>↗</b>
+            </article>
+
+          </div>
+        </div>
+
+        {/* QUICK LINKS */}
+        <div className="contact-quick-links">
+
+          <div className="contact-v5-section-head compact">
+            <div>
+              <span className="contact-v5-eyebrow">
+                BEFORE YOU CONTACT US
+              </span>
+
+              <h2>Quick help &amp; useful links</h2>
+            </div>
+
+            <p>
+              You might find what you need even faster using these
+              frequently used paths.
+            </p>
+          </div>
+
+          <div className="contact-quick-grid">
+
+            <a href="/account/orders" className="contact-quick-card">
+              <span className="contact-quick-number">01</span>
+              <div>
+                <strong>Track my order</strong>
+                <small>Check real-time order status</small>
+              </div>
+              <b>→</b>
+            </a>
+
+            <a href="/account/orders" className="contact-quick-card">
+              <span className="contact-quick-number">02</span>
+              <div>
+                <strong>Initiate a return</strong>
+                <small>Start a return request</small>
+              </div>
+              <b>→</b>
+            </a>
+
+            <a href="/contact" className="contact-quick-card">
+              <span className="contact-quick-number">03</span>
+              <div>
+                <strong>Delivery information</strong>
+                <small>Shipping &amp; timelines</small>
+              </div>
+              <b>→</b>
+            </a>
+
+            <a href="/contact" className="contact-quick-card">
+              <span className="contact-quick-number">04</span>
+              <div>
+                <strong>Payment help</strong>
+                <small>Methods &amp; failed payments</small>
+              </div>
+              <b>→</b>
+            </a>
+
+            <a href="/shop" className="contact-quick-card">
+              <span className="contact-quick-number">05</span>
+              <div>
+                <strong>Product guidance</strong>
+                <small>Materials &amp; usage</small>
+              </div>
+              <b>→</b>
+            </a>
+
+          </div>
+        </div>
+
+        {/* VIDYAGYAN RELATIONSHIP */}
+        <section className="contact-v5-leadership">
+
+          <div className="contact-v5-leadership-copy">
+            <span className="contact-v5-eyebrow">
+              INSTITUTIONAL LEADERSHIP
+            </span>
+
+            <h2>
+              GreenCore
+              <span>A Vidyagyan Initiative</span>
+            </h2>
+
+            <p>
+              GreenCore is a Vidyagyan-led recycling and circular-commerce
+              initiative focused on sustainability, innovation, and giving
+              recycled materials a second life.
+            </p>
+
+            <a href="/vidyagyan" className="contact-v5-learn">
+              Learn more <span>→</span>
+            </a>
+          </div>
+
+          <div className="contact-v5-flow">
+
+            <div className="contact-flow-node">
+              <strong>VIDYAGYAN</strong>
+              <span>Leadership &amp; Change</span>
+            </div>
+
+            <i>→</i>
+
+            <div className="contact-flow-node active">
+              <strong>GREENCORE</strong>
+              <span>Circular Commerce &amp; Innovation</span>
+            </div>
+
+            <i>→</i>
+
+            <div className="contact-flow-node">
+              <strong>IMPACT</strong>
+              <span>Cleaner Planet &amp; Stronger Communities</span>
+            </div>
+
+          </div>
+        </section>
+
+        {/* SUPPORT PROMISE */}
+        <section className="contact-support-promise">
+
+          <div className="contact-promise-title">
+            <span className="contact-v5-eyebrow">
+              OUR SUPPORT PROMISE
+            </span>
+
+            <h2>
+              A better experience,
+              <span>a greener future.</span>
+            </h2>
+          </div>
+
+          <div className="contact-promise-grid">
+
+            <article>
+              <span>01</span>
+              <div>
+                <strong>Clear communication</strong>
+                <p>We keep you informed at every step.</p>
+              </div>
+            </article>
+
+            <article>
+              <span>02</span>
+              <div>
+                <strong>Customer-first support</strong>
+                <p>Your questions and concerns matter to us.</p>
+              </div>
+            </article>
+
+            <article>
+              <span>03</span>
+              <div>
+                <strong>Built around sustainability</strong>
+                <p>Every interaction helps build a more circular world.</p>
+              </div>
+            </article>
+
+          </div>
+        </section>
+
+        {/* FAQ */}
+        <section className="contact-v5-faq">
+
+          <div className="contact-v5-section-head compact">
+            <div>
+              <span className="contact-v5-eyebrow">
+                FREQUENT QUESTIONS
+              </span>
+
+              <h2>Quick answers</h2>
+
+              <p className="contact-faq-intro">
+                Here are some common questions. Can't find what you're
+                looking for? Send us a message.
+              </p>
+            </div>
+          </div>
+
+          <div className="contact-faq-grid">
+
+            <details>
+              <summary>
+                How can I track my order?
+                <span>+</span>
+              </summary>
+              <p>
+                You can check your order information from your GreenCore
+                account and order details.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                What payment methods do you accept?
+                <span>+</span>
+              </summary>
+              <p>
+                GreenCore supports available online payment methods
+                through its secure payment gateway as well as Cash on Delivery
+                where available.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                What is your return policy?
+                <span>+</span>
+              </summary>
+              <p>
+                Contact the GreenCore support team with your order details
+                for return and order-support guidance.
+              </p>
+            </details>
+
+            <details>
+              <summary>
+                Are your products made from recycled materials?
+                <span>+</span>
+              </summary>
+              <p>
+                GreenCore focuses on products made from recycled, reclaimed,
+                recovered and upcycled materials.
+              </p>
+            </details>
+
+          </div>
+        </section>
+
+      </section>
+
+<section className="contact-bottom-cta">
           <div>
             <div className="contact-section-kicker">MAKE A DIFFERENCE</div>
             <h2>Ready to choose circular?</h2>

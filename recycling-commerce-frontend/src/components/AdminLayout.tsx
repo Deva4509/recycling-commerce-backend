@@ -95,6 +95,9 @@ export default function AdminLayout() {
           {!collapsed && (
             <div className="rp-admin-brand-copy">
               <strong>GreenCore</strong>
+              <span className="admin-vgyan-identity">
+                A Vidyagyan Initiative
+              </span>
               <span>CONTROL CENTER</span>
             </div>
           )}

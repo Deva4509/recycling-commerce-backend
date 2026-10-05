@@ -7,6 +7,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import "./Gallery.css";
+import { siteBrand } from "../config/brand";
 
 type Leader = {
   number: string;
@@ -143,160 +144,107 @@ export default function Gallery() {
 
   return (
     <main className="gallery-page">
-      <section className="gallery-hero">
-        <div className="gallery-grid" />
+      <section className="gallery-hero gallery-hero-clean">
+        <div className="gallery-clean-background" />
+        <div className="gallery-clean-grid" />
+        <div className="gallery-clean-glow gallery-clean-glow-one" />
+        <div className="gallery-clean-glow gallery-clean-glow-two" />
 
-        <div className="gallery-glow gallery-glow-one" />
-        <div className="gallery-glow gallery-glow-two" />
+        <div className="gallery-clean-container">
+          <div className="gallery-clean-copy">
+            <span className="gallery-clean-initiative">
+              {siteBrand.initiativeLabel}
+            </span>
 
-        <div className="gallery-particles">
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-          <i />
-        </div>
+            <h1>
+              Behind the
+              <span>mission.</span>
+            </h1>
 
-        {/* LEFT FUTURISTIC EARTH */}
-        <div className="gallery-earth">
-          <div className="earth-atmosphere" />
-          <div className="earth-sphere">
-            <div className="earth-land earth-land-one" />
-            <div className="earth-land earth-land-two" />
-            <div className="earth-land earth-land-three" />
-            <div className="earth-light earth-light-one" />
-            <div className="earth-light earth-light-two" />
-            <div className="earth-cloud cloud-one" />
-            <div className="earth-cloud cloud-two" />
-          </div>
+            <p className="gallery-clean-lead">
+              Meet the people turning ideas into meaningful action for a
+              cleaner, greener and more circular future.
+            </p>
 
-          <div className="earth-orbit earth-orbit-one" />
-          <div className="earth-orbit earth-orbit-two" />
-          <div className="earth-orbit earth-orbit-three" />
+            <p className="gallery-clean-support">
+              GreenCore brings together people, ideas and technology to give
+              materials a second life.
+            </p>
 
-          <div className="earth-leaf">
-            <Leaf size={54} strokeWidth={1.4} />
-          </div>
-        </div>
+            <div className="gallery-clean-meta">
+              <div>
+                <strong>01</strong>
+                <span>People</span>
+              </div>
 
-        {/* LEFT HUD */}
-        <div className="gallery-hud gallery-hud-left">
-          <span>A</span>
-          <span>CLEANER</span>
-          <span>GREENER</span>
-          <span>TOMORROW</span>
-          <b />
-        </div>
+              <div>
+                <strong>02</strong>
+                <span>Ideas</span>
+              </div>
 
-        {/* RIGHT HOLOGRAPHIC LEAF */}
-        <div className="gallery-right-orbit">
-          <div className="right-ring right-ring-one" />
-          <div className="right-ring right-ring-two" />
-          <div className="right-ring right-ring-three" />
-
-          <div className="hologram-leaf">
-            <Leaf size={150} strokeWidth={0.9} />
-          </div>
-
-          <span className="orbit-dot orbit-dot-one" />
-          <span className="orbit-dot orbit-dot-two" />
-          <span className="orbit-dot orbit-dot-three" />
-        </div>
-
-        {/* RIGHT HUD */}
-        <div className="gallery-hud gallery-hud-right">
-          <span>SUSTAINABLE</span>
-          <span>PEOPLE</span>
-          <span>STRONGER</span>
-          <span>FUTURE</span>
-          <b />
-        </div>
-
-        <div className="gallery-hud gallery-hud-bottom-right">
-          <span>IDEAS</span>
-          <span>INTO</span>
-          <span>IMPACT</span>
-        </div>
-
-        {/* MAIN CONTENT */}
-        <div className="gallery-hero-content">
-          <div className="gallery-hero-mark">
-            <Leaf size={64} strokeWidth={1.2} />
-            <div>
-              <span>People</span>
-              <span>Ideas</span>
-              <span>Impact</span>
+              <div>
+                <strong>03</strong>
+                <span>Impact</span>
+              </div>
             </div>
-            <b />
+
+            <div className="gallery-clean-filter-wrap">
+              <span>EXPLORE THE TEAM</span>
+
+              <div className="gallery-filters">
+                {filters.map((filter) => (
+                  <button
+                    key={filter}
+                    type="button"
+                    className={activeFilter === filter ? "active" : ""}
+                    onClick={() => setActiveFilter(filter)}
+                  >
+                    {filter}
+                  </button>
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="gallery-eyebrow">
-            PEOPLE BEHIND A GREENER TOMORROW
-          </div>
+          <div className="gallery-clean-visual" aria-hidden="true">
+            <div className="gallery-clean-visual-glow" />
 
-          <h1>
-            Our Team <span>Gallery</span>
-          </h1>
+            <div className="gallery-clean-ring gallery-clean-ring-one" />
+            <div className="gallery-clean-ring gallery-clean-ring-two" />
+            <div className="gallery-clean-ring gallery-clean-ring-three" />
 
-          <div className="gallery-title-line">
-            <i />
-            <Leaf size={25} strokeWidth={1.5} />
-            <i />
-          </div>
+            <div className="gallery-clean-core">
+              <Leaf size={64} strokeWidth={1.35} />
+              <span>GREENCORE</span>
+              <strong>PEOPLE • IDEAS • IMPACT</strong>
+            </div>
 
-          <p>
-            A passionate team working towards a cleaner, greener and more
-            sustainable world through innovation, recycling and community
-            action.
-          </p>
+            <div className="gallery-clean-card gallery-clean-card-top">
+              <span>01</span>
+              <div>
+                <strong>PEOPLE</strong>
+                <small>Building the mission</small>
+              </div>
+            </div>
 
-          <div className="gallery-filter-panel">
-            <div className="gallery-filters">
-              {filters.map((filter) => (
-                <button
-                  key={filter}
-                  type="button"
-                  className={
-                    activeFilter === filter ? "active" : ""
-                  }
-                  onClick={() => setActiveFilter(filter)}
-                >
-                  {filter}
-                </button>
-              ))}
+            <div className="gallery-clean-card gallery-clean-card-bottom">
+              <span>03</span>
+              <div>
+                <strong>IMPACT</strong>
+                <small>Creating meaningful change</small>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* FUTURISTIC PLATFORM */}
-        <div className="gallery-platform">
-          <div className="platform-ring platform-ring-one" />
-          <div className="platform-ring platform-ring-two" />
-          <div className="platform-ring platform-ring-three" />
-          <div className="platform-core">
-            <Sparkles size={20} />
-          </div>
+        <div className="gallery-clean-scroll">
+          <span />
+          SCROLL TO MEET THE TEAM
         </div>
       </section>
 
       {/* TEAM CARDS */}
       <section className="gallery-team-section">
-        <div className="gallery-section-heading">
-          <span>THE PEOPLE</span>
-          <h2>Behind The Mission</h2>
-          <p>
-            The people turning ideas into meaningful action for a greener
-            future.
-          </p>
-        </div>
-
         <div className="gallery-team-grid">
           {filteredLeaders.map((leader) => (
             <article className="gallery-team-card" key={leader.number}>
@@ -350,12 +298,7 @@ export default function Gallery() {
         </div>
       </section>
 
-      <section className="gallery-bottom-statement">
-        <div className="statement-line" />
-        <Leaf size={28} />
-        <h2>TOGETHER FOR A GREENER TOMORROW</h2>
-        <p>People • Ideas • Impact</p>
-      </section>
+
     </main>
   );
 }

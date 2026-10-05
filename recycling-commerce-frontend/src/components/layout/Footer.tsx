@@ -1,4 +1,5 @@
 import { Link, useLocation } from "react-router-dom";
+import { siteBrand } from "../../config/brand";
 import {
   ArrowUpRight,
   Facebook,
@@ -15,7 +16,6 @@ import {
 const exploreLinks = [
   { label: "Home", to: "/" },
   { label: "Shop", to: "/shop" },
-  { label: "Categories", to: "/categories" },
 ];
 
 const accountLinks = [
@@ -68,16 +68,30 @@ export default function Footer() {
               <span className="rp-footer-logo-mark">
                 <Leaf size={22} strokeWidth={2.3} />
               </span>
-              <span>
-                Green<span>Core</span>
+              <span className="rp-footer-logo-copy">
+                <span>
+                  Green<span>Core</span>
+                </span>
+                <small className="rp-footer-logo-subtitle">
+                  {siteBrand.initiativeLabel}
+                </small>
               </span>
             </Link>
 
             {!compact && (
               <>
+                <div className="footer-vgyan-identity">
+                  <strong>{siteBrand.initiativeLabel}</strong>
+                  <span>{siteBrand.leadershipStatement}.</span>
+                </div>
+
                 <p className="rp-footer-brand-description">
                   A modern marketplace for thoughtful products created from
                   materials that deserve a second life.
+                </p>
+
+                <p className="rp-footer-institutional">
+                  {siteBrand.leadershipStatement}.
                 </p>
 
                 <div className="rp-footer-contact">
@@ -109,11 +123,6 @@ export default function Footer() {
           <div className="rp-footer-links">
             <span className="rp-footer-heading">GREENCORE</span>
 
-            <Link to="/categories">
-              Our approach
-              <ArrowUpRight size={13} />
-            </Link>
-
             <Link to="/shop">
               Materials
               <ArrowUpRight size={13} />
@@ -121,6 +130,20 @@ export default function Footer() {
 
             <Link to="/shop">
               Our impact
+              <ArrowUpRight size={13} />
+            </Link>
+          </div>
+
+          <div className="rp-footer-links">
+            <span className="rp-footer-heading">VIDYAGYAN</span>
+
+            <Link to="/vidyagyan">
+              GreenCore initiative
+              <ArrowUpRight size={13} />
+            </Link>
+
+            <Link to="/vidyagyan">
+              Institutional leadership
               <ArrowUpRight size={13} />
             </Link>
           </div>

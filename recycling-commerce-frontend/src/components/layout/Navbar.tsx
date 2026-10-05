@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react";
+import { siteBrand } from "../../config/brand";
 import {
   ArrowRight,
   Calculator,
@@ -22,10 +23,11 @@ const navItems = [
   { label: "Home", to: "/" },
   { label: "Shop", to: "/shop" },
   { label: "Contact Us", to: "/contact" },
-  { label: "Categories", to: "/categories" },
   { label: "Calculator", to: "/calculator" },
   { label: "Vision & Mission", to: "/vision-mission" },
-  { label: "Gallery", to: "/gallery" },  { label: "Orders", to: "/account/orders" },
+  { label: "Gallery", to: "/gallery" },
+  { label: "Vidyagyan", to: "/vidyagyan" },
+  { label: "Orders", to: "/account/orders" },
 ];
 
 export default function Navbar() {

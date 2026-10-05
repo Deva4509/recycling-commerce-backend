@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { ArrowRight, CheckCircle2, Leaf, PackageCheck, Recycle, ShoppingBag, Sparkles, TreePine } from "lucide-react";
 import { Link } from "react-router-dom";
 import FAQ from "../components/home/FAQ";
+import { siteBrand } from "../config/brand";
 
 const benefits = [
   { icon: Recycle, title: "Waste, reimagined", text: "We turn recovered materials into products worth keeping." },
@@ -34,6 +35,10 @@ export default function Home() {
               SUSTAINABLE MARKETPLACE
             </div>
 
+            <span className="home-institutional-label">
+              {siteBrand.initiativeLabel}
+            </span>
+
             <h1>
               Products that give{" "}
               <span className="home-highlight">waste</span>{" "}
@@ -43,6 +48,11 @@ export default function Home() {
             <p>
               Discover beautifully designed everyday products made from
               recovered, recycled and upcycled materials.
+            </p>
+
+            <p className="home-institutional-statement">
+              An officially approved and Vidyagyan-led initiative focused on
+              recycling, sustainability, innovation, and circular commerce.
             </p>
 
             <div className="home-hero-actions">
