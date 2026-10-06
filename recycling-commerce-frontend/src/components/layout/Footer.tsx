@@ -26,7 +26,17 @@ const accountLinks = [
 
 export default function Footer() {
   const location = useLocation();
-  const compact = location.pathname === "/login" || location.pathname === "/register";
+  const compact =
+    location.pathname === "/login" ||
+    location.pathname === "/register";
+
+  const isLegalPage =
+    location.pathname === "/terms" ||
+    location.pathname === "/privacy";
+
+  if (isLegalPage) {
+    return null;
+  }
 
   return (
     <footer className={`rp-footer ${compact ? "rp-footer-compact" : ""}`}>

@@ -1,7 +1,8 @@
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { ArrowRight, Eye, EyeOff, Leaf, LockKeyhole, Mail } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "./Auth.css";
 
 export default function Login() {
   const navigate = useNavigate();
@@ -12,6 +13,27 @@ export default function Login() {
   const [remember, setRemember] = useState(false);
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    const rememberEnabled =
+      localStorage.getItem("greencore-remember-me") === "true";
+    const rememberedEmail =
+      localStorage.getItem("greencore-remembered-email");
+
+    if (rememberEnabled && rememberedEmail) {
+      setRemember(true);
+      setEmail(rememberedEmail);
+    }
+  }, []);
+
+  function handleRememberChange(checked: boolean) {
+    setRemember(checked);
+
+    if (!checked) {
+      localStorage.removeItem("greencore-remember-me");
+      localStorage.removeItem("greencore-remembered-email");
+    }
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
@@ -21,6 +43,14 @@ export default function Login() {
     if (!result.success) {
       setError(result.error || "Invalid email or password.");
       return;
+    }
+
+    if (remember) {
+      localStorage.setItem("greencore-remember-me", "true");
+      localStorage.setItem("greencore-remembered-email", email.trim());
+    } else {
+      localStorage.removeItem("greencore-remember-me");
+      localStorage.removeItem("greencore-remembered-email");
     }
 
     const storedUser =
@@ -50,11 +80,6 @@ export default function Login() {
         <div className="auth-visual-glow auth-glow-one" />
         <div className="auth-visual-glow auth-glow-two" />
 
-        <Link to="/" className="auth-brand">
-          <span><Leaf size={18} /></span>
-          Green<span>Core</span>
-        </Link>
-
         <div className="auth-visual-content">
           <div className="auth-orbit auth-orbit-one" />
           <div className="auth-orbit auth-orbit-two" />
@@ -65,21 +90,23 @@ export default function Login() {
 
           <div className="auth-floating-card auth-float-top">
             <strong>100%</strong>
-            <span>Circular mindset</span>
+            <span>Circular choices</span>
           </div>
 
           <div className="auth-floating-card auth-float-bottom">
-            <strong>44+</strong>
-            <span>Conscious products</span>
+            <strong>01</strong>
+            <span>Better choices</span>
           </div>
         </div>
 
         <div className="auth-visual-copy">
-          <span>WELCOME BACK</span>
+          <span>PLANET • PRODUCTS • PEOPLE</span>
           <h1>
-            Good products
+            Recycle Today
             <br />
-            deserve <em>another life.</em>
+            for a <em>Greener</em>
+            <br />
+            Tomorrow.
           </h1>
           <p>
             Continue your journey toward thoughtful shopping and a more
@@ -144,7 +171,9 @@ export default function Login() {
                 <input
                   type="checkbox"
                   checked={remember}
-                  onChange={(event) => setRemember(event.target.checked)}
+                  onChange={(event) =>
+                  handleRememberChange(event.target.checked)
+                }
                 />
                 <span>Remember me</span>
               </label>
@@ -165,6 +194,29 @@ export default function Login() {
           <div className="auth-divider">
             <span>OR</span>
           </div>
+
+          <div className="auth-social-row" aria-label="Social sign in options">
+            <button type="button" className="auth-social-button">
+              <span className="auth-social-google">G</span>
+              <span>Google</span>
+            </button>
+
+            <button type="button" className="auth-social-button">
+              <span className="auth-social-microsoft">
+                <i />
+                <i />
+                <i />
+                <i />
+              </span>
+              <span>Microsoft</span>
+            </button>
+
+            <button type="button" className="auth-social-button">
+              <span className="auth-social-apple">●</span>
+              <span>Apple</span>
+            </button>
+          </div>
+
 
           <button type="button" className="auth-demo-button">
             Continue as guest

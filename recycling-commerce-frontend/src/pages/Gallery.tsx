@@ -1,304 +1,281 @@
-import { useMemo, useState } from "react";
 import {
+  ArrowUpRight,
+  BriefcaseBusiness,
+  Building2,
+  CircleUserRound,
   Facebook,
   Instagram,
-  Leaf,
   Linkedin,
-  Sparkles,
+  Leaf,
+  Mail,
+  Recycle,
+  ShieldCheck,
+  Users,
 } from "lucide-react";
-import "./Gallery.css";
+import { Link } from "react-router-dom";
 import { siteBrand } from "../config/brand";
+import "./Gallery.css";
 
-type Leader = {
+type TeamMember = {
   number: string;
-  name: string;
-  position: string;
   department: string;
-  quote: string;
-  image: string;
+  post: string;
+  name: string;
+  description: string;
 };
 
-const leaders: Leader[] = [
+const teamMembers: TeamMember[] = [
   {
     number: "01",
-    name: "Pawan",
-    position: "CEO (Chief Executive Officer)",
     department: "Leadership",
-    quote:
-      "Building a stronger vision for a cleaner and more circular future.",
-    image: "/members/member-1.jpg",
+    post: "CEO (CHIEF EXECUTIVE OFFICER)",
+    name: "Pawan",
+    description: "Building a stronger vision for a cleaner and more circular future.",
   },
   {
     number: "02",
-    name: "Leadership Team",
-    position: "COO (Chief Operating Officer)",
     department: "Operations",
-    quote: "Turning our plans into smooth, consistent execution.",
-    image: "/members/member-2.jpg",
+    post: "COO (CHIEF OPERATING OFFICER)",
+    name: "Leadership Team",
+    description: "Turning our plans into smooth, consistent execution.",
   },
   {
     number: "03",
-    name: "Kashish",
-    position: "CFO (Chief Financial Officer)",
     department: "Finance",
-    quote:
-      "Creating financial discipline that supports sustainable growth.",
-    image: "/members/member-3.jpg",
+    post: "CFO (CHIEF FINANCIAL OFFICER)",
+    name: "Kashish",
+    description: "Creating financial discipline that supports sustainable growth.",
   },
   {
     number: "04",
-    name: "Leadership Team",
-    position: "CMO (Chief Marketing Officer)",
     department: "Marketing",
-    quote:
-      "Building awareness and connecting GreenCore with more people.",
-    image: "/members/member-4.jpg",
+    post: "CMO (CHIEF MARKETING OFFICER)",
+    name: "Leadership Team",
+    description: "Building awareness and connecting GreenCore with more people.",
   },
   {
     number: "05",
-    name: "Leadership Team",
-    position: "CSO (Chief Sales Officer)",
     department: "Sales",
-    quote:
-      "Turning meaningful relationships into sustainable growth.",
-    image: "/members/member-5.jpg",
+    post: "CSO (CHIEF SALES OFFICER)",
+    name: "Leadership Team",
+    description: "Turning meaningful relationships into sustainable growth.",
   },
   {
     number: "06",
-    name: "Rudraksh",
-    position: "CTO (Chief Technology Officer)",
     department: "Technology",
-    quote:
-      "Using technology to make GreenCore smarter and more efficient.",
-    image: "/members/member-6.jpg",
+    post: "CTO (CHIEF TECHNOLOGY OFFICER)",
+    name: "Rudraksh",
+    description: "Using technology to make GreenCore smarter and more efficient.",
   },
   {
     number: "07",
-    name: "Devansh Yadav",
-    position: "HoT (Head of Technology)",
     department: "Technology",
-    quote:
-      "Driving technology forward through innovation and practical solutions.",
-    image: "/members/member-7.jpg",
+    post: "HOT (HEAD OF TECHNOLOGY)",
+    name: "Devansh Yadav",
+    description: "Driving technology forward through innovation and practical solutions.",
   },
   {
     number: "08",
-    name: "Leadership Team",
-    position: "HR Head (Head of Human Resources)",
     department: "People",
-    quote:
-      "Building a team where people can learn, contribute and grow.",
-    image: "/members/member-8.jpg",
+    post: "HR HEAD (HEAD OF HUMAN RESOURCES)",
+    name: "Leadership Team",
+    description: "Building a team where people can learn, contribute and grow.",
   },
   {
     number: "09",
-    name: "Leadership Team",
-    position: "Supply & Logistics Head",
     department: "Supply Chain",
-    quote:
-      "Keeping materials and delivery moving with precision.",
-    image: "/members/member-9.jpg",
+    post: "SUPPLY & LOGISTICS HEAD",
+    name: "Leadership Team",
+    description: "Keeping materials and delivery moving with precision.",
   },
   {
     number: "10",
-    name: "Leadership Team",
-    position: "Product Development Head",
     department: "R&D",
-    quote:
-      "Creating better products from materials that deserve another life.",
-    image: "/members/member-10.jpg",
+    post: "PRODUCT DEVELOPMENT HEAD",
+    name: "Leadership Team",
+    description: "Creating better products from materials that deserve another life.",
   },
   {
     number: "11",
-    name: "Leadership Team",
-    position: "Social Media Head",
     department: "Digital Communications",
-    quote:
-      "Giving GreenCore a stronger voice across the digital world.",
-    image: "/members/member-11.jpg",
+    post: "SOCIAL MEDIA HEAD",
+    name: "Leadership Team",
+    description: "Giving GreenCore a stronger voice across the digital world.",
   },
 ];
 
-const filters = [
-  "All",
-  "Leadership",
-  "Operations",
-  "Finance",
-  "Marketing",
-  "Technology",
-  "People",
-  "Supply Chain",
-  "R&D",
-  "Digital Communications",
-];
+const departmentIcons = {
+  Leadership: ShieldCheck,
+  Operations: BriefcaseBusiness,
+  Finance: Building2,
+  Marketing: Users,
+  Sales: ArrowUpRight,
+  Technology: Recycle,
+  People: CircleUserRound,
+  "Supply Chain": Building2,
+  "R&D": Recycle,
+  "Digital Communications": Mail,
+};
 
-export default function Gallery() {
-  const [activeFilter, setActiveFilter] = useState("All");
-
-  const filteredLeaders = useMemo(() => {
-    if (activeFilter === "All") return leaders;
-    return leaders.filter(
-      (leader) => leader.department === activeFilter,
-    );
-  }, [activeFilter]);
+function TeamCard({ member }: { member: TeamMember }) {
+  const DepartmentIcon =
+    departmentIcons[member.department as keyof typeof departmentIcons] ??
+    Users;
 
   return (
-    <main className="gallery-page">
-      <section className="gallery-hero gallery-hero-clean">
-        <div className="gallery-clean-background" />
-        <div className="gallery-clean-grid" />
-        <div className="gallery-clean-glow gallery-clean-glow-one" />
-        <div className="gallery-clean-glow gallery-clean-glow-two" />
+    <article className="gallery-team-card">
+      <div className="gallery-card-visual">
+        <span className="gallery-card-number">{member.number}</span>
 
-        <div className="gallery-clean-container">
-          <div className="gallery-clean-copy">
-            <span className="gallery-clean-initiative">
-              {siteBrand.initiativeLabel}
+        <span className="gallery-card-department">
+          <DepartmentIcon size={10} />
+          {member.department}
+        </span>
+
+        <div className="gallery-card-brand">
+          <Leaf size={14} />
+          <span>GREENCORE</span>
+        </div>
+
+        <div className="gallery-card-orbit gallery-card-orbit-one" />
+        <div className="gallery-card-orbit gallery-card-orbit-two" />
+        <div className="gallery-card-glow" />
+      </div>
+
+      <div className="gallery-card-content">
+        <div className="gallery-card-post">{member.post}</div>
+
+        <h3>{member.name}</h3>
+
+        <p>{member.description}</p>
+
+        <div className="gallery-card-footer">
+          <div className="gallery-card-socials">
+            <button type="button" aria-label={`${member.name} Instagram`}>
+              <Instagram size={11} />
+            </button>
+            <button type="button" aria-label={`${member.name} LinkedIn`}>
+              <Linkedin size={11} />
+            </button>
+            <button type="button" aria-label={`${member.name} Facebook`}>
+              <Facebook size={11} />
+            </button>
+          </div>
+
+          <Leaf size={13} className="gallery-card-leaf" />
+        </div>
+      </div>
+    </article>
+  );
+}
+
+export default function Gallery() {
+  return (
+    <main className="greencore-gallery">
+      <section className="gallery-hero">
+        <div className="gallery-hero-background" aria-hidden="true" />
+        <div className="gallery-hero-grid" aria-hidden="true" />
+        <div className="gallery-hero-glow gallery-hero-glow-one" aria-hidden="true" />
+        <div className="gallery-hero-glow gallery-hero-glow-two" aria-hidden="true" />
+
+        <div className="gallery-container gallery-hero-content">
+          <div className="gallery-hero-copy">
+            <span className="gallery-hero-label">
+              A VIDYAGYAN INITIATIVE
             </span>
 
             <h1>
-              Behind the
-              <span>mission.</span>
+              Meet the people
+              <span>behind the mission.</span>
             </h1>
 
-            <p className="gallery-clean-lead">
-              Meet the people turning ideas into meaningful action for a
-              cleaner, greener and more circular future.
+            <p>
+              The people shaping GreenCore through leadership, technology,
+              operations, innovation, and a shared commitment to a more circular
+              future.
             </p>
-
-            <p className="gallery-clean-support">
-              GreenCore brings together people, ideas and technology to give
-              materials a second life.
-            </p>
-
-            <div className="gallery-clean-meta">
-              <div>
-                <strong>01</strong>
-                <span>People</span>
-              </div>
-
-              <div>
-                <strong>02</strong>
-                <span>Ideas</span>
-              </div>
-
-              <div>
-                <strong>03</strong>
-                <span>Impact</span>
-              </div>
-            </div>
-
-            <div className="gallery-clean-filter-wrap">
-              <span>EXPLORE THE TEAM</span>
-
-              <div className="gallery-filters">
-                {filters.map((filter) => (
-                  <button
-                    key={filter}
-                    type="button"
-                    className={activeFilter === filter ? "active" : ""}
-                    onClick={() => setActiveFilter(filter)}
-                  >
-                    {filter}
-                  </button>
-                ))}
-              </div>
-            </div>
           </div>
 
-          <div className="gallery-clean-visual" aria-hidden="true">
-            <div className="gallery-clean-visual-glow" />
+          <div className="gallery-hero-emblem" aria-hidden="true">
+            <div className="gallery-emblem-ring gallery-emblem-ring-one" />
+            <div className="gallery-emblem-ring gallery-emblem-ring-two" />
+            <div className="gallery-emblem-ring gallery-emblem-ring-three" />
 
-            <div className="gallery-clean-ring gallery-clean-ring-one" />
-            <div className="gallery-clean-ring gallery-clean-ring-two" />
-            <div className="gallery-clean-ring gallery-clean-ring-three" />
-
-            <div className="gallery-clean-core">
-              <Leaf size={64} strokeWidth={1.35} />
+            <div className="gallery-emblem-core">
+              <Recycle size={52} strokeWidth={1.1} />
               <span>GREENCORE</span>
-              <strong>PEOPLE • IDEAS • IMPACT</strong>
-            </div>
-
-            <div className="gallery-clean-card gallery-clean-card-top">
-              <span>01</span>
-              <div>
-                <strong>PEOPLE</strong>
-                <small>Building the mission</small>
-              </div>
-            </div>
-
-            <div className="gallery-clean-card gallery-clean-card-bottom">
-              <span>03</span>
-              <div>
-                <strong>IMPACT</strong>
-                <small>Creating meaningful change</small>
-              </div>
             </div>
           </div>
         </div>
-
-        <div className="gallery-clean-scroll">
-          <span />
-          SCROLL TO MEET THE TEAM
-        </div>
       </section>
 
-      {/* TEAM CARDS */}
       <section className="gallery-team-section">
-        <div className="gallery-team-grid">
-          {filteredLeaders.map((leader) => (
-            <article className="gallery-team-card" key={leader.number}>
-              <div className="team-image-wrap">
-                <img
-                  src={leader.image}
-                  alt={`${leader.name} - ${leader.position}`}
-                  loading="lazy"
-                  onError={(event) => {
-                    event.currentTarget.style.display = "none";
-                    event.currentTarget.parentElement?.classList.add(
-                      "image-missing",
-                    );
-                  }}
-                />
+        <div className="gallery-container">
+          <div className="gallery-team-heading">
+            <div>
+              <span className="gallery-section-label">THE PEOPLE</span>
+              <h2>Built by people with purpose.</h2>
+            </div>
 
-                <div className="team-image-overlay" />
-                <span className="team-number">{leader.number}</span>
-                <span className="team-department">
-                  {leader.department}
-                </span>
-              </div>
+            <p>
+              Meet the team structure behind GreenCore and the people working
+              across every part of the mission.
+            </p>
+          </div>
 
-              <div className="team-card-body">
-                <span className="team-position">
-                  {leader.position}
-                </span>
-
-                <h3>{leader.name}</h3>
-
-                <p>{leader.quote}</p>
-
-                <div className="team-card-footer">
-                  <div className="team-socials">
-                    <a href="#" aria-label="Instagram">
-                      <Instagram size={14} />
-                    </a>
-                    <a href="#" aria-label="LinkedIn">
-                      <Linkedin size={14} />
-                    </a>
-                    <a href="#" aria-label="Facebook">
-                      <Facebook size={14} />
-                    </a>
-                  </div>
-
-                  <Leaf size={17} strokeWidth={1.5} />
-                </div>
-              </div>
-            </article>
-          ))}
+          <div className="gallery-team-grid">
+            {teamMembers.map((member) => (
+              <TeamCard key={member.number} member={member} />
+            ))}
+          </div>
         </div>
       </section>
 
+      <section className="gallery-impact-section">
+        <div className="gallery-container">
+          <div className="gallery-impact-card">
+            <div className="gallery-impact-icon">
+              <Recycle size={22} />
+            </div>
 
+            <div className="gallery-impact-copy">
+              <span>THE CIRCULAR LIFESTYLE</span>
+              <h2>Give everyday materials a second life.</h2>
+              <p>
+                Discover products made from recycled, reclaimed and upcycled
+                materials.
+              </p>
+            </div>
+
+            <Link to="/shop" className="gallery-impact-button">
+              Explore products
+              <ArrowUpRight size={15} />
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className="gallery-leadership-section">
+        <div className="gallery-container">
+          <div className="gallery-leadership-card">
+            <div className="gallery-leadership-icon">
+              <ShieldCheck size={25} />
+            </div>
+
+            <div>
+              <span>{siteBrand.organizationName}</span>
+              <h2>A Vidyagyan Initiative</h2>
+              <p>{siteBrand.leadershipStatement}.</p>
+            </div>
+
+            <div className="gallery-leadership-flow">
+              <strong>VIDYAGYAN</strong>
+              <span>↓</span>
+              <strong>GREENCORE</strong>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }

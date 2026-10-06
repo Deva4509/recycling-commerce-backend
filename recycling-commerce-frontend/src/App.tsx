@@ -26,6 +26,8 @@ import OrderDetails from "./pages/OrderDetails";
 import Orders from "./pages/Orders";
 import ProductDetails from "./pages/ProductDetails";
 import Register from "./pages/Register";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
 import Shop from "./pages/Shop";
 import VisionMission from "./pages/VisionMission";
 import Vidyagyan from "./pages/Vidyagyan";
@@ -94,6 +96,8 @@ function App() {
 
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/privacy" element={<Privacy />} />
         <Route path="/product/:slug" element={<ProductDetails />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />

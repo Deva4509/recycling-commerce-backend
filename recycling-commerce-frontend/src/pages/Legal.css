@@ -1,0 +1,376 @@
+/* =========================================================
+   GREENCORE — SIMPLE LEGAL PAGES
+   ========================================================= */
+
+.legal-page {
+  min-height: 100vh;
+  color: #e9fff4;
+  background:
+    radial-gradient(
+      circle at 80% 15%,
+      rgba(44, 225, 148, 0.16),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(10, 154, 101, 0.16),
+      transparent 32%
+    ),
+    linear-gradient(
+      145deg,
+      #011d15 0%,
+      #02372a 48%,
+      #064b36 100%
+    );
+}
+
+.legal-hero {
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+  padding: 70px 20px 100px;
+}
+
+.legal-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(8px);
+}
+
+.legal-glow-one {
+  width: 480px;
+  height: 480px;
+  top: -250px;
+  right: -180px;
+  background: rgba(77, 239, 165, 0.10);
+}
+
+.legal-glow-two {
+  width: 420px;
+  height: 420px;
+  bottom: -250px;
+  left: -190px;
+  background: rgba(12, 183, 119, 0.10);
+}
+
+.legal-container {
+  position: relative;
+  z-index: 2;
+  width: min(900px, 100%);
+  margin: 0 auto;
+}
+
+.legal-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 38px;
+
+  color: #9cefc5;
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.legal-back:hover {
+  color: #d8ffea;
+}
+
+.legal-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 44px;
+
+  color: #edfff6;
+  font-size: 21px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.legal-brand > span {
+  width: 40px;
+  height: 40px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 12px;
+
+  color: #eafff4;
+  background: linear-gradient(145deg, #079d68, #19cf89);
+
+  box-shadow: 0 10px 25px rgba(14, 202, 132, 0.22);
+}
+
+.legal-brand > span:last-child {
+  color: #5fe5a5;
+}
+
+.legal-icon {
+  width: 58px;
+  height: 58px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-bottom: 20px;
+
+  border: 1px solid rgba(105, 239, 181, 0.17);
+  border-radius: 17px;
+
+  color: #65e9ac;
+  background: rgba(4, 62, 45, 0.70);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.05),
+    0 15px 35px rgba(0, 20, 14, 0.18);
+}
+
+.legal-kicker {
+  margin: 0 0 9px;
+
+  color: #62e7a9;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.legal-container h1 {
+  margin: 0;
+
+  color: #effff7;
+  font-size: clamp(42px, 6vw, 70px);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  font-weight: 850;
+}
+
+.legal-intro {
+  max-width: 650px;
+  margin: 20px 0 38px;
+
+  color: #9bc4b1;
+  font-size: 15px;
+  line-height: 1.75;
+}
+
+.legal-card {
+  padding: clamp(25px, 4vw, 44px);
+
+  border: 1px solid rgba(104, 238, 180, 0.15);
+  border-radius: 25px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(3, 58, 42, 0.86),
+      rgba(2, 40, 30, 0.82)
+    );
+
+  box-shadow:
+    0 30px 70px rgba(0, 18, 12, 0.30),
+    inset 0 1px 0 rgba(120, 240, 184, 0.05);
+
+  backdrop-filter: blur(20px);
+}
+
+.legal-card section + section {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 1px solid rgba(104, 238, 180, 0.09);
+}
+
+.legal-card h2 {
+  margin: 0 0 9px;
+
+  color: #cffff0;
+  font-size: 17px;
+  font-weight: 800;
+}
+
+.legal-card p {
+  margin: 0;
+
+  color: #91b9a8;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+@media (max-width: 600px) {
+  .legal-hero {
+    padding: 40px 16px 70px;
+  }
+
+  .legal-back {
+    margin-bottom: 28px;
+  }
+
+  .legal-brand {
+    margin-bottom: 35px;
+  }
+
+  .legal-container h1 {
+    font-size: 43px;
+  }
+
+  .legal-intro {
+    font-size: 14px;
+  }
+
+  .legal-card {
+    padding: 23px 19px;
+    border-radius: 20px;
+  }
+}
+
+/* =========================================================
+   LEGAL PAGES — CLEAN STANDALONE PRESENTATION
+   ========================================================= */
+
+/* Legal pages should not show the global site navigation.
+   The legal page has its own navigation controls. */
+body:has(.legal-page) .site-navbar {
+  display: none !important;
+}
+
+/* Remove the old logo block completely. */
+.legal-brand {
+  display: none !important;
+}
+
+/* Proper top navigation button */
+.legal-back-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  min-height: 42px;
+  padding: 0 17px;
+
+  border: 1px solid rgba(105, 239, 181, 0.22);
+  border-radius: 12px;
+
+  color: #caffdf;
+  background: rgba(5, 67, 48, 0.72);
+
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.05),
+    0 10px 25px rgba(0, 20, 14, 0.16);
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 800;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    color 160ms ease;
+}
+
+.legal-back-button:hover {
+  transform: translateY(-2px);
+  border-color: rgba(105, 239, 181, 0.42);
+  color: #ffffff;
+  background: rgba(8, 91, 64, 0.9);
+}
+
+/* Bottom navigation buttons */
+.legal-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+
+  margin-top: 24px;
+}
+
+.legal-action-secondary,
+.legal-action-primary {
+  min-height: 46px;
+  padding: 0 20px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+
+  border-radius: 12px;
+
+  text-decoration: none;
+
+  font-size: 12px;
+  font-weight: 850;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    background 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.legal-action-secondary {
+  border: 1px solid rgba(105, 239, 181, 0.20);
+  color: #bcefd5;
+  background: rgba(3, 55, 40, 0.62);
+}
+
+.legal-action-secondary:hover {
+  transform: translateY(-2px);
+  border-color: rgba(105, 239, 181, 0.40);
+  background: rgba(5, 73, 52, 0.82);
+}
+
+.legal-action-primary {
+  border: 1px solid rgba(76, 230, 157, 0.45);
+  color: #022519;
+  background: linear-gradient(135deg, #6ff0b0, #29ce88);
+
+  box-shadow:
+    0 10px 24px rgba(25, 203, 130, 0.16),
+    inset 0 1px 0 rgba(255, 255, 255, 0.28);
+}
+
+.legal-action-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 30px rgba(25, 203, 130, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+
+/* Give the legal page a little more breathing room after removing
+   the global footer/navigation. */
+.legal-hero {
+  padding-bottom: 70px;
+}
+
+@media (max-width: 600px) {
+  .legal-actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .legal-action-secondary,
+  .legal-action-primary {
+    width: 100%;
+  }
+
+  .legal-back-button {
+    min-height: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .legal-back-button,
+  .legal-action-secondary,
+  .legal-action-primary {
+    transition: none;
+  }
+}

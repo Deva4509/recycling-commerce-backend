@@ -1,0 +1,1488 @@
+/* =========================================================
+   GREENCORE — PREMIUM AUTH EXPERIENCE
+   Login + Register
+   Scoped only to .auth-page
+   ========================================================= */
+
+.auth-page {
+  --auth-dark: #022f24;
+  --auth-deep: #003b2c;
+  --auth-green: #0baa72;
+  --auth-bright: #27d991;
+  --auth-soft: #72efb5;
+  --auth-ink: #073c2d;
+  --auth-muted: #6c8178;
+  --auth-line: rgba(5, 72, 52, 0.12);
+
+  min-height: auto;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1.04fr) minmax(420px, 0.96fr);
+  overflow: hidden;
+  background: #f3f8f5;
+  color: var(--auth-ink);
+}
+
+/* =========================================================
+   GLOBAL NAVBAR — AUTH PAGES
+   Keep navbar in normal document flow.
+   Prevent it from visually crossing the auth experience.
+   ========================================================= */
+
+body:has(.auth-page) .site-navbar {
+  position: relative !important;
+  top: auto !important;
+  z-index: 1000 !important;
+}
+
+/* =========================================================
+   LEFT HERO
+   ========================================================= */
+
+.auth-page .auth-visual {
+  position: relative;
+  min-height: 720px;
+  padding: 74px clamp(34px, 6vw, 100px);
+  overflow: hidden;
+  isolation: isolate;
+
+  display: flex;
+  align-items: center;
+
+  background:
+    radial-gradient(
+      circle at 78% 24%,
+      rgba(42, 225, 145, 0.22),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 8% 82%,
+      rgba(17, 139, 92, 0.25),
+      transparent 34%
+    ),
+    linear-gradient(
+      135deg,
+      #00291e 0%,
+      #003d2d 48%,
+      #006447 100%
+    );
+}
+
+/* Organic light */
+.auth-page .auth-visual::before {
+  content: "";
+  position: absolute;
+  width: 650px;
+  height: 650px;
+  right: -280px;
+  top: -260px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(80, 241, 165, 0.19) 0%,
+      rgba(80, 241, 165, 0.06) 34%,
+      transparent 70%
+    );
+
+  filter: blur(3px);
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Lower atmospheric glow */
+.auth-page .auth-visual::after {
+  content: "";
+  position: absolute;
+  width: 480px;
+  height: 480px;
+  left: -250px;
+  bottom: -270px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(36, 215, 139, 0.17),
+      transparent 68%
+    );
+
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* =========================================================
+   HERO CONTENT
+   ========================================================= */
+
+.auth-page .auth-visual-content {
+  display: none;
+}
+
+/* Main marketing block */
+.auth-page .auth-visual-copy {
+  position: relative;
+  z-index: 5;
+  width: min(680px, 100%);
+  margin: 0;
+}
+
+/* Eyebrow */
+.auth-page .auth-visual-copy > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-bottom: 23px;
+
+  color: #79efb7;
+  font-size: 10px;
+  font-weight: 850;
+  letter-spacing: 0.23em;
+  line-height: 1.4;
+}
+
+/* Little glowing indicator */
+.auth-page .auth-visual-copy > span::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #53e9a7;
+  box-shadow: 0 0 15px rgba(83, 233, 167, 0.8);
+}
+
+/* Hero title */
+.auth-page .auth-visual-copy h1 {
+  max-width: 670px;
+  margin: 0;
+
+  color: #f5fff9;
+  font-size: clamp(48px, 5.1vw, 76px);
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+  font-weight: 850;
+
+  text-wrap: balance;
+
+  text-shadow:
+    0 12px 40px rgba(0, 0, 0, 0.2);
+}
+
+.auth-page .auth-visual-copy h1 em {
+  color: #65e9aa;
+  font-style: normal;
+}
+
+/* Hero paragraph */
+.auth-page .auth-visual-copy p {
+  max-width: 555px;
+  margin: 27px 0 0;
+
+  color: rgba(236, 255, 246, 0.73);
+  font-size: 16px;
+  line-height: 1.75;
+}
+
+/* =========================================================
+   HERO BENEFIT STRIP
+   ========================================================= */
+
+.auth-page .auth-visual-copy::after {
+  content:
+    "SUSTAINABLE PRODUCTS     •     REDUCE WASTE     •     POSITIVE IMPACT";
+
+  display: block;
+  max-width: 610px;
+  margin-top: 38px;
+
+  color: rgba(238, 255, 247, 0.88);
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.075em;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   HIDE OLD DECORATIVE ELEMENTS
+   ========================================================= */
+
+.auth-page .auth-orbit,
+.auth-page .auth-leaf-core,
+.auth-page .auth-floating-card,
+.auth-page .auth-visual-glow {
+  display: none !important;
+}
+
+/* =========================================================
+   RIGHT AUTH AREA
+   ========================================================= */
+
+.auth-page .auth-form-section {
+  position: relative;
+  min-width: 0;
+  min-height: 720px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 58px clamp(24px, 5vw, 80px);
+
+  background:
+    radial-gradient(
+      circle at 88% 10%,
+      rgba(31, 196, 128, 0.09),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 15% 90%,
+      rgba(31, 196, 128, 0.055),
+      transparent 28%
+    ),
+    #f7fbf9;
+}
+
+/* =========================================================
+   AUTH CARD
+   ========================================================= */
+
+.auth-page .auth-form-wrap {
+  position: relative;
+  width: min(100%, 500px);
+
+  padding: 42px 42px 34px;
+
+  border: 1px solid rgba(0, 70, 49, 0.10);
+  border-radius: 28px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.98),
+      rgba(247, 252, 249, 0.96)
+    );
+
+  box-shadow:
+    0 35px 80px rgba(0, 58, 41, 0.12),
+    0 10px 30px rgba(0, 58, 41, 0.06),
+    inset 0 1px 0 rgba(255, 255, 255, 0.98);
+
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+}
+
+/* Green top accent */
+.auth-page .auth-form-wrap::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 48px;
+  right: 48px;
+  height: 3px;
+
+  border-radius: 999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      #10b981,
+      #45e3a3,
+      #10b981,
+      transparent
+    );
+}
+
+/* =========================================================
+   BRAND
+   ========================================================= */
+
+.auth-page .auth-mobile-brand {
+  display: block;
+  margin-bottom: 30px;
+}
+
+.auth-page .auth-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+
+  color: #063b2c;
+  text-decoration: none;
+
+  font-size: 20px;
+  font-weight: 850;
+  letter-spacing: -0.04em;
+}
+
+.auth-page .auth-brand > span:first-child {
+  width: 38px;
+  height: 38px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border-radius: 11px;
+
+  color: white;
+
+  background:
+    linear-gradient(
+      145deg,
+      #08a96f,
+      #19cf8b
+    );
+
+  box-shadow:
+    0 8px 18px rgba(10, 169, 111, 0.20);
+}
+
+.auth-page .auth-brand > span:last-child {
+  color: #15b97b;
+}
+
+/* Institutional label */
+.auth-page .auth-mobile-brand::after {
+  content: "A VIDYAGYAN INITIATIVE";
+  display: block;
+
+  margin-top: 6px;
+  margin-left: 48px;
+
+  color: #7a9187;
+  font-size: 8px;
+  font-weight: 850;
+  letter-spacing: 0.16em;
+}
+
+/* =========================================================
+   HEADING
+   ========================================================= */
+
+.auth-page .auth-heading {
+  margin-bottom: 27px;
+}
+
+.auth-page .auth-form-label {
+  display: block;
+  margin-bottom: 9px;
+
+  color: #0ba66f;
+  font-size: 9px;
+  font-weight: 900;
+  letter-spacing: 0.2em;
+}
+
+.auth-page .auth-heading h2 {
+  margin: 0;
+
+  color: #073d2e;
+  font-size: clamp(31px, 3vw, 40px);
+  line-height: 1.05;
+  letter-spacing: -0.045em;
+  font-weight: 850;
+}
+
+.auth-page .auth-heading p {
+  margin: 11px 0 0;
+
+  color: #70847c;
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   FORM
+   ========================================================= */
+
+.auth-page .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.auth-page .auth-form > label {
+  display: block;
+
+  color: #35574a;
+  font-size: 11px;
+  font-weight: 800;
+}
+
+/* Input shell */
+.auth-page .auth-input {
+  position: relative;
+
+  display: flex;
+  align-items: center;
+  gap: 11px;
+
+  min-height: 53px;
+  margin-top: 7px;
+  padding: 0 15px;
+
+  border: 1px solid rgba(0, 73, 52, 0.12);
+  border-radius: 14px;
+
+  color: #6b9483;
+
+  background: rgba(255, 255, 255, 0.92);
+
+  box-shadow:
+    0 5px 18px rgba(0, 59, 42, 0.035);
+
+  transition:
+    border-color 180ms ease,
+    box-shadow 180ms ease,
+    transform 180ms ease;
+}
+
+.auth-page .auth-input:focus-within {
+  border-color: rgba(10, 177, 116, 0.62);
+
+  box-shadow:
+    0 0 0 4px rgba(16, 185, 129, 0.08),
+    0 9px 25px rgba(0, 63, 44, 0.07);
+
+  transform: translateY(-1px);
+}
+
+.auth-page .auth-input input {
+  width: 100%;
+  min-width: 0;
+  height: 50px;
+
+  border: 0;
+  outline: 0;
+
+  color: #153d30;
+  background: transparent;
+
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.auth-page .auth-input input::placeholder {
+  color: #9aac a4;
+  color: #9aafa7;
+  font-weight: 500;
+}
+
+.auth-page .auth-input button {
+  flex: 0 0 auto;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 5px;
+
+  border: 0;
+  background: transparent;
+  color: #7c9990;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   LOGIN OPTIONS
+   ========================================================= */
+
+.auth-page .auth-options {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-top: -2px;
+}
+
+.auth-page .remember-option {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 7px;
+
+  color: #71857e !important;
+  font-size: 10px !important;
+  font-weight: 650 !important;
+}
+
+.auth-page .remember-option input,
+.auth-page .terms-option input {
+  width: 14px;
+  height: 14px;
+  accent-color: #0ba970;
+}
+
+.auth-page .forgot-button {
+  border: 0;
+  padding: 0;
+
+  color: #0aab71;
+  background: transparent;
+
+  font-size: 10px;
+  font-weight: 800;
+
+  cursor: pointer;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.auth-page .auth-error {
+  margin: -5px 0 0;
+  padding: 10px 12px;
+
+  border: 1px solid rgba(190, 55, 55, 0.16);
+  border-radius: 10px;
+
+  color: #a43838;
+  background: rgba(190, 55, 55, 0.06);
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+   ========================================================= */
+
+.auth-page .auth-submit {
+  width: 100%;
+  min-height: 54px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+
+  margin-top: 1px;
+
+  border: 0;
+  border-radius: 15px;
+
+  color: #ffffff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #078f60 0%,
+      #0caf73 50%,
+      #19c987 100%
+    );
+
+  box-shadow:
+    0 13px 28px rgba(6, 157, 101, 0.23),
+    inset 0 1px 0 rgba(255, 255, 255, 0.16);
+
+  font-size: 13px;
+  font-weight: 850;
+
+  cursor: pointer;
+
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.auth-page .auth-submit:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 18px 35px rgba(6, 157, 101, 0.29),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+  filter: saturate(1.08);
+}
+
+.auth-page .auth-submit:active {
+  transform: translateY(0);
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.auth-page .auth-divider {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+
+  margin: 22px 0 14px;
+
+  color: #9aaca5;
+
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.13em;
+}
+
+.auth-page .auth-divider::before,
+.auth-page .auth-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+
+  background: rgba(0, 70, 50, 0.10);
+}
+
+/* =========================================================
+   SOCIAL BUTTONS
+   ========================================================= */
+
+.auth-page .auth-social-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 9px;
+}
+
+.auth-page .auth-social-button {
+  min-height: 47px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+
+  border: 1px solid rgba(0, 67, 48, 0.10);
+  border-radius: 12px;
+
+  color: #345347;
+  background: rgba(255, 255, 255, 0.78);
+
+  font-size: 10px;
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition:
+    transform 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    background 160ms ease;
+}
+
+.auth-page .auth-social-button:hover {
+  transform: translateY(-2px);
+
+  border-color: rgba(10, 177, 116, 0.26);
+  background: #ffffff;
+
+  box-shadow:
+    0 10px 22px rgba(0, 57, 40, 0.07);
+}
+
+.auth-page .auth-social-google {
+  color: #4285f4;
+  font-size: 13px;
+  font-weight: 900;
+}
+
+.auth-page .auth-social-microsoft {
+  width: 13px;
+  height: 13px;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+
+  gap: 1px;
+}
+
+.auth-page .auth-social-microsoft i:nth-child(1) {
+  background: #f35325;
+}
+
+.auth-page .auth-social-microsoft i:nth-child(2) {
+  background: #81bc06;
+}
+
+.auth-page .auth-social-microsoft i:nth-child(3) {
+  background: #05a6f0;
+}
+
+.auth-page .auth-social-microsoft i:nth-child(4) {
+  background: #ffba08;
+}
+
+.auth-page .auth-social-apple {
+  color: #111827;
+  font-size: 10px;
+}
+
+/* =========================================================
+   SWITCH / TERMS
+   ========================================================= */
+
+.auth-page .auth-switch {
+  margin: 18px 0 0;
+
+  color: #81938d;
+  text-align: center;
+
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.auth-page .auth-switch a {
+  color: #079c68;
+  font-weight: 850;
+  text-decoration: none;
+}
+
+.auth-page .auth-switch a:hover {
+  color: #047c53;
+  text-decoration: underline;
+}
+
+.auth-page .auth-terms {
+  margin: 12px auto 0;
+  max-width: 360px;
+
+  color: #a0aea9;
+  text-align: center;
+
+  font-size: 8px;
+  line-height: 1.6;
+}
+
+.auth-page .auth-demo-button {
+  display: none !important;
+}
+
+/* =========================================================
+   REGISTER PAGE
+   ========================================================= */
+
+.auth-page.register-page .auth-visual {
+  background:
+    radial-gradient(
+      circle at 80% 25%,
+      rgba(50, 231, 151, 0.22),
+      transparent 28%
+    ),
+    radial-gradient(
+      circle at 15% 80%,
+      rgba(15, 139, 92, 0.25),
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #02291e 0%,
+      #004631 50%,
+      #00704d 100%
+    );
+}
+
+.auth-page.register-page .auth-visual-copy h1 {
+  max-width: 650px;
+}
+
+/* Register benefits */
+.auth-page.register-page .auth-visual-copy::after {
+  content:
+    "SHOP SUSTAINABLE     •     MAKE AN IMPACT     •     JOIN THE COMMUNITY";
+}
+
+/* Terms */
+.auth-page .terms-option {
+  display: flex !important;
+  align-items: flex-start;
+  gap: 9px;
+
+  color: #71857e !important;
+  font-size: 10px !important;
+  line-height: 1.5;
+  font-weight: 600 !important;
+}
+
+.auth-page .terms-option input {
+  flex: 0 0 auto;
+  margin-top: 1px;
+}
+
+/* =========================================================
+   DESKTOP HEIGHT BALANCE
+   ========================================================= */
+
+@media (min-width: 1101px) {
+  .auth-page .auth-visual,
+  .auth-page .auth-form-section {
+    min-height: 720px;
+  }
+}
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .auth-page {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-page .auth-visual {
+    min-height: 590px;
+    padding: 70px 50px 65px;
+  }
+
+  .auth-page .auth-form-section {
+    min-height: auto;
+    padding: 55px 30px 65px;
+  }
+
+  .auth-page .auth-visual-copy h1 {
+    font-size: clamp(48px, 7vw, 68px);
+  }
+
+  .auth-page .auth-form-wrap {
+    width: min(560px, 100%);
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
+@media (max-width: 650px) {
+  .auth-page .auth-visual {
+    min-height: 535px;
+    padding: 52px 24px 55px;
+    align-items: flex-end;
+  }
+
+  .auth-page .auth-visual-copy > span {
+    margin-bottom: 17px;
+    font-size: 9px;
+    letter-spacing: 0.17em;
+  }
+
+  .auth-page .auth-visual-copy h1 {
+    font-size: clamp(41px, 12vw, 57px);
+    line-height: 0.99;
+  }
+
+  .auth-page .auth-visual-copy p {
+    margin-top: 20px;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+
+  .auth-page .auth-visual-copy::after {
+    margin-top: 25px;
+    font-size: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .auth-page .auth-form-section {
+    padding: 22px 15px 48px;
+  }
+
+  .auth-page .auth-form-wrap {
+    padding: 31px 21px 27px;
+    border-radius: 23px;
+  }
+
+  .auth-page .auth-form-wrap::before {
+    left: 35px;
+    right: 35px;
+  }
+
+  .auth-page .auth-mobile-brand {
+    margin-bottom: 24px;
+  }
+
+  .auth-page .auth-heading {
+    margin-bottom: 23px;
+  }
+
+  .auth-page .auth-heading h2 {
+    font-size: 31px;
+  }
+
+  .auth-page .auth-social-row {
+    grid-template-columns: 1fr;
+  }
+
+  .auth-page .auth-social-button {
+    min-height: 45px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+   ========================================================= */
+
+@media (max-width: 420px) {
+  .auth-page .auth-visual {
+    min-height: 500px;
+    padding: 43px 20px 45px;
+  }
+
+  .auth-page .auth-visual-copy h1 {
+    font-size: 40px;
+  }
+
+  .auth-page .auth-form-wrap {
+    padding: 27px 18px 24px;
+  }
+
+  .auth-page .auth-input {
+    min-height: 51px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .auth-page *,
+  .auth-page *::before,
+  .auth-page *::after {
+    scroll-behavior: auto !important;
+    transition: none !important;
+    animation: none !important;
+  }
+
+  .auth-page .auth-submit:hover,
+  .auth-page .auth-social-button:hover {
+    transform: none;
+  }
+}
+
+/* =========================================================
+   GREENCORE AUTH — FULL DARK/LIGHT GREEN THEME
+   NO WHITE SURFACES
+   ========================================================= */
+
+/* Entire authentication experience */
+.auth-page {
+  --auth-darkest: #011c14;
+  --auth-dark: #02291e;
+  --auth-deep: #03382a;
+  --auth-green: #087f59;
+  --auth-green-2: #0aa96f;
+  --auth-green-3: #16c982;
+  --auth-light: #67e8aa;
+  --auth-lighter: #a7f3cf;
+  --auth-text: #ecfff6;
+  --auth-muted: #91b7a7;
+  --auth-border: rgba(103, 232, 170, 0.17);
+
+  background:
+    linear-gradient(
+      135deg,
+      #011c14 0%,
+      #023224 45%,
+      #064b36 100%
+    ) !important;
+
+  color: var(--auth-text);
+}
+
+/* =========================================================
+   LEFT SIDE — DEEP GREEN
+   ========================================================= */
+
+.auth-page .auth-visual {
+  background:
+    radial-gradient(
+      circle at 76% 22%,
+      rgba(72, 235, 161, 0.20),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 18% 78%,
+      rgba(14, 173, 112, 0.18),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #011f17 0%,
+      #02382a 46%,
+      #04543b 100%
+    ) !important;
+
+  border-right: 1px solid rgba(111, 239, 181, 0.09);
+}
+
+/* Fine green atmosphere */
+.auth-page .auth-visual::before {
+  background:
+    radial-gradient(
+      circle,
+      rgba(97, 239, 174, 0.20) 0%,
+      rgba(39, 209, 145, 0.07) 38%,
+      transparent 72%
+    ) !important;
+}
+
+.auth-page .auth-visual::after {
+  background:
+    radial-gradient(
+      circle,
+      rgba(18, 201, 130, 0.20),
+      transparent 70%
+    ) !important;
+}
+
+/* =========================================================
+   HERO TEXT
+   ========================================================= */
+
+.auth-page .auth-visual-copy > span {
+  color: var(--auth-light) !important;
+}
+
+.auth-page .auth-visual-copy > span::before {
+  background: var(--auth-light) !important;
+  box-shadow:
+    0 0 12px rgba(103, 232, 170, 0.9),
+    0 0 26px rgba(103, 232, 170, 0.35) !important;
+}
+
+.auth-page .auth-visual-copy h1 {
+  color: #eafff4 !important;
+  text-shadow:
+    0 8px 35px rgba(0, 0, 0, 0.34),
+    0 0 35px rgba(46, 221, 147, 0.06) !important;
+}
+
+.auth-page .auth-visual-copy h1 em {
+  color: var(--auth-light) !important;
+}
+
+.auth-page .auth-visual-copy p {
+  color: rgba(198, 245, 222, 0.72) !important;
+}
+
+.auth-page .auth-visual-copy::after {
+  color: #b4f3d2 !important;
+}
+
+/* =========================================================
+   RIGHT SIDE — GREEN INSTEAD OF WHITE
+   ========================================================= */
+
+.auth-page .auth-form-section {
+  background:
+    radial-gradient(
+      circle at 85% 12%,
+      rgba(35, 215, 143, 0.14),
+      transparent 25%
+    ),
+    radial-gradient(
+      circle at 15% 88%,
+      rgba(11, 139, 91, 0.15),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #063c2c 0%,
+      #07523b 48%,
+      #063c2d 100%
+    ) !important;
+
+  color: var(--auth-text) !important;
+}
+
+/* Ambient right-side glow */
+.auth-page .auth-form-section::before {
+  content: "";
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  right: -230px;
+  top: -190px;
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(76, 239, 165, 0.14),
+      transparent 68%
+    );
+
+  pointer-events: none;
+}
+
+/* =========================================================
+   DARK GREEN GLASS AUTH CARD
+   ========================================================= */
+
+.auth-page .auth-form-wrap {
+  border: 1px solid rgba(113, 240, 183, 0.18) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(4, 54, 40, 0.94),
+      rgba(2, 42, 31, 0.91)
+    ) !important;
+
+  box-shadow:
+    0 35px 90px rgba(0, 20, 14, 0.38),
+    0 12px 30px rgba(0, 20, 14, 0.22),
+    inset 0 1px 0 rgba(133, 255, 196, 0.08) !important;
+
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+}
+
+/* Card top glow */
+.auth-page .auth-form-wrap::before {
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(76, 239, 165, 0.9),
+      rgba(20, 201, 130, 0.75),
+      transparent
+    ) !important;
+
+  box-shadow:
+    0 0 16px rgba(38, 216, 144, 0.22);
+}
+
+/* =========================================================
+   CARD BRAND
+   ========================================================= */
+
+.auth-page .auth-brand {
+  color: #e9fff4 !important;
+}
+
+.auth-page .auth-brand > span:first-child {
+  color: #eafff4 !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #079965,
+      #16c982
+    ) !important;
+
+  box-shadow:
+    0 8px 22px rgba(12, 201, 130, 0.27),
+    inset 0 1px 0 rgba(255, 255, 255, 0.12) !important;
+}
+
+.auth-page .auth-brand > span:last-child {
+  color: #65e8a9 !important;
+}
+
+.auth-page .auth-mobile-brand::after {
+  color: #74a996 !important;
+}
+
+/* =========================================================
+   CARD HEADINGS
+   ========================================================= */
+
+.auth-page .auth-form-label {
+  color: #62e6a8 !important;
+}
+
+.auth-page .auth-heading h2 {
+  color: #e9fff4 !important;
+}
+
+.auth-page .auth-heading p {
+  color: #8fb8a8 !important;
+}
+
+/* =========================================================
+   FORM LABELS
+   ========================================================= */
+
+.auth-page .auth-form > label {
+  color: #a8cfbd !important;
+}
+
+/* =========================================================
+   INPUTS — DARK GREEN
+   ========================================================= */
+
+.auth-page .auth-input {
+  border: 1px solid rgba(103, 232, 170, 0.16) !important;
+
+  background:
+    rgba(1, 31, 23, 0.66) !important;
+
+  color: #78dfac !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(120, 239, 183, 0.025),
+    0 8px 22px rgba(0, 15, 10, 0.12) !important;
+}
+
+.auth-page .auth-input:focus-within {
+  border-color: rgba(65, 229, 157, 0.62) !important;
+
+  background:
+    rgba(2, 43, 31, 0.88) !important;
+
+  box-shadow:
+    0 0 0 4px rgba(22, 201, 130, 0.09),
+    0 10px 28px rgba(0, 20, 14, 0.22),
+    inset 0 1px 0 rgba(107, 239, 178, 0.05) !important;
+}
+
+.auth-page .auth-input input {
+  color: #e6fff2 !important;
+  background: transparent !important;
+}
+
+.auth-page .auth-input input::placeholder {
+  color: #668f7d !important;
+}
+
+.auth-page .auth-input button {
+  color: #70ae96 !important;
+}
+
+.auth-page .auth-input button:hover {
+  color: #72e9ae !important;
+}
+
+/* =========================================================
+   LOGIN OPTIONS
+   ========================================================= */
+
+.auth-page .remember-option {
+  color: #82a998 !important;
+}
+
+.auth-page .forgot-button {
+  color: #52dda0 !important;
+}
+
+.auth-page .forgot-button:hover {
+  color: #8af2be !important;
+}
+
+/* Checkbox */
+.auth-page .remember-option input,
+.auth-page .terms-option input {
+  accent-color: #18c982;
+}
+
+/* =========================================================
+   ERROR
+   ========================================================= */
+
+.auth-page .auth-error {
+  border-color: rgba(255, 112, 112, 0.18) !important;
+
+  color: #ffaaa3 !important;
+
+  background:
+    rgba(120, 24, 27, 0.28) !important;
+}
+
+/* =========================================================
+   PRIMARY BUTTON — BRIGHT GREEN
+   ========================================================= */
+
+.auth-page .auth-submit {
+  color: #002a1d !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #29d991 0%,
+      #43e8a3 48%,
+      #20ca85 100%
+    ) !important;
+
+  box-shadow:
+    0 15px 32px rgba(23, 210, 137, 0.23),
+    0 0 0 1px rgba(129, 255, 202, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22) !important;
+}
+
+.auth-page .auth-submit:hover {
+  box-shadow:
+    0 20px 40px rgba(23, 210, 137, 0.32),
+    0 0 25px rgba(50, 228, 155, 0.12),
+    inset 0 1px 0 rgba(255, 255, 255, 0.25) !important;
+}
+
+/* =========================================================
+   DIVIDER
+   ========================================================= */
+
+.auth-page .auth-divider {
+  color: #658f7d !important;
+}
+
+.auth-page .auth-divider::before,
+.auth-page .auth-divider::after {
+  background: rgba(105, 224, 169, 0.12) !important;
+}
+
+/* =========================================================
+   SOCIAL BUTTONS — GREEN
+   ========================================================= */
+
+.auth-page .auth-social-button {
+  border: 1px solid rgba(103, 232, 170, 0.14) !important;
+
+  color: #a9d4c0 !important;
+
+  background:
+    rgba(1, 31, 23, 0.58) !important;
+
+  box-shadow:
+    inset 0 1px 0 rgba(120, 239, 183, 0.025) !important;
+}
+
+.auth-page .auth-social-button:hover {
+  border-color: rgba(72, 229, 158, 0.36) !important;
+
+  color: #d9ffeb !important;
+
+  background:
+    rgba(4, 63, 45, 0.82) !important;
+
+  box-shadow:
+    0 10px 25px rgba(0, 17, 11, 0.24),
+    0 0 18px rgba(38, 211, 143, 0.05) !important;
+}
+
+.auth-page .auth-social-google {
+  color: #6ee7a9 !important;
+}
+
+.auth-page .auth-social-apple {
+  color: #d9ffeb !important;
+}
+
+/* =========================================================
+   ACCOUNT SWITCH
+   ========================================================= */
+
+.auth-page .auth-switch {
+  color: #779f8e !important;
+}
+
+.auth-page .auth-switch a {
+  color: #58dfa1 !important;
+}
+
+.auth-page .auth-switch a:hover {
+  color: #8af2be !important;
+}
+
+.auth-page .auth-terms {
+  color: #628a78 !important;
+}
+
+/* =========================================================
+   REGISTER TERMS
+   ========================================================= */
+
+.auth-page .terms-option {
+  color: #7fa997 !important;
+}
+
+/* =========================================================
+   REGISTER HERO
+   ========================================================= */
+
+.auth-page.register-page .auth-visual {
+  background:
+    radial-gradient(
+      circle at 78% 23%,
+      rgba(78, 240, 166, 0.21),
+      transparent 27%
+    ),
+    radial-gradient(
+      circle at 12% 82%,
+      rgba(12, 174, 112, 0.19),
+      transparent 34%
+    ),
+    linear-gradient(
+      145deg,
+      #011e16 0%,
+      #033d2c 48%,
+      #056247 100%
+    ) !important;
+}
+
+/* =========================================================
+   SCROLLBAR — GREEN
+   ========================================================= */
+
+.auth-page ::-webkit-scrollbar {
+  width: 8px;
+}
+
+.auth-page ::-webkit-scrollbar-track {
+  background: #011c14;
+}
+
+.auth-page ::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: #087f59;
+}
+
+.auth-page ::-webkit-scrollbar-thumb:hover {
+  background: #16c982;
+}
+
+/* =========================================================
+   MOBILE GREEN THEME
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .auth-page .auth-form-section {
+    background:
+      radial-gradient(
+        circle at 85% 8%,
+        rgba(38, 218, 145, 0.13),
+        transparent 27%
+      ),
+      linear-gradient(
+        145deg,
+        #063d2d,
+        #043526
+      ) !important;
+  }
+}
+
+@media (max-width: 650px) {
+  .auth-page .auth-form-wrap {
+    background:
+      linear-gradient(
+        145deg,
+        rgba(3, 57, 42, 0.97),
+        rgba(2, 39, 29, 0.96)
+      ) !important;
+  }
+}
+
+
+/* =========================================================
+   REGISTER — LEGAL LINKS
+   Only the Terms / Privacy names are clickable.
+   ========================================================= */
+
+.auth-page .auth-legal-link {
+  color: #58dfa1;
+  text-decoration: none;
+  font-weight: 800;
+  transition: color 160ms ease, text-shadow 160ms ease;
+}
+
+.auth-page .auth-legal-link:hover {
+  color: #9af5c6;
+  text-decoration: underline;
+  text-shadow: 0 0 12px rgba(88, 223, 161, 0.18);
+}

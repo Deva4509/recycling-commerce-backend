@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import "./Auth.css";
 
 export default function Register() {
   const navigate = useNavigate();
@@ -47,11 +48,6 @@ export default function Register() {
         <div className="auth-visual-glow auth-glow-one" />
         <div className="auth-visual-glow auth-glow-two" />
 
-        <Link to="/" className="auth-brand">
-          <span><Leaf size={18} /></span>
-          Green<span>Core</span>
-        </Link>
-
         <div className="auth-visual-content">
           <div className="auth-orbit auth-orbit-one" />
           <div className="auth-orbit auth-orbit-two" />
@@ -72,11 +68,11 @@ export default function Register() {
         </div>
 
         <div className="auth-visual-copy">
-          <span>JOIN THE MOVEMENT</span>
+          <span>JOIN THE GREENCORE COMMUNITY</span>
           <h1>
-            Shop with
+            Be a Part of a
             <br />
-            <em>purpose.</em>
+            <em>Greener</em> Tomorrow.
           </h1>
           <p>
             Create your account and discover products designed around reuse,
@@ -97,7 +93,7 @@ export default function Register() {
           <div className="auth-heading">
             <span className="auth-form-label">GET STARTED</span>
             <h2>Create your account.</h2>
-            <p>Join GreenCore and start shopping more consciously.</p>
+            <p>Join GreenCore and be a part of the change.</p>
           </div>
 
           <form className="auth-form" onSubmit={handleSubmit}>
@@ -158,7 +154,15 @@ export default function Register() {
                 onChange={(event) => setAgreed(event.target.checked)}
               />
               <span>
-                I agree to the Terms of Service and Privacy Policy.
+                I agree to the{" "}
+                <Link to="/terms" className="auth-legal-link">
+                  Terms of Service
+                </Link>{" "}
+                and{" "}
+                <Link to="/privacy" className="auth-legal-link">
+                  Privacy Policy
+                </Link>
+                .
               </span>
             </label>
 
