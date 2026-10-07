@@ -46,3 +46,36 @@ svg {
   color: #f7faf5;
   background: #197149;
 }
+
+
+/* ============================================================
+   GREENCORE — ZERO WHITE FLASH
+   Document background is established before React paints.
+   ============================================================ */
+
+:root {
+  color-scheme: dark;
+  background: #03150f !important;
+}
+
+html,
+body,
+#root {
+  background-color: #03150f !important;
+  min-height: 100%;
+}
+
+html {
+  background:
+    radial-gradient(
+      circle at 50% 0%,
+      rgba(22, 163, 74, 0.08),
+      transparent 42%
+    ),
+    #03150f !important;
+}
+
+body {
+  margin: 0;
+  background: #03150f !important;
+}
