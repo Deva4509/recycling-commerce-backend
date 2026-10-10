@@ -1,3 +1,4 @@
+from datetime import date
 from uuid import UUID
 
 from pydantic import BaseModel, ConfigDict, Field
@@ -41,3 +42,17 @@ class CurrentUserResponse(BaseModel):
     status: str
     email_verified: bool
     role: str = ""
+    phone_country_code: str | None = None
+    date_of_birth: date | None = None
+    profile_photo_url: str | None = None
+
+
+
+class UpdateProfileRequest(BaseModel):
+    """Editable profile fields; email is intentionally excluded."""
+
+    first_name: str = Field(min_length=1, max_length=100)
+    last_name: str = Field(min_length=1, max_length=100)
+    phone: str | None = Field(default=None, max_length=30)
+    phone_country_code: str | None = Field(default=None, max_length=8)
+    date_of_birth: date | None = None

@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException, status
+from datetime import date
+
+from fastapi import APIRouter, Depends, File, HTTPException, UploadFile, status
 from sqlalchemy import select
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
@@ -8,11 +10,16 @@ from app.core.security import create_access_token, hash_password, verify_passwor
 from app.database import get_db
 from app.database.models import AccountStatus, Role, RoleName, User
 from app.dependencies.auth import get_current_user
+from app.services.cloudinary_storage import (
+    delete_product_image,
+    upload_profile_image,
+)
 from app.schemas.auth import (
     CurrentUserResponse,
     LoginRequest,
     RegisterRequest,
     TokenResponse,
+    UpdateProfileRequest,
 )
 
 
@@ -84,6 +91,9 @@ def register(
         "first_name": user.first_name,
         "last_name": user.last_name,
         "phone": user.phone,
+        "phone_country_code": user.phone_country_code,
+        "date_of_birth": user.date_of_birth,
+        "profile_photo_url": user.profile_photo_url,
         "status": user.status,
         "email_verified": user.email_verified,
         "role": user.role.name,
@@ -142,6 +152,130 @@ def me(
         "first_name": current_user.first_name,
         "last_name": current_user.last_name,
         "phone": current_user.phone,
+        "phone_country_code": current_user.phone_country_code,
+        "date_of_birth": current_user.date_of_birth,
+        "profile_photo_url": current_user.profile_photo_url,
+        "status": current_user.status,
+        "email_verified": current_user.email_verified,
+        "role": current_user.role.name,
+    }
+
+
+@router.patch("/me", response_model=CurrentUserResponse)
+def update_me(
+    payload: UpdateProfileRequest,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_db),
+) -> dict:
+    """Update editable profile fields for the authenticated user."""
+
+    first_name = payload.first_name.strip()
+    last_name = payload.last_name.strip()
+    if not first_name or not last_name:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="First name and last name cannot be empty.",
+        )
+
+    if payload.date_of_birth and payload.date_of_birth > date.today():
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Date of birth cannot be in the future.",
+        )
+
+    country_code = (
+        payload.phone_country_code.strip()
+        if payload.phone_country_code
+        else None
+    )
+    phone = payload.phone.strip() if payload.phone else None
+
+    if phone and not any(character.isdigit() for character in phone):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Enter a valid phone number.",
+        )
+    if country_code and (
+        not country_code.startswith("+")
+        or not country_code[1:].isdigit()
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Country calling code must look like +91.",
+        )
+
+    current_user.first_name = first_name
+    current_user.last_name = last_name
+    current_user.phone = phone
+    current_user.phone_country_code = country_code
+    current_user.date_of_birth = payload.date_of_birth
+
+    try:
+        session.commit()
+        session.refresh(current_user)
+    except Exception:
+        session.rollback()
+        raise
+
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "first_name": current_user.first_name,
+        "last_name": current_user.last_name,
+        "phone": current_user.phone,
+        "phone_country_code": current_user.phone_country_code,
+        "date_of_birth": current_user.date_of_birth,
+        "profile_photo_url": current_user.profile_photo_url,
+        "status": current_user.status,
+        "email_verified": current_user.email_verified,
+        "role": current_user.role.name,
+    }
+
+
+@router.post("/me/profile-photo", response_model=CurrentUserResponse)
+async def update_profile_photo(
+    photo: UploadFile = File(...),
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_db),
+) -> dict:
+    """Upload a profile photo for the authenticated user."""
+
+    new_url, new_public_id = await upload_profile_image(
+        photo,
+        str(current_user.id),
+    )
+    old_public_id = current_user.profile_photo_public_id
+
+    current_user.profile_photo_url = new_url
+    current_user.profile_photo_public_id = new_public_id
+    try:
+        session.commit()
+        session.refresh(current_user)
+    except Exception:
+        session.rollback()
+        try:
+            delete_product_image(new_public_id)
+        except Exception:
+            pass
+        raise
+
+    if old_public_id and old_public_id != new_public_id:
+        try:
+            delete_product_image(old_public_id)
+        except Exception:
+            # The database already points to the new photo; a stale remote
+            # image must not make a successful profile update appear to fail.
+            pass
+
+    return {
+        "id": current_user.id,
+        "email": current_user.email,
+        "first_name": current_user.first_name,
+        "last_name": current_user.last_name,
+        "phone": current_user.phone,
+        "phone_country_code": current_user.phone_country_code,
+        "date_of_birth": current_user.date_of_birth,
+        "profile_photo_url": current_user.profile_photo_url,
         "status": current_user.status,
         "email_verified": current_user.email_verified,
         "role": current_user.role.name,

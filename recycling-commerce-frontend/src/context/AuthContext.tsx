@@ -11,7 +11,12 @@ export interface LocalUser {
   id: string;
   name: string;
   email: string;
+  first_name?: string;
+  last_name?: string;
   phone?: string | null;
+  phone_country_code?: string | null;
+  date_of_birth?: string | null;
+  profile_photo_url?: string | null;
   status?: string;
   email_verified?: boolean;
   role?: string;
@@ -32,6 +37,17 @@ type AuthContextValue = {
     password: string,
     remember?: boolean,
   ) => Promise<{ success: boolean; error?: string }>;
+  updateProfile: (payload: {
+    first_name: string;
+    last_name: string;
+    phone: string | null;
+    phone_country_code: string | null;
+    date_of_birth: string | null;
+  }) => Promise<{ success: boolean; error?: string }>;
+  uploadProfilePhoto: (file: File) => Promise<{
+    success: boolean;
+    error?: string;
+  }>;
   logout: () => void;
 };
 
@@ -77,6 +93,12 @@ function saveAuth(
   storage.setItem(USER_KEY, JSON.stringify(user));
 }
 
+function saveCurrentUser(user: LocalUser) {
+  const remember = Boolean(localStorage.getItem(TOKEN_KEY));
+  const storage = remember ? localStorage : sessionStorage;
+  storage.setItem(USER_KEY, JSON.stringify(user));
+}
+
 function clearStoredAuth() {
   localStorage.removeItem(TOKEN_KEY);
   localStorage.removeItem(USER_KEY);
@@ -111,6 +133,9 @@ function mapUser(data: {
   first_name: string;
   last_name: string;
   phone?: string | null;
+  phone_country_code?: string | null;
+  date_of_birth?: string | null;
+  profile_photo_url?: string | null;
   status?: string;
   email_verified?: boolean;
   role?: string;
@@ -119,7 +144,12 @@ function mapUser(data: {
     id: data.id,
     name: `${data.first_name} ${data.last_name}`.trim(),
     email: data.email,
+    first_name: data.first_name,
+    last_name: data.last_name,
     phone: data.phone ?? null,
+    phone_country_code: data.phone_country_code ?? null,
+    date_of_birth: data.date_of_birth ?? null,
+    profile_photo_url: data.profile_photo_url ?? null,
     status: data.status,
     email_verified: data.email_verified,
     role: data.role,
@@ -340,6 +370,73 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       async login(email, password, remember = false) {
         return authenticate(email, password, remember);
+      },
+
+      async updateProfile(payload) {
+        const token = getStoredToken();
+        if (!token) {
+          return { success: false, error: "Please sign in again." };
+        }
+
+        try {
+          const response = await fetch(`${API_BASE_URL}/auth/me`, {
+            method: "PATCH",
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (!response.ok) {
+            return { success: false, error: await parseError(response) };
+          }
+
+          const updatedUser = mapUser(await response.json());
+          setUser(updatedUser);
+          saveCurrentUser(updatedUser);
+          return { success: true };
+        } catch {
+          return {
+            success: false,
+            error: "Unable to save your profile. Check your connection.",
+          };
+        }
+      },
+
+      async uploadProfilePhoto(file) {
+        const token = getStoredToken();
+        if (!token) {
+          return { success: false, error: "Please sign in again." };
+        }
+
+        try {
+          const formData = new FormData();
+          formData.append("photo", file);
+
+          const response = await fetch(
+            `${API_BASE_URL}/auth/me/profile-photo`,
+            {
+              method: "POST",
+              headers: { Authorization: `Bearer ${token}` },
+              body: formData,
+            },
+          );
+
+          if (!response.ok) {
+            return { success: false, error: await parseError(response) };
+          }
+
+          const updatedUser = mapUser(await response.json());
+          setUser(updatedUser);
+          saveCurrentUser(updatedUser);
+          return { success: true };
+        } catch {
+          return {
+            success: false,
+            error: "Unable to upload your photo. Check your connection.",
+          };
+        }
       },
 
       logout() {

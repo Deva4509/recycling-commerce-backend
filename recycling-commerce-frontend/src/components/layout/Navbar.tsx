@@ -22,6 +22,7 @@ import { useAuth } from "../../context/AuthContext";
 const navItems = [
   { label: "Home", to: "/" },
   { label: "Shop", to: "/shop" },
+  { label: "Donate", to: "/donate" },
   { label: "Contact Us", to: "/contact" },
   { label: "Calculator", to: "/calculator" },
   { label: "Vision & Mission", to: "/vision-mission" },
@@ -119,7 +120,15 @@ export default function Navbar() {
               aria-label="Open account"
               title={user?.name || "Account"}
             >
-              {user?.name?.trim()?.charAt(0)?.toUpperCase() || "U"}
+              {user?.profile_photo_url ? (
+                <img
+                  className="nav-profile-avatar-image"
+                  src={user.profile_photo_url}
+                  alt=""
+                />
+              ) : (
+                user?.name?.trim()?.charAt(0)?.toUpperCase() || "U"
+              )}
             </button>
           ) : (
             <Link

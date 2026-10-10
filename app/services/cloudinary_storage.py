@@ -125,3 +125,50 @@ def delete_product_image(public_id: str) -> None:
         resource_type="image",
         invalidate=True,
     )
+
+
+async def upload_profile_image(
+    upload: UploadFile,
+    user_id: str,
+) -> tuple[str, str]:
+    """Validate and store a profile photo separately from product images."""
+
+    content_type = (upload.content_type or "").lower()
+    if content_type not in ALLOWED_TYPES:
+        raise HTTPException(
+            status_code=400,
+            detail="Only JPEG, PNG, and WEBP images are allowed.",
+        )
+
+    data = await upload.read()
+    if not data:
+        raise HTTPException(status_code=400, detail="The uploaded image is empty.")
+    if len(data) > MAX_FILE_SIZE:
+        raise HTTPException(
+            status_code=400,
+            detail="Profile photos must be 5 MB or smaller.",
+        )
+    if not _validate_signature(data, content_type):
+        raise HTTPException(
+            status_code=400,
+            detail="The uploaded file is not a valid image.",
+        )
+
+    _configure()
+    public_id = f"greencore/users/{user_id}/profile-{uuid.uuid4().hex}"
+    result = cloudinary.uploader.upload(
+        io.BytesIO(data),
+        public_id=public_id,
+        resource_type="image",
+        overwrite=False,
+        use_filename=False,
+        unique_filename=False,
+    )
+    secure_url = result.get("secure_url")
+    returned_public_id = result.get("public_id", public_id)
+    if not secure_url:
+        raise HTTPException(
+            status_code=502,
+            detail="Image storage did not return a public URL.",
+        )
+    return secure_url, returned_public_id

@@ -55460,3 +55460,3500 @@ body {
 .greencore-page-motion {
   background: transparent !important;
 }
+
+
+/* ============================================================
+   GREENCORE — FULL CUSTOMER PROFILE / ACCOUNT CENTER
+   Orders remain on the dedicated /account/orders page.
+   ============================================================ */
+
+.account-profile-page {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 72% 8%, rgba(31, 200, 125, 0.10), transparent 25%),
+    radial-gradient(circle at 12% 32%, rgba(18, 120, 76, 0.08), transparent 30%),
+    linear-gradient(180deg, #012117 0%, #011a13 52%, #02140f 100%);
+  color: #e9fff4;
+}
+
+.account-profile-hero {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(91, 236, 164, 0.10);
+}
+
+.account-profile-hero-inner,
+.account-profile-shell {
+  width: min(1080px, calc(100% - 40px));
+  margin: 0 auto;
+}
+
+.account-profile-hero-inner {
+  position: relative;
+  z-index: 2;
+  min-height: 250px;
+  padding: 58px 0 48px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+}
+
+.account-profile-identity {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.account-profile-avatar {
+  position: relative;
+  width: 92px;
+  height: 92px;
+  flex: 0 0 92px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  color: #dffff0;
+  font-size: 27px;
+  font-weight: 800;
+  background:
+    linear-gradient(145deg, rgba(48, 211, 136, .30), rgba(4, 57, 40, .72));
+  border: 1px solid rgba(92, 236, 165, .30);
+  box-shadow: 0 20px 55px rgba(0,0,0,.22), inset 0 1px rgba(255,255,255,.07);
+}
+
+.account-profile-online {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #43e39a;
+  border: 3px solid #032218;
+  box-shadow: 0 0 16px rgba(67,227,154,.65);
+}
+
+.account-eyebrow,
+.account-card-kicker {
+  display: block;
+  color: #52dc9b;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: .20em;
+}
+
+.account-profile-heading h1 {
+  margin: 7px 0 9px;
+  color: #f2fff8;
+  font-size: clamp(38px, 5vw, 67px);
+  line-height: .98;
+  letter-spacing: -.045em;
+}
+
+.account-profile-heading p {
+  max-width: 650px;
+  margin: 0;
+  color: rgba(217, 245, 232, .63);
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.account-profile-edit,
+.account-feature-card button,
+.account-rewards-card button,
+.account-impact-button {
+  border: 1px solid rgba(87, 230, 157, .22);
+  color: #eafff4;
+  background: rgba(21, 119, 79, .22);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: .22s ease;
+}
+
+.account-profile-edit {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  padding: 11px 15px;
+  white-space: nowrap;
+}
+
+.account-profile-edit:hover,
+.account-feature-card button:hover,
+.account-rewards-card button:hover,
+.account-impact-button:hover {
+  transform: translateY(-2px);
+  background: rgba(35, 178, 116, .28);
+  border-color: rgba(87, 230, 157, .42);
+}
+
+.account-profile-orb {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(1px);
+}
+
+.account-profile-orb-one {
+  width: 320px;
+  height: 320px;
+  right: -100px;
+  top: -150px;
+  background: radial-gradient(circle, rgba(40, 212, 135, .13), transparent 68%);
+}
+
+.account-profile-orb-two {
+  width: 250px;
+  height: 250px;
+  left: -120px;
+  bottom: -180px;
+  background: radial-gradient(circle, rgba(20, 151, 94, .12), transparent 68%);
+}
+
+.account-profile-shell {
+  padding: 30px 0 80px;
+}
+
+.account-profile-grid {
+  display: grid;
+  grid-template-columns: 1.4fr .8fr;
+  gap: 16px;
+}
+
+.account-profile-card,
+.account-stat-card,
+.account-feature-card,
+.account-impact-card,
+.account-rewards-card,
+.account-utility-card {
+  border: 1px solid rgba(83, 222, 153, .13);
+  background:
+    linear-gradient(145deg, rgba(9, 71, 49, .72), rgba(3, 38, 27, .78));
+  box-shadow: 0 18px 45px rgba(0,0,0,.13);
+}
+
+.account-profile-card {
+  border-radius: 19px;
+  padding: 24px;
+}
+
+.account-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.account-card-icon,
+.account-feature-icon,
+.account-stat-icon,
+.account-rewards-icon {
+  display: grid;
+  place-items: center;
+  color: #63e5a5;
+  background: rgba(43, 202, 130, .11);
+  border: 1px solid rgba(78, 226, 153, .17);
+}
+
+.account-card-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+}
+
+.account-card-heading h2 {
+  margin: 4px 0 0;
+  color: #effff7;
+  font-size: 16px;
+}
+
+.account-profile-fields {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 15px;
+  margin-top: 25px;
+}
+
+.account-profile-fields div {
+  padding-top: 15px;
+  border-top: 1px solid rgba(103, 229, 165, .10);
+}
+
+.account-profile-fields span,
+.account-feature-card > div > span {
+  display: block;
+  color: rgba(175, 224, 201, .46);
+  font-size: 8px;
+  letter-spacing: .14em;
+  font-weight: 800;
+}
+
+.account-profile-fields strong {
+  display: block;
+  margin-top: 7px;
+  color: #dff9eb;
+  font-size: 11px;
+}
+
+.account-active-status {
+  display: flex !important;
+  align-items: center;
+  gap: 6px;
+}
+
+.account-active-status i {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #4de69b;
+  box-shadow: 0 0 8px #4de69b;
+}
+
+.account-membership-progress {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 25px;
+}
+
+.account-membership-value strong {
+  display: block;
+  color: #8af3bc;
+  font-size: 29px;
+}
+
+.account-membership-value span,
+.account-membership-tier,
+.account-membership-card p {
+  color: rgba(205, 242, 222, .52);
+  font-size: 9px;
+}
+
+.account-membership-tier {
+  padding: 5px 8px;
+  border-radius: 7px;
+  background: rgba(66, 218, 146, .10);
+  color: #6ce7aa;
+}
+
+.account-progress-track {
+  height: 5px;
+  margin-top: 18px;
+  overflow: hidden;
+  border-radius: 99px;
+  background: rgba(255,255,255,.07);
+}
+
+.account-progress-track span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, #23b979, #73efb2);
+  box-shadow: 0 0 12px rgba(73, 230, 157, .35);
+}
+
+.account-membership-card p {
+  margin: 12px 0 0;
+  line-height: 1.5;
+}
+
+.account-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.account-stat-card {
+  min-height: 76px;
+  padding: 15px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  text-decoration: none;
+  transition: .22s ease;
+}
+
+.account-stat-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(85, 229, 155, .31);
+  background: rgba(11, 84, 56, .78);
+}
+
+.account-stat-icon {
+  width: 37px;
+  height: 37px;
+  flex: 0 0 37px;
+  border-radius: 10px;
+}
+
+.account-stat-card div {
+  flex: 1;
+}
+
+.account-stat-card strong {
+  display: block;
+  color: #e8fff3;
+  font-size: 11px;
+}
+
+.account-stat-card small {
+  display: block;
+  margin-top: 4px;
+  color: rgba(194, 232, 211, .48);
+  font-size: 8px;
+}
+
+.account-stat-card > svg {
+  color: rgba(120, 224, 170, .42);
+}
+
+.account-section-heading {
+  margin: 58px 0 22px;
+}
+
+.account-section-heading h2 {
+  margin: 7px 0 6px;
+  color: #edfff6;
+  font-size: clamp(24px, 3vw, 34px);
+  letter-spacing: -.025em;
+}
+
+.account-section-heading p {
+  margin: 0;
+  color: rgba(205, 239, 220, .51);
+  font-size: 11px;
+}
+
+.account-feature-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 13px;
+}
+
+.account-feature-card {
+  position: relative;
+  padding: 22px;
+  min-height: 174px;
+  border-radius: 17px;
+}
+
+.account-feature-icon {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.account-feature-card h3 {
+  margin: 5px 0 7px;
+  color: #eafff3;
+  font-size: 16px;
+}
+
+.account-feature-card p {
+  max-width: 440px;
+  margin: 0;
+  color: rgba(203, 238, 219, .52);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.account-feature-card button {
+  margin-top: 16px;
+  padding: 8px 11px;
+  font-size: 9px;
+}
+
+.account-lower-grid {
+  display: grid;
+  grid-template-columns: 1.4fr .8fr;
+  gap: 14px;
+  margin-top: 14px;
+}
+
+.account-impact-card,
+.account-rewards-card {
+  border-radius: 18px;
+  padding: 25px;
+}
+
+.account-impact-card {
+  background:
+    radial-gradient(circle at 90% 15%, rgba(43, 212, 135, .16), transparent 30%),
+    linear-gradient(145deg, rgba(7, 85, 56, .83), rgba(3, 42, 29, .83));
+}
+
+.account-impact-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.account-impact-header > svg {
+  color: #65e8a6;
+}
+
+.account-impact-header h2 {
+  max-width: 520px;
+  margin: 8px 0 0;
+  color: #effff7;
+  font-size: 24px;
+  letter-spacing: -.025em;
+}
+
+.account-impact-metrics {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 28px;
+}
+
+.account-impact-metrics div {
+  padding: 15px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.13);
+  border: 1px solid rgba(105, 234, 169, .09);
+}
+
+.account-impact-metrics strong,
+.account-impact-metrics span {
+  display: block;
+}
+
+.account-impact-metrics strong {
+  color: #80efb5;
+  font-size: 18px;
+}
+
+.account-impact-metrics span {
+  margin-top: 4px;
+  color: rgba(207, 239, 222, .48);
+  font-size: 8px;
+}
+
+.account-impact-message {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 16px;
+  color: #63e4a4;
+}
+
+.account-impact-message p {
+  margin: 0;
+  color: rgba(215, 244, 229, .55);
+  font-size: 9px;
+}
+
+.account-impact-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 17px;
+  padding: 9px 12px;
+  text-decoration: none;
+  font-size: 9px;
+}
+
+.account-rewards-icon {
+  width: 43px;
+  height: 43px;
+  border-radius: 13px;
+  margin-bottom: 18px;
+}
+
+.account-rewards-card h2 {
+  margin: 7px 0;
+  color: #effff7;
+  font-size: 21px;
+}
+
+.account-rewards-card p {
+  margin: 0;
+  color: rgba(207, 240, 221, .51);
+  font-size: 10px;
+  line-height: 1.65;
+}
+
+.account-rewards-row {
+  margin-top: 22px;
+  padding: 14px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.13);
+}
+
+.account-rewards-row strong {
+  display: block;
+  color: #83efb6;
+  font-size: 24px;
+}
+
+.account-rewards-row span {
+  color: rgba(207, 240, 221, .46);
+  font-size: 8px;
+}
+
+.account-rewards-card button {
+  margin-top: 13px;
+  padding: 9px 12px;
+  font-size: 9px;
+}
+
+.account-utility-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.account-utility-card {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 16px;
+  border-radius: 14px;
+  color: #dbf8e8;
+  text-decoration: none;
+  transition: .22s ease;
+}
+
+.account-utility-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(87, 230, 157, .30);
+}
+
+.account-utility-card > svg:first-child {
+  color: #61e4a3;
+  flex: 0 0 auto;
+}
+
+.account-utility-card div {
+  flex: 1;
+}
+
+.account-utility-card strong,
+.account-utility-card span {
+  display: block;
+}
+
+.account-utility-card strong {
+  font-size: 10px;
+}
+
+.account-utility-card span {
+  margin-top: 4px;
+  color: rgba(202, 237, 218, .44);
+  font-size: 8px;
+  line-height: 1.5;
+}
+
+.account-utility-card > svg:last-child {
+  color: rgba(119, 224, 171, .35);
+}
+
+.account-profile-brand-note {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 28px;
+  padding: 15px 17px;
+  border-top: 1px solid rgba(94, 225, 157, .10);
+  border-bottom: 1px solid rgba(94, 225, 157, .10);
+}
+
+.account-profile-brand-note > svg {
+  color: #58df9d;
+}
+
+.account-profile-brand-note div strong,
+.account-profile-brand-note div span {
+  display: block;
+}
+
+.account-profile-brand-note div strong {
+  color: #e6fff2;
+  font-size: 11px;
+}
+
+.account-profile-brand-note div span {
+  margin-top: 2px;
+  color: #55d99a;
+  font-size: 7px;
+}
+
+.account-brand-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(100, 226, 163, .16);
+}
+
+.account-profile-brand-note p {
+  margin: 0;
+  color: rgba(205, 239, 220, .43);
+  font-size: 8px;
+}
+
+.account-signout-button {
+  width: 100%;
+  margin-top: 13px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(240, 110, 110, .12);
+  border-radius: 12px;
+  color: rgba(255, 184, 184, .72);
+  background: rgba(130, 36, 36, .08);
+  cursor: pointer;
+  transition: .22s ease;
+  font-size: 9px;
+}
+
+.account-signout-button:hover {
+  background: rgba(150, 45, 45, .15);
+  border-color: rgba(240, 110, 110, .24);
+}
+
+@media (max-width: 900px) {
+  .account-profile-grid,
+  .account-lower-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .account-profile-fields {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .account-utility-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 620px) {
+  .account-profile-hero-inner {
+    min-height: auto;
+    padding: 38px 0 34px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .account-profile-identity {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .account-profile-heading h1 {
+    font-size: 39px;
+  }
+
+  .account-profile-edit {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .account-profile-shell {
+    width: min(100% - 24px, 1080px);
+    padding-top: 18px;
+  }
+
+  .account-profile-card {
+    padding: 18px;
+  }
+
+  .account-profile-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .account-stat-grid,
+  .account-feature-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-impact-metrics {
+    grid-template-columns: 1fr;
+  }
+
+  .account-profile-brand-note {
+    flex-wrap: wrap;
+  }
+
+  .account-brand-divider {
+    display: none;
+  }
+}
+
+/* ============================================================
+   GREENCORE — ACCOUNT PAGE
+   REFERENCE-MATCHED PROFILE DASHBOARD
+   ============================================================ */
+
+.account-profile-page {
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 7% 8%, rgba(0, 126, 82, .24), transparent 18%),
+    radial-gradient(circle at 96% 18%, rgba(0, 182, 113, .18), transparent 17%),
+    radial-gradient(circle at 5% 96%, rgba(0, 135, 84, .18), transparent 19%),
+    linear-gradient(180deg, #001b13 0%, #002219 46%, #00170f 100%);
+}
+
+.account-profile-hero {
+  width: min(1320px, calc(100% - 48px));
+  min-height: 120px;
+  margin: 18px auto 0;
+  border: 1px solid rgba(48, 231, 145, .36);
+  border-radius: 14px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 78% 0%, rgba(0, 222, 139, .18), transparent 28%),
+    linear-gradient(105deg, rgba(0, 74, 48, .93), rgba(0, 106, 67, .78));
+  box-shadow:
+    0 22px 70px rgba(0, 0, 0, .25),
+    inset 0 1px rgba(255, 255, 255, .06);
+}
+
+.account-profile-hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    linear-gradient(145deg, transparent 45%, rgba(70, 255, 176, .08) 46%, transparent 47%),
+    linear-gradient(155deg, transparent 63%, rgba(70, 255, 176, .07) 64%, transparent 65%);
+  opacity: .8;
+}
+
+.account-profile-hero-inner {
+  width: 100%;
+  min-height: 120px;
+  box-sizing: border-box;
+  padding: 20px 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.account-profile-identity {
+  gap: 19px;
+}
+
+.account-profile-avatar {
+  width: 72px;
+  height: 72px;
+  flex-basis: 72px;
+  border-radius: 50%;
+  font-size: 22px;
+  background:
+    radial-gradient(circle at 35% 30%, rgba(74, 245, 165, .25), transparent 45%),
+    rgba(0, 133, 83, .72);
+  border: 1px solid rgba(49, 245, 157, .72);
+  box-shadow:
+    0 0 0 1px rgba(49, 245, 157, .08),
+    0 0 28px rgba(24, 214, 126, .16);
+}
+
+.account-profile-online {
+  width: 9px;
+  height: 9px;
+  right: 3px;
+  bottom: 5px;
+}
+
+.account-profile-heading h1 {
+  margin: 3px 0 5px;
+  font-family: inherit;
+  font-size: clamp(32px, 3.25vw, 48px);
+  line-height: 1;
+  letter-spacing: -.045em;
+  font-weight: 800;
+}
+
+.account-profile-heading p {
+  font-size: 10px;
+  line-height: 1.45;
+  color: rgba(225, 250, 237, .66);
+}
+
+.account-eyebrow,
+.account-card-kicker {
+  font-size: 7px;
+  letter-spacing: .22em;
+}
+
+.account-profile-edit {
+  position: relative;
+  z-index: 3;
+  min-width: 112px;
+  justify-content: center;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: rgba(9, 189, 115, .42);
+  border-color: rgba(74, 242, 162, .36);
+  font-size: 9px;
+  font-weight: 700;
+}
+
+.account-profile-shell {
+  width: min(1320px, calc(100% - 48px));
+  padding: 12px 0 44px;
+}
+
+.account-profile-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.account-profile-card {
+  border-radius: 12px;
+  padding: 15px 17px;
+  background:
+    linear-gradient(145deg, rgba(4, 80, 51, .88), rgba(2, 45, 31, .88));
+  border-color: rgba(55, 226, 143, .25);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .16);
+}
+
+.account-card-heading {
+  padding-bottom: 11px;
+  border-bottom: 1px solid rgba(103, 238, 169, .12);
+}
+
+.account-card-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+}
+
+.account-card-heading h2 {
+  font-size: 14px;
+  margin-top: 3px;
+}
+
+.account-profile-fields {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 11px;
+}
+
+.account-profile-fields div {
+  padding-top: 5px;
+  border-top: 0;
+}
+
+.account-profile-fields span {
+  font-size: 6px;
+  letter-spacing: .13em;
+}
+
+.account-profile-fields strong {
+  margin-top: 5px;
+  font-size: 9px;
+  white-space: nowrap;
+}
+
+.account-membership-progress {
+  margin-top: 13px;
+}
+
+.account-membership-value strong {
+  font-size: 24px;
+}
+
+.account-membership-value span {
+  font-size: 7px;
+  letter-spacing: .16em;
+}
+
+.account-membership-tier {
+  font-size: 7px;
+}
+
+.account-progress-track {
+  height: 5px;
+  margin-top: 10px;
+}
+
+.account-membership-card p {
+  margin-top: 8px;
+  font-size: 8px;
+}
+
+.account-stat-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.account-stat-card {
+  min-height: 58px;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border-radius: 10px;
+  background:
+    linear-gradient(145deg, rgba(5, 86, 55, .88), rgba(2, 49, 33, .88));
+  border-color: rgba(56, 226, 143, .25);
+}
+
+.account-stat-icon {
+  width: 34px;
+  height: 34px;
+  flex-basis: 34px;
+  border-radius: 9px;
+}
+
+.account-stat-card strong {
+  font-size: 9px;
+}
+
+.account-stat-card small {
+  font-size: 7px;
+  margin-top: 2px;
+}
+
+.account-section-heading {
+  margin: 17px 0 10px;
+}
+
+.account-section-heading::after {
+  content: "";
+  display: block;
+  height: 5px;
+  margin-top: -11px;
+  margin-left: 135px;
+  border-radius: 99px;
+  background: rgba(36, 145, 96, .17);
+}
+
+.account-section-heading h2 {
+  position: relative;
+  z-index: 1;
+  margin: 4px 0 3px;
+  font-size: 24px;
+  letter-spacing: -.035em;
+}
+
+.account-section-heading p {
+  position: relative;
+  z-index: 1;
+  font-size: 8px;
+}
+
+.account-feature-grid {
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.account-feature-card {
+  min-height: 126px;
+  box-sizing: border-box;
+  padding: 13px;
+  border-radius: 11px;
+  background:
+    linear-gradient(145deg, rgba(5, 89, 57, .89), rgba(2, 47, 31, .90));
+  border-color: rgba(56, 226, 143, .24);
+}
+
+.account-feature-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 9px;
+  border-radius: 9px;
+}
+
+.account-feature-card h3 {
+  margin: 4px 0;
+  font-size: 11px;
+}
+
+.account-feature-card p {
+  min-height: 27px;
+  font-size: 7px;
+  line-height: 1.45;
+}
+
+.account-feature-card button {
+  margin-top: 8px;
+  padding: 6px 9px;
+  border-radius: 8px;
+  font-size: 7px;
+}
+
+.account-lower-grid {
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.account-impact-card,
+.account-rewards-card {
+  min-height: 132px;
+  box-sizing: border-box;
+  padding: 15px;
+  border-radius: 11px;
+}
+
+.account-impact-header h2 {
+  margin-top: 5px;
+  font-size: 17px;
+}
+
+.account-impact-metrics {
+  gap: 8px;
+  margin-top: 12px;
+}
+
+.account-impact-metrics div {
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.account-impact-metrics strong {
+  font-size: 15px;
+}
+
+.account-impact-metrics span {
+  font-size: 7px;
+}
+
+.account-impact-message {
+  margin-top: 8px;
+  gap: 6px;
+}
+
+.account-impact-message p {
+  font-size: 7px;
+}
+
+.account-impact-button {
+  margin-top: 8px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 7px;
+}
+
+.account-rewards-icon {
+  width: 34px;
+  height: 34px;
+  margin-bottom: 8px;
+  border-radius: 9px;
+}
+
+.account-rewards-card h2 {
+  margin: 4px 0;
+  font-size: 17px;
+}
+
+.account-rewards-card p {
+  font-size: 7px;
+  line-height: 1.45;
+}
+
+.account-rewards-row {
+  margin-top: 9px;
+  padding: 8px 10px;
+  border-radius: 8px;
+}
+
+.account-rewards-row strong {
+  font-size: 17px;
+}
+
+.account-rewards-row span {
+  font-size: 7px;
+}
+
+.account-rewards-card button {
+  margin-top: 7px;
+  padding: 7px 10px;
+  border-radius: 8px;
+  font-size: 7px;
+}
+
+.account-utility-grid {
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.account-utility-card {
+  min-height: 52px;
+  box-sizing: border-box;
+  padding: 9px 12px;
+  border-radius: 9px;
+}
+
+.account-utility-card strong {
+  font-size: 8px;
+}
+
+.account-utility-card span {
+  font-size: 6px;
+  margin-top: 2px;
+}
+
+.account-profile-brand-note {
+  margin-top: 14px;
+  padding: 9px 12px;
+}
+
+.account-profile-brand-note div strong {
+  font-size: 9px;
+}
+
+.account-profile-brand-note div span,
+.account-profile-brand-note p {
+  font-size: 6px;
+}
+
+.account-signout-button {
+  margin-top: 7px;
+  padding: 8px;
+  font-size: 7px;
+}
+
+@media (max-width: 1100px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: min(100% - 30px, 900px);
+  }
+
+  .account-feature-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .account-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 20px);
+  }
+
+  .account-profile-hero-inner {
+    padding: 17px;
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .account-profile-identity {
+    flex-direction: row;
+  }
+
+  .account-profile-avatar {
+    width: 58px;
+    height: 58px;
+    flex-basis: 58px;
+  }
+
+  .account-profile-heading h1 {
+    font-size: 29px;
+  }
+
+  .account-profile-heading p {
+    font-size: 8px;
+  }
+
+  .account-profile-edit {
+    width: 100%;
+  }
+
+  .account-profile-grid,
+  .account-feature-grid,
+  .account-lower-grid,
+  .account-utility-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .account-profile-fields {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .account-stat-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .account-section-heading h2 {
+    font-size: 21px;
+  }
+}
+
+/* ============================================================
+   GREENCORE ACCOUNT — FINAL FULL-WIDTH LAYOUT FIX
+   Removes legacy constraints, black side gaps, overlapping
+   circles and unnecessary decorative lines.
+   ============================================================ */
+
+/* ---------- FULL PAGE BACKGROUND ---------- */
+
+html,
+body,
+#root {
+  width: 100% !important;
+  min-width: 100% !important;
+  background: #00251a !important;
+}
+
+body {
+  overflow-x: hidden !important;
+}
+
+.account-page,
+.account-profile-page {
+  position: relative !important;
+  width: 100vw !important;
+  max-width: none !important;
+  min-width: 100% !important;
+  min-height: 100vh !important;
+  margin: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  overflow-x: hidden !important;
+  box-sizing: border-box !important;
+
+  background:
+    radial-gradient(
+      circle at 8% 15%,
+      rgba(19, 142, 88, .13),
+      transparent 22%
+    ),
+    radial-gradient(
+      circle at 92% 24%,
+      rgba(20, 168, 103, .12),
+      transparent 22%
+    ),
+    linear-gradient(
+      180deg,
+      #00291d 0%,
+      #002419 42%,
+      #002017 72%,
+      #003a29 100%
+    ) !important;
+}
+
+/* ---------- REMOVE OLD DECORATIVE CIRCLES ---------- */
+
+.account-profile-orb,
+.account-profile-orb-one,
+.account-profile-orb-two {
+  display: none !important;
+}
+
+.account-profile-page::before,
+.account-profile-page::after {
+  display: none !important;
+}
+
+/* ---------- HERO ---------- */
+
+.account-profile-hero {
+  position: relative !important;
+  width: min(1320px, calc(100% - 48px)) !important;
+  max-width: 1320px !important;
+  margin: 18px auto 0 !important;
+  overflow: hidden !important;
+  box-sizing: border-box !important;
+  background:
+    linear-gradient(
+      110deg,
+      rgba(0, 102, 65, .95) 0%,
+      rgba(0, 117, 74, .91) 48%,
+      rgba(0, 91, 60, .95) 100%
+    ) !important;
+}
+
+/* Keep only a subtle wave inside the hero. */
+.account-profile-hero::after {
+  content: "" !important;
+  position: absolute !important;
+  inset: 0 !important;
+  pointer-events: none !important;
+  background:
+    radial-gradient(
+      ellipse at 83% 40%,
+      transparent 0%,
+      transparent 28%,
+      rgba(71, 239, 166, .10) 29%,
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      transparent 48%,
+      rgba(81, 238, 170, .07) 49%,
+      transparent 50%
+    ) !important;
+  opacity: .65 !important;
+}
+
+/* ---------- CONTENT WIDTH ---------- */
+
+.account-profile-shell {
+  position: relative !important;
+  z-index: 2 !important;
+  width: min(1320px, calc(100% - 48px)) !important;
+  max-width: 1320px !important;
+  margin: 0 auto !important;
+}
+
+/* ---------- REMOVE EXTRA SECTION LINE ---------- */
+
+.account-section-heading::after {
+  display: none !important;
+}
+
+.account-section-heading {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ---------- CLEAN CARD BORDERS ---------- */
+
+.account-profile-card,
+.account-stat-card,
+.account-feature-card,
+.account-impact-card,
+.account-rewards-card,
+.account-utility-card {
+  position: relative !important;
+  border-color: rgba(70, 229, 151, .22) !important;
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, .13),
+    inset 0 1px rgba(255, 255, 255, .025) !important;
+}
+
+/* Prevent any old pseudo-elements from drawing lines. */
+.account-profile-card::before,
+.account-profile-card::after,
+.account-stat-card::before,
+.account-stat-card::after,
+.account-feature-card::before,
+.account-feature-card::after,
+.account-impact-card::before,
+.account-impact-card::after,
+.account-rewards-card::before,
+.account-rewards-card::after,
+.account-utility-card::before,
+.account-utility-card::after {
+  display: none !important;
+}
+
+/* ---------- PROFILE CARD INTERNAL DIVIDERS ---------- */
+
+.account-card-heading {
+  border-bottom: 1px solid rgba(103, 238, 169, .10) !important;
+}
+
+/* ---------- GREEN IMPACT / REWARDS ---------- */
+
+.account-impact-card,
+.account-rewards-card {
+  background:
+    linear-gradient(
+      145deg,
+      rgba(4, 91, 58, .94),
+      rgba(2, 55, 37, .94)
+    ) !important;
+}
+
+/* ---------- FOOTER TRANSITION ---------- */
+
+.account-profile-page + footer,
+.account-profile-page ~ footer {
+  position: relative !important;
+  z-index: 3 !important;
+}
+
+/* ---------- DESKTOP ---------- */
+
+@media (min-width: 1101px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 64px) !important;
+    max-width: 1320px !important;
+  }
+}
+
+/* ---------- TABLET ---------- */
+
+@media (max-width: 1100px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 30px) !important;
+    max-width: none !important;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+
+@media (max-width: 700px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 20px) !important;
+  }
+
+  .account-profile-page {
+    width: 100vw !important;
+  }
+}
+
+/* ============================================================
+   GREENCORE ACCOUNT — REFERENCE MATCH / FINAL CLEAN VERSION
+   Flat rendering — NO BLUR / NO FILTER / NO BLACK GUTTERS
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   GLOBAL ACCOUNT PAGE SURFACE
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) {
+  background: #00261b !important;
+  overflow-x: hidden !important;
+}
+
+body:has(.account-profile-page) #root {
+  width: 100% !important;
+  min-width: 100% !important;
+  background: #00261b !important;
+}
+
+/* Remove every possible blur/filter affecting this page. */
+body:has(.account-profile-page) .account-profile-page,
+body:has(.account-profile-page) .account-profile-page *,
+body:has(.account-profile-page) footer,
+body:has(.account-profile-page) footer * {
+  filter: none !important;
+}
+
+/* No glass blur. */
+body:has(.account-profile-page) .account-profile-page,
+body:has(.account-profile-page) .account-profile-card,
+body:has(.account-profile-page) .account-stat-card,
+body:has(.account-profile-page) .account-feature-card,
+body:has(.account-profile-page) .account-impact-card,
+body:has(.account-profile-page) .account-rewards-card,
+body:has(.account-profile-page) .account-utility-card {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ------------------------------------------------------------
+   FULL PAGE
+   ------------------------------------------------------------ */
+
+.account-profile-page {
+  position: relative !important;
+  isolation: isolate !important;
+
+  width: 100% !important;
+  min-width: 100% !important;
+  min-height: 100vh !important;
+
+  margin: 0 !important;
+  padding: 18px 0 10px !important;
+
+  box-sizing: border-box !important;
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #002b1f 0%,
+      #00271c 32%,
+      #002419 67%,
+      #002b1f 100%
+    ) !important;
+}
+
+/* ------------------------------------------------------------
+   CLEAN DECORATIVE BACKGROUND
+   Hard-edged circles only — no blur.
+   ------------------------------------------------------------ */
+
+.account-profile-page::before,
+.account-profile-page::after {
+  content: "" !important;
+  position: absolute !important;
+  pointer-events: none !important;
+  z-index: -1 !important;
+
+  filter: none !important;
+  opacity: 1 !important;
+}
+
+/* Left upper circle */
+.account-profile-page::before {
+  width: 180px !important;
+  height: 180px !important;
+
+  top: -75px !important;
+  left: -85px !important;
+
+  border-radius: 50% !important;
+
+  background: #063d2c !important;
+  border: 1px solid rgba(34, 190, 122, .14) !important;
+
+  box-shadow: none !important;
+}
+
+/* Right lower circle */
+.account-profile-page::after {
+  width: 190px !important;
+  height: 190px !important;
+
+  right: -95px !important;
+  bottom: -70px !important;
+
+  border-radius: 50% !important;
+
+  background: #06412e !important;
+  border: 1px solid rgba(34, 190, 122, .14) !important;
+
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   MAIN CONTENT WIDTH
+   ------------------------------------------------------------ */
+
+.account-profile-hero,
+.account-profile-shell {
+  position: relative !important;
+  z-index: 2 !important;
+
+  width: min(1320px, calc(100% - 64px)) !important;
+  max-width: 1320px !important;
+
+  margin-left: auto !important;
+  margin-right: auto !important;
+
+  box-sizing: border-box !important;
+}
+
+/* ------------------------------------------------------------
+   HERO — REFERENCE
+   ------------------------------------------------------------ */
+
+.account-profile-hero {
+  min-height: 120px !important;
+
+  margin-top: 0 !important;
+  margin-bottom: 12px !important;
+
+  padding: 0 !important;
+
+  border-radius: 13px !important;
+  border: 1px solid rgba(44, 221, 140, .42) !important;
+
+  overflow: hidden !important;
+
+  background:
+    linear-gradient(
+      112deg,
+      #006644 0%,
+      #00784b 48%,
+      #006b43 100%
+    ) !important;
+
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, .16) !important;
+}
+
+/* Remove previous hero artwork that caused overlaps. */
+.account-profile-hero::after {
+  content: "" !important;
+
+  position: absolute !important;
+  inset: 0 !important;
+
+  pointer-events: none !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      transparent 0%,
+      transparent 56%,
+      rgba(85, 240, 170, .09) 57%,
+      transparent 58%
+    ),
+    linear-gradient(
+      155deg,
+      transparent 0%,
+      transparent 68%,
+      rgba(85, 240, 170, .06) 69%,
+      transparent 70%
+    ) !important;
+
+  opacity: 1 !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+.account-profile-hero-inner {
+  position: relative !important;
+  z-index: 2 !important;
+
+  min-height: 120px !important;
+
+  padding: 20px 24px !important;
+
+  box-sizing: border-box !important;
+}
+
+/* ------------------------------------------------------------
+   HERO TEXT
+   ------------------------------------------------------------ */
+
+.account-profile-heading h1 {
+  margin: 3px 0 6px !important;
+
+  font-size: clamp(34px, 3.2vw, 47px) !important;
+  line-height: 1 !important;
+
+  letter-spacing: -.045em !important;
+  font-weight: 800 !important;
+
+  color: #f3fff9 !important;
+}
+
+.account-profile-heading p {
+  color: rgba(231, 252, 241, .78) !important;
+}
+
+/* ------------------------------------------------------------
+   HERO AVATAR
+   ------------------------------------------------------------ */
+
+.account-profile-avatar {
+  width: 78px !important;
+  height: 78px !important;
+  flex-basis: 78px !important;
+
+  border-radius: 50% !important;
+
+  background: #009b61 !important;
+
+  border: 1px solid #30e89b !important;
+
+  box-shadow:
+    0 0 0 4px rgba(25, 211, 132, .08) !important;
+}
+
+/* ------------------------------------------------------------
+   EDIT BUTTON
+   ------------------------------------------------------------ */
+
+.account-profile-edit {
+  background: #10a96b !important;
+  border: 1px solid rgba(95, 247, 177, .34) !important;
+
+  box-shadow: none !important;
+
+  color: #ffffff !important;
+}
+
+/* ------------------------------------------------------------
+   TWO MAIN CARDS
+   ------------------------------------------------------------ */
+
+.account-profile-grid {
+  display: grid !important;
+
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) !important;
+
+  gap: 12px !important;
+
+  margin: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   ALL DASHBOARD CARDS
+   ------------------------------------------------------------ */
+
+.account-profile-card,
+.account-stat-card,
+.account-feature-card,
+.account-impact-card,
+.account-rewards-card,
+.account-utility-card {
+  background:
+    linear-gradient(
+      145deg,
+      #075d3d 0%,
+      #034b31 100%
+    ) !important;
+
+  border: 1px solid rgba(39, 210, 135, .30) !important;
+
+  border-radius: 11px !important;
+
+  box-shadow:
+    0 9px 25px rgba(0, 0, 0, .14) !important;
+
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Remove old decorative layers. */
+.account-profile-card::before,
+.account-profile-card::after,
+.account-stat-card::before,
+.account-stat-card::after,
+.account-feature-card::before,
+.account-feature-card::after,
+.account-impact-card::before,
+.account-impact-card::after,
+.account-rewards-card::before,
+.account-rewards-card::after,
+.account-utility-card::before,
+.account-utility-card::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ------------------------------------------------------------
+   PROFILE / MEMBERSHIP HEIGHT
+   ------------------------------------------------------------ */
+
+.account-profile-card {
+  min-height: 158px !important;
+  box-sizing: border-box !important;
+}
+
+.account-card-heading {
+  border-bottom: 1px solid rgba(117, 239, 180, .13) !important;
+}
+
+.account-profile-fields {
+  margin-top: 10px !important;
+}
+
+/* ------------------------------------------------------------
+   QUICK ACTIONS
+   ------------------------------------------------------------ */
+
+.account-stat-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+
+  gap: 10px !important;
+
+  margin-top: 10px !important;
+}
+
+.account-stat-card {
+  min-height: 62px !important;
+
+  padding: 10px 12px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #076443 0%,
+      #034b31 100%
+    ) !important;
+}
+
+/* ------------------------------------------------------------
+   ACCOUNT CENTER
+   ------------------------------------------------------------ */
+
+.account-section-heading {
+  margin: 15px 0 9px !important;
+
+  padding: 0 !important;
+
+  border: 0 !important;
+
+  background: transparent !important;
+}
+
+.account-section-heading::after {
+  display: none !important;
+}
+
+.account-section-heading h2 {
+  margin: 4px 0 !important;
+
+  font-size: 24px !important;
+  line-height: 1.1 !important;
+
+  color: #f3fff9 !important;
+}
+
+.account-section-heading p {
+  color: rgba(219, 246, 231, .70) !important;
+}
+
+/* ------------------------------------------------------------
+   FOUR FEATURE CARDS
+   ------------------------------------------------------------ */
+
+.account-feature-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(4, minmax(0, 1fr)) !important;
+
+  gap: 10px !important;
+}
+
+.account-feature-card {
+  min-height: 125px !important;
+
+  padding: 13px !important;
+}
+
+/* ------------------------------------------------------------
+   IMPACT + REWARDS
+   ------------------------------------------------------------ */
+
+.account-lower-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    minmax(0, 1fr)
+    minmax(0, 1fr) !important;
+
+  gap: 10px !important;
+
+  margin-top: 10px !important;
+}
+
+.account-impact-card,
+.account-rewards-card {
+  min-height: 133px !important;
+}
+
+/* ------------------------------------------------------------
+   THREE UTILITY CARDS
+   ------------------------------------------------------------ */
+
+.account-utility-grid {
+  display: grid !important;
+
+  grid-template-columns:
+    repeat(3, minmax(0, 1fr)) !important;
+
+  gap: 10px !important;
+
+  margin-top: 10px !important;
+}
+
+.account-utility-card {
+  min-height: 53px !important;
+}
+
+/* ------------------------------------------------------------
+   REMOVE UNNECESSARY SIGNOUT AREA STYLING
+   ------------------------------------------------------------ */
+
+.account-signout-button {
+  background: transparent !important;
+
+  border: 1px solid rgba(58, 217, 143, .22) !important;
+
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   FOOTER — FLAT GREEN, SAME CONTINUOUS SURFACE
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) footer {
+  position: relative !important;
+
+  width: 100% !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #075c3c 0%,
+      #075a3b 100%
+    ) !important;
+
+  border-top: 1px solid rgba(63, 225, 145, .16) !important;
+
+  box-shadow: none !important;
+
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* Footer decorative circles: keep contained and non-overlapping. */
+body:has(.account-profile-page) footer::before,
+body:has(.account-profile-page) footer::after {
+  pointer-events: none !important;
+  filter: none !important;
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------ */
+
+@media (max-width: 1100px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 32px) !important;
+  }
+
+  .account-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+}
+
+@media (max-width: 760px) {
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 20px) !important;
+  }
+
+  .account-profile-grid,
+  .account-lower-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .account-stat-grid,
+  .account-feature-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+  }
+
+  .account-utility-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .account-profile-heading h1 {
+    font-size: 30px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .account-profile-page {
+    padding-top: 10px !important;
+  }
+
+  .account-profile-hero,
+  .account-profile-shell {
+    width: calc(100% - 14px) !important;
+  }
+
+  .account-profile-hero-inner {
+    padding: 16px !important;
+  }
+
+  .account-profile-avatar {
+    width: 62px !important;
+    height: 62px !important;
+    flex-basis: 62px !important;
+  }
+
+  .account-stat-grid,
+  .account-feature-grid {
+    grid-template-columns: 1fr !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   FINAL GUARANTEE — NO WHITE / BLACK ACCOUNT SURFACES
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) {
+  color-scheme: dark !important;
+}
+
+body:has(.account-profile-page) main,
+body:has(.account-profile-page) section {
+  background-color: transparent !important;
+}
+
+body:has(.account-profile-page) input,
+body:has(.account-profile-page) textarea,
+body:has(.account-profile-page) select {
+  color-scheme: dark !important;
+}
+
+/* ============================================================
+   GREENCORE ACCOUNT — REMOVE EXTRA LINES / TEXT CLEANUP
+   ============================================================ */
+
+/* Remove decorative lines from the account page. */
+body:has(.account-profile-page) .account-profile-page hr,
+body:has(.account-profile-page) .account-profile-page .divider,
+body:has(.account-profile-page) .account-profile-page .separator {
+  display: none !important;
+}
+
+/* Remove pseudo-element lines from section headings. */
+body:has(.account-profile-page) .account-section-heading::before,
+body:has(.account-profile-page) .account-section-heading::after,
+body:has(.account-profile-page) .account-section-heading h1::before,
+body:has(.account-profile-page) .account-section-heading h1::after,
+body:has(.account-profile-page) .account-section-heading h2::before,
+body:has(.account-profile-page) .account-section-heading h2::after,
+body:has(.account-profile-page) .account-section-heading p::before,
+body:has(.account-profile-page) .account-section-heading p::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Clean account heading surface. */
+body:has(.account-profile-page) .account-section-heading {
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Remove horizontal lines created by card headings. */
+body:has(.account-profile-page) .account-card-heading {
+  border-bottom: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove pseudo-elements that create lines inside cards. */
+body:has(.account-profile-page) .account-card-heading::before,
+body:has(.account-profile-page) .account-card-heading::after,
+body:has(.account-profile-page) .account-profile-card::before,
+body:has(.account-profile-page) .account-profile-card::after,
+body:has(.account-profile-page) .account-stat-card::before,
+body:has(.account-profile-page) .account-stat-card::after,
+body:has(.account-profile-page) .account-feature-card::before,
+body:has(.account-profile-page) .account-feature-card::after,
+body:has(.account-profile-page) .account-impact-card::before,
+body:has(.account-profile-page) .account-impact-card::after,
+body:has(.account-profile-page) .account-rewards-card::before,
+body:has(.account-profile-page) .account-rewards-card::after,
+body:has(.account-profile-page) .account-utility-card::before,
+body:has(.account-profile-page) .account-utility-card::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Clean text rendering. */
+body:has(.account-profile-page) .account-profile-page h1,
+body:has(.account-profile-page) .account-profile-page h2,
+body:has(.account-profile-page) .account-profile-page h3,
+body:has(.account-profile-page) .account-profile-page h4,
+body:has(.account-profile-page) .account-profile-page p,
+body:has(.account-profile-page) .account-profile-page span,
+body:has(.account-profile-page) .account-profile-page strong,
+body:has(.account-profile-page) .account-profile-page small {
+  text-shadow: none !important;
+  filter: none !important;
+}
+
+/* Make section titles sit directly on the background. */
+body:has(.account-profile-page) .account-section-heading h2 {
+  position: relative !important;
+  z-index: 5 !important;
+
+  margin: 0 0 5px !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+
+  color: #f4fff9 !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Eyebrow labels should also have no line behind them. */
+body:has(.account-profile-page) .account-section-heading > span,
+body:has(.account-profile-page) .account-section-heading .eyebrow,
+body:has(.account-profile-page) .account-section-heading .section-label {
+  background: transparent !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  text-shadow: none !important;
+}
+
+/* Remove any full-width line-like background on account center. */
+body:has(.account-profile-page) .account-section-heading > div {
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Keep cards separated by spacing instead of decorative lines. */
+body:has(.account-profile-page) .account-profile-grid,
+body:has(.account-profile-page) .account-stat-grid,
+body:has(.account-profile-page) .account-feature-grid,
+body:has(.account-profile-page) .account-lower-grid,
+body:has(.account-profile-page) .account-utility-grid {
+  border: 0 !important;
+  outline: 0 !important;
+}
+
+/* Remove accidental borders from direct account sections. */
+body:has(.account-profile-page) .account-profile-page > section {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  outline: 0 !important;
+}
+
+/* No horizontal stripe across the Account Center. */
+body:has(.account-profile-page) .account-profile-page section::before,
+body:has(.account-profile-page) .account-profile-page section::after {
+  box-shadow: none !important;
+}
+
+/* But keep the actual hero artwork clean. */
+body:has(.account-profile-page) .account-profile-hero::before {
+  content: none !important;
+}
+
+/* Footer should not introduce another separator line. */
+body:has(.account-profile-page) footer {
+  border-top: 0 !important;
+}
+
+/* Remove any old page transition overlay from account page. */
+body:has(.account-profile-page) .page-transition-overlay,
+body:has(.account-profile-page) .route-transition,
+body:has(.account-profile-page) .page-transition {
+  display: none !important;
+}
+
+/* ============================================================
+   FINAL TEXT CLARITY
+   ============================================================ */
+
+body:has(.account-profile-page) .account-profile-page {
+  -webkit-font-smoothing: antialiased !important;
+  -moz-osx-font-smoothing: grayscale !important;
+}
+
+body:has(.account-profile-page) .account-profile-page * {
+  text-rendering: geometricPrecision !important;
+}
+
+/* Prevent decorative clipping over text. */
+body:has(.account-profile-page) .account-section-heading,
+body:has(.account-profile-page) .account-section-heading h2,
+body:has(.account-profile-page) .account-section-heading p {
+  overflow: visible !important;
+}
+
+/* Absolutely no blur anywhere in the Account page. */
+body:has(.account-profile-page) .account-profile-page,
+body:has(.account-profile-page) .account-profile-page * {
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ============================================================
+   GREENCORE ACCOUNT — DEFINITIVE LINE REMOVAL
+   Clean typography / no decorative stripes / no text overlays
+   ============================================================ */
+
+/* Kill ALL pseudo-elements inside the account page.
+   Icons are SVGs and are unaffected. */
+body:has(.account-profile-page) .account-profile-page *::before,
+body:has(.account-profile-page) .account-profile-page *::after {
+  content: none !important;
+  display: none !important;
+  background: none !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  transform: none !important;
+}
+
+/* The account page itself has no decorative generated content. */
+body:has(.account-profile-page) .account-profile-page::before,
+body:has(.account-profile-page) .account-profile-page::after {
+  content: none !important;
+  display: none !important;
+}
+
+/* ------------------------------------------------------------
+   CLEAN SECTION HEADING
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-section-heading {
+  display: block !important;
+
+  width: 100% !important;
+  height: auto !important;
+
+  margin: 15px 0 10px !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  transform: none !important;
+}
+
+/* Every child of the heading is plain text. */
+body:has(.account-profile-page) .account-section-heading > *,
+body:has(.account-profile-page) .account-section-heading h1,
+body:has(.account-profile-page) .account-section-heading h2,
+body:has(.account-profile-page) .account-section-heading h3,
+body:has(.account-profile-page) .account-section-heading p,
+body:has(.account-profile-page) .account-section-heading span {
+  position: static !important;
+
+  width: auto !important;
+  height: auto !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  background: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  transform: none !important;
+}
+
+/* Proper spacing between the three text levels. */
+body:has(.account-profile-page) .account-section-heading > span {
+  display: block !important;
+  margin-bottom: 5px !important;
+
+  color: #43dc98 !important;
+
+  font-size: 7px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+  letter-spacing: .22em !important;
+}
+
+body:has(.account-profile-page) .account-section-heading > h2 {
+  display: block !important;
+
+  color: #f3fff8 !important;
+
+  font-size: 24px !important;
+  line-height: 1.12 !important;
+  font-weight: 800 !important;
+  letter-spacing: -.035em !important;
+}
+
+body:has(.account-profile-page) .account-section-heading > p {
+  display: block !important;
+
+  margin-top: 6px !important;
+
+  color: rgba(221, 247, 233, .66) !important;
+
+  font-size: 8px !important;
+  line-height: 1.45 !important;
+}
+
+/* ------------------------------------------------------------
+   REMOVE ANY GENERIC SECTION STRIPES
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-profile-page section,
+body:has(.account-profile-page) .account-profile-page article,
+body:has(.account-profile-page) .account-profile-page header {
+  background-image: none !important;
+}
+
+/* Reapply the intended card backgrounds after the generic reset. */
+body:has(.account-profile-page) .account-profile-card {
+  background: linear-gradient(
+    145deg,
+    #075d3d 0%,
+    #034b31 100%
+  ) !important;
+}
+
+body:has(.account-profile-page) .account-stat-card {
+  background: linear-gradient(
+    145deg,
+    #076443 0%,
+    #034b31 100%
+  ) !important;
+}
+
+body:has(.account-profile-page) .account-feature-card {
+  background: linear-gradient(
+    145deg,
+    #075f3e 0%,
+    #034b31 100%
+  ) !important;
+}
+
+body:has(.account-profile-page) .account-impact-card,
+body:has(.account-profile-page) .account-rewards-card {
+  background: linear-gradient(
+    145deg,
+    #075f3e 0%,
+    #034b31 100%
+  ) !important;
+}
+
+body:has(.account-profile-page) .account-utility-card {
+  background: linear-gradient(
+    145deg,
+    #075d3d 0%,
+    #034b31 100%
+  ) !important;
+}
+
+/* ------------------------------------------------------------
+   CLEAN PROFILE / MEMBERSHIP HEADERS
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-card-heading {
+  background: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-card-heading h2,
+body:has(.account-profile-page) .account-card-heading span {
+  background: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  box-shadow: none !important;
+
+  text-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   CLEAN ALL ACCOUNT TEXT
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-profile-page h1,
+body:has(.account-profile-page) .account-profile-page h2,
+body:has(.account-profile-page) .account-profile-page h3,
+body:has(.account-profile-page) .account-profile-page p,
+body:has(.account-profile-page) .account-profile-page span,
+body:has(.account-profile-page) .account-profile-page strong,
+body:has(.account-profile-page) .account-profile-page small {
+  text-shadow: none !important;
+  filter: none !important;
+  background-image: none !important;
+}
+
+/* ------------------------------------------------------------
+   NO BLUR ANYWHERE
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-profile-page,
+body:has(.account-profile-page) .account-profile-page *,
+body:has(.account-profile-page) footer,
+body:has(.account-profile-page) footer * {
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* ------------------------------------------------------------
+   KEEP ONLY REAL CARD BORDERS
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-profile-card,
+body:has(.account-profile-page) .account-stat-card,
+body:has(.account-profile-page) .account-feature-card,
+body:has(.account-profile-page) .account-impact-card,
+body:has(.account-profile-page) .account-rewards-card,
+body:has(.account-profile-page) .account-utility-card {
+  border: 1px solid rgba(39, 210, 135, .30) !important;
+  outline: 0 !important;
+}
+
+/* No horizontal border on plain text containers. */
+body:has(.account-profile-page) .account-section-heading,
+body:has(.account-profile-page) .account-section-heading > *,
+body:has(.account-profile-page) .account-profile-heading,
+body:has(.account-profile-page) .account-profile-heading > * {
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+  border-right: 0 !important;
+}
+
+/* ------------------------------------------------------------
+   TEXT MUST ALWAYS SIT ABOVE THE CARD SURFACE
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page) .account-section-heading h2,
+body:has(.account-profile-page) .account-section-heading p,
+body:has(.account-profile-page) .account-section-heading span {
+  opacity: 1 !important;
+  visibility: visible !important;
+  mix-blend-mode: normal !important;
+}
+
+/* ============================================================
+   GREENCORE PROFILE PAGE — TEXT CLEANUP FINAL
+   Plain text must NEVER look like a card/text box.
+   ============================================================ */
+
+body:has(.account-profile-page) .account-profile-page {
+
+  /* clean continuous page background */
+  background:
+    radial-gradient(
+      circle at 92% 8%,
+      rgba(25, 190, 115, 0.10),
+      transparent 25%
+    ),
+    linear-gradient(
+      180deg,
+      #001f16 0%,
+      #00291d 48%,
+      #003a27 100%
+    ) !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   REMOVE BACKGROUND / BORDER FROM ALL TEXT-ONLY CONTAINERS
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > span,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > h1,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > h2,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > h3,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > p,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-heading,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-heading > *,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-eyebrow,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-title,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-subtitle {
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  border-top: 0 !important;
+  border-right: 0 !important;
+  border-bottom: 0 !important;
+  border-left: 0 !important;
+
+  outline: 0 !important;
+  box-shadow: none !important;
+
+  text-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   REMOVE THE STRIPE BEHIND "ACCOUNT CENTER"
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-section-heading {
+  position: relative !important;
+
+  display: block !important;
+
+  width: 100% !important;
+  min-height: 0 !important;
+  height: auto !important;
+
+  margin: 18px 0 12px !important;
+  padding: 0 !important;
+
+  overflow: visible !important;
+}
+
+body:has(.account-profile-page)
+.account-section-heading::before,
+
+body:has(.account-profile-page)
+.account-section-heading::after {
+  content: none !important;
+  display: none !important;
+
+  width: 0 !important;
+  height: 0 !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   HEADING TEXT — COMPLETELY PLAIN
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-section-heading > span {
+  display: block !important;
+
+  width: fit-content !important;
+
+  margin: 0 0 7px !important;
+  padding: 0 !important;
+
+  color: #46e59a !important;
+
+  font-size: 8px !important;
+  line-height: 1 !important;
+  font-weight: 800 !important;
+
+  letter-spacing: .24em !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page)
+.account-section-heading > h2 {
+  display: block !important;
+
+  width: fit-content !important;
+
+  margin: 0 !important;
+  padding: 0 !important;
+
+  color: #f2fff8 !important;
+
+  font-size: clamp(25px, 2.1vw, 34px) !important;
+  line-height: 1.1 !important;
+  font-weight: 800 !important;
+
+  letter-spacing: -.035em !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page)
+.account-section-heading > p {
+  display: block !important;
+
+  width: fit-content !important;
+  max-width: 700px !important;
+
+  margin: 7px 0 0 !important;
+  padding: 0 !important;
+
+  color: rgba(226, 249, 237, .68) !important;
+
+  font-size: 10px !important;
+  line-height: 1.5 !important;
+
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   REMOVE ACCIDENTAL BOXES AROUND HEADINGS / LABELS
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-title,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-label,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading > span,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading > h2,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading > p {
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   DO NOT LET GENERIC DIV RULES CREATE TEXT BOXES
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading div,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading label {
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   REMOVE DECORATIVE LINE LAYERS ONLY
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page
+[class*="line"],
+
+body:has(.account-profile-page)
+.account-profile-page
+[class*="divider"],
+
+body:has(.account-profile-page)
+.account-profile-page
+[class*="separator"] {
+
+  background: transparent !important;
+  background-image: none !important;
+
+  border-top: 0 !important;
+  border-bottom: 0 !important;
+
+  box-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   KEEP REAL CARDS — DO NOT MAKE THEM TRANSPARENT
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-feature-card,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-impact-card,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-rewards-card,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-utility-card {
+
+  position: relative !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(5, 101, 64, .96),
+      rgba(2, 65, 43, .96)
+    ) !important;
+
+  border: 1px solid rgba(48, 218, 143, .30) !important;
+
+  outline: 0 !important;
+
+  box-shadow:
+    0 10px 35px rgba(0, 0, 0, .12) !important;
+}
+
+/* ------------------------------------------------------------
+   CARD TEXT REMAINS PLAIN INSIDE THE CARDS
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card h1,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card h2,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card h3,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card p,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card span,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card h1,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card h2,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card h3,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card p,
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card span {
+
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+
+  border: 0 !important;
+  outline: 0 !important;
+
+  box-shadow: none !important;
+  text-shadow: none !important;
+}
+
+/* ------------------------------------------------------------
+   NO BLUR / NO FILTER
+   ------------------------------------------------------------ */
+
+body:has(.account-profile-page)
+.account-profile-page,
+body:has(.account-profile-page)
+.account-profile-page * {
+
+  filter: none !important;
+  text-shadow: none !important;
+}
+
+/* Keep only the actual visual cards elevated. */
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-feature-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-impact-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-rewards-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-utility-card {
+
+  z-index: 1 !important;
+}
+
+/* ============================================================
+   END PROFILE TEXT CLEANUP
+   ============================================================ */
+
+/* ============================================================
+   GREENCORE PROFILE — REMOVE UNWANTED OUTLINES
+   ============================================================ */
+
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading,
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading *,
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading,
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading *,
+body:has(.account-profile-page)
+.account-profile-page
+.account-heading,
+body:has(.account-profile-page)
+.account-profile-page
+.account-heading *,
+body:has(.account-profile-page)
+.account-profile-page
+.account-title,
+body:has(.account-profile-page)
+.account-profile-page
+.account-title *,
+body:has(.account-profile-page)
+.account-profile-page
+.account-subtitle,
+body:has(.account-profile-page)
+.account-profile-page
+.account-subtitle * {
+  outline: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove focus outlines from non-interactive text elements. */
+body:has(.account-profile-page)
+.account-profile-page
+h1:focus,
+body:has(.account-profile-page)
+.account-profile-page
+h2:focus,
+body:has(.account-profile-page)
+.account-profile-page
+h3:focus,
+body:has(.account-profile-page)
+.account-profile-page
+p:focus,
+body:has(.account-profile-page)
+.account-profile-page
+span:focus,
+body:has(.account-profile-page)
+.account-profile-page
+div:focus {
+  outline: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Remove browser focus rings from account containers. */
+body:has(.account-profile-page)
+.account-profile-page
+*:focus:not(input):not(button):not(a):not(select):not(textarea) {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Remove accidental inset outlines around text. */
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading,
+body:has(.account-profile-page)
+.account-profile-page
+.account-card-heading {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+}
+
+/* Plain text — absolutely no visual container. */
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > span,
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > h2,
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading > p {
+  outline: none !important;
+
+  border: none !important;
+
+  box-shadow: none !important;
+
+  background: transparent !important;
+}
+
+/* Remove outline around profile text blocks. */
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-heading,
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-heading > *,
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-heading h1,
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-heading p {
+  outline: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+
+/* Remove any remaining line-style borders from text wrappers. */
+body:has(.account-profile-page)
+.account-profile-page
+[class*="heading"],
+body:has(.account-profile-page)
+.account-profile-page
+[class*="title"],
+body:has(.account-profile-page)
+.account-profile-page
+[class*="subtitle"],
+body:has(.account-profile-page)
+.account-profile-page
+[class*="label"] {
+  outline: none !important;
+}
+
+/* ============================================================
+   FINAL TEXT RENDERING
+   ============================================================ */
+
+body:has(.account-profile-page)
+.account-profile-page
+h1,
+body:has(.account-profile-page)
+.account-profile-page
+h2,
+body:has(.account-profile-page)
+.account-profile-page
+h3,
+body:has(.account-profile-page)
+.account-profile-page
+p,
+body:has(.account-profile-page)
+.account-profile-page
+span {
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
+  filter: none !important;
+}
+
+/* Do not allow text to create its own visual surface. */
+body:has(.account-profile-page)
+.account-profile-page
+.account-section-heading *,
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-heading * {
+  background-clip: border-box !important;
+  -webkit-background-clip: border-box !important;
+}
+
+/* Keep actual cards intact. */
+body:has(.account-profile-page)
+.account-profile-page
+.account-profile-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-stat-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-feature-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-impact-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-rewards-card,
+body:has(.account-profile-page)
+.account-profile-page
+.account-utility-card {
+  outline: none !important;
+}
+
+/* ============================================================
+   END
+   ============================================================ */
+
+/* Text and text-only wrappers should not create extra surfaces. */
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-profile-heading,
+  .account-profile-heading > *,
+  .account-profile-identity,
+  .account-card-heading > div:not(.account-card-icon),
+  .account-profile-fields,
+  .account-profile-fields > div,
+  .account-membership-progress,
+  .account-membership-value,
+  .account-membership-tier,
+  .account-stat-card > div,
+  .account-section-heading,
+  .account-feature-card > div:not(.account-feature-icon),
+  .account-impact-header > div,
+  .account-impact-metrics > div,
+  .account-rewards-row,
+  .account-utility-card > div,
+  .account-profile-brand-note > div
+) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  strong,
+  small,
+  label,
+  .account-eyebrow,
+  .account-card-kicker,
+  .account-profile-identity > .account-profile-heading,
+  .account-profile-fields span,
+  .account-profile-fields strong,
+  .account-membership-value span,
+  .account-membership-progress > *,
+  .account-stat-card small,
+  .account-feature-card > div > span,
+  .account-impact-metrics span,
+  .account-rewards-row span,
+  .account-utility-card div > span,
+  .account-profile-brand-note span
+) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  -webkit-text-stroke: 0 !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-impact-header,
+  .account-impact-metrics,
+  .account-impact-metrics > div,
+  .account-impact-message,
+  .account-rewards-row,
+  .account-profile-brand-note
+) {
+  background: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-impact-metrics > div,
+  .account-impact-message,
+  .account-profile-brand-note
+) {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-profile-grid,
+  .account-stat-grid,
+  .account-feature-grid,
+  .account-lower-grid,
+  .account-utility-grid
+) {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+.account-brand-divider {
+  display: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-shell {
+  background: transparent !important;
+  background-color: transparent !important;
+  background-image: none !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-page,
+body:has(.account-profile-page) .greencore-route-page {
+  background: transparent !important;
+  border: 0 !important;
+  outline: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(.gc-scroll-reveal, .gc-text-reveal) {
+  opacity: 1 !important;
+  filter: none !important;
+  transform: none !important;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto !important;
+}
+
+body:has(.account-profile-page) .account-profile-card .account-card-heading,
+body:has(.account-profile-page) .account-profile-fields > div,
+body:has(.account-profile-page) .account-membership-progress,
+body:has(.account-profile-page) .account-membership-card > p {
+  border: 0 !important;
+  box-shadow: none !important;
+}
+
+body:has(.account-profile-page) .account-profile-fields > div {
+  border-top: 0 !important;
+}
+
+body:has(.account-profile-page) .account-profile-page {
+  font-family: Inter, sans-serif !important;
+  -webkit-font-smoothing: antialiased !important;
+  text-rendering: optimizeLegibility !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-eyebrow,
+  .account-card-kicker,
+  .account-profile-fields span,
+  .account-membership-value span,
+  .account-membership-tier,
+  .account-stat-card small,
+  .account-feature-card > div > span,
+  .account-impact-metrics span,
+  .account-rewards-row span,
+  .account-utility-card div > span,
+  .account-profile-brand-note span
+) {
+  font-size: 10px !important;
+  line-height: 1.4 !important;
+  color: #a8ddbf !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-profile-heading p,
+  .account-membership-card p,
+  .account-feature-card p,
+  .account-impact-message p,
+  .account-rewards-card p,
+  .account-profile-brand-note p
+) {
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+  color: #c1dfce !important;
+}
+
+body:has(.account-profile-page) .account-profile-page
+:is(
+  .account-profile-fields strong,
+  .account-stat-card strong,
+  .account-feature-card h3,
+  .account-impact-metrics strong,
+  .account-utility-card strong
+) {
+  font-size: 12px !important;
+  line-height: 1.4 !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  margin: 12px 0 0 !important;
+  padding: 10px 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note > div {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 3px !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note > div strong {
+  color: #effff6 !important;
+  font-size: 12px !important;
+  font-weight: 800 !important;
+  line-height: 1.3 !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note > div span {
+  display: inline-flex !important;
+  width: fit-content !important;
+  margin: 0 !important;
+  padding: 3px 7px !important;
+  border-radius: 999px !important;
+  background: rgba(47, 204, 133, .14) !important;
+  color: #9ce9bc !important;
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  line-height: 1.35 !important;
+  letter-spacing: .02em !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note > p {
+  margin: 0 !important;
+  color: #c1dfce !important;
+  font-size: 11px !important;
+  line-height: 1.5 !important;
+}
+
+body:has(.account-profile-page) .account-profile-hero {
+  border: 1px solid rgba(92, 231, 162, .28) !important;
+  border-radius: 20px !important;
+  background:
+    radial-gradient(circle at 84% 10%, rgba(89, 239, 164, .18), transparent 34%),
+    linear-gradient(115deg, #075039 0%, #0a5a3e 55%, #064630 100%) !important;
+  box-shadow: 0 22px 58px rgba(0, 0, 0, .2), inset 0 1px rgba(224, 255, 237, .08) !important;
+}
+
+body:has(.account-profile-page) .account-profile-avatar {
+  border: 1px solid rgba(137, 245, 186, .4) !important;
+  background: linear-gradient(145deg, #16835a, #07543a) !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, .18), inset 0 1px rgba(234, 255, 242, .12) !important;
+}
+
+body:has(.account-profile-page) .account-profile-heading h1 {
+  color: #f4fff8 !important;
+  letter-spacing: -.04em !important;
+}
+
+body:has(.account-profile-page) .account-profile-card,
+body:has(.account-profile-page) .account-stat-card,
+body:has(.account-profile-page) .account-feature-card,
+body:has(.account-profile-page) .account-impact-card,
+body:has(.account-profile-page) .account-rewards-card,
+body:has(.account-profile-page) .account-utility-card {
+  border: 1px solid rgba(95, 223, 158, .2) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, .13), inset 0 1px rgba(222, 255, 236, .035) !important;
+}
+
+body:has(.account-profile-page) .account-profile-card {
+  background: linear-gradient(145deg, #075b3d 0%, #06452f 100%) !important;
+}
+
+body:has(.account-profile-page) .account-membership-card {
+  background:
+    radial-gradient(circle at 90% 0%, rgba(70, 226, 149, .1), transparent 36%),
+    linear-gradient(145deg, #07573b 0%, #043f2c 100%) !important;
+}
+
+body:has(.account-profile-page) .account-card-icon,
+body:has(.account-profile-page) .account-feature-icon,
+body:has(.account-profile-page) .account-stat-icon,
+body:has(.account-profile-page) .account-rewards-icon {
+  border: 1px solid rgba(118, 236, 173, .2) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(145deg, rgba(70, 220, 143, .2), rgba(27, 131, 84, .16)) !important;
+  color: #8cf0b7 !important;
+}
+
+body:has(.account-profile-page) .account-stat-card,
+body:has(.account-profile-page) .account-utility-card {
+  background: linear-gradient(135deg, #07543a, #043f2d) !important;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease !important;
+}
+
+body:has(.account-profile-page) .account-stat-card:hover,
+body:has(.account-profile-page) .account-utility-card:hover {
+  transform: translateY(-2px) !important;
+  border-color: rgba(112, 241, 174, .42) !important;
+  box-shadow: 0 16px 32px rgba(0, 0, 0, .2) !important;
+}
+
+body:has(.account-profile-page) .account-feature-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(59, 214, 136, .08), transparent 42%),
+    linear-gradient(145deg, #07553a, #043f2c) !important;
+  transition: transform .2s ease, border-color .2s ease, box-shadow .2s ease !important;
+}
+
+body:has(.account-profile-page) .account-feature-card:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(112, 241, 174, .38) !important;
+  box-shadow: 0 18px 34px rgba(0, 0, 0, .18) !important;
+}
+
+body:has(.account-profile-page) .account-impact-card {
+  background:
+    radial-gradient(circle at 95% 0%, rgba(89, 239, 164, .14), transparent 34%),
+    linear-gradient(145deg, #075c3e, #04412d) !important;
+}
+
+body:has(.account-profile-page) .account-rewards-card {
+  background:
+    radial-gradient(circle at 100% 0%, rgba(74, 228, 149, .12), transparent 38%),
+    linear-gradient(145deg, #07543a, #043d2a) !important;
+}
+
+body:has(.account-profile-page) .account-impact-metrics > div {
+  padding: 10px 12px !important;
+  border-radius: 10px !important;
+  background: rgba(0, 34, 23, .22) !important;
+}
+
+body:has(.account-profile-page) .account-section-heading {
+  margin-top: 24px !important;
+  margin-bottom: 16px !important;
+}
+
+body:has(.account-profile-page) .account-section-heading > span,
+body:has(.account-profile-page) .account-eyebrow,
+body:has(.account-profile-page) .account-card-kicker {
+  color: #81eab0 !important;
+  letter-spacing: .16em !important;
+}
+
+body:has(.account-profile-page) .account-section-heading > h2 {
+  color: #f1fff6 !important;
+  font-size: clamp(24px, 2.5vw, 34px) !important;
+  line-height: 1.15 !important;
+  letter-spacing: -.035em !important;
+}
+
+body:has(.account-profile-page) .account-section-heading > p {
+  color: #bfddcb !important;
+  font-size: 12px !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note {
+  margin-top: 18px !important;
+  padding: 12px 14px !important;
+  gap: 14px !important;
+  border-radius: 12px !important;
+  background: linear-gradient(100deg, rgba(19, 119, 77, .3), rgba(6, 66, 46, .18)) !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note > svg {
+  width: 34px !important;
+  height: 34px !important;
+  padding: 8px !important;
+  border-radius: 10px !important;
+  background: rgba(69, 214, 139, .16) !important;
+  color: #8cf0b7 !important;
+}
+
+body:has(.account-profile-page) .account-profile-brand-note > div span {
+  background: rgba(70, 209, 137, .17) !important;
+  color: #a9edc3 !important;
+}
+
+body:has(.account-profile-page) .account-profile-edit,
+body:has(.account-profile-page) .account-feature-card button,
+body:has(.account-profile-page) .account-impact-button,
+body:has(.account-profile-page) .account-rewards-card button {
+  border-radius: 10px !important;
+  transition: transform .2s ease, background-color .2s ease, border-color .2s ease !important;
+}
+
+body:has(.account-profile-page) .account-feature-card button:hover,
+body:has(.account-profile-page) .account-impact-button:hover,
+body:has(.account-profile-page) .account-rewards-card button:hover {
+  transform: translateY(-1px) !important;
+}
+
+@media (max-width: 620px) {
+  body:has(.account-profile-page) .account-profile-hero {
+    border-radius: 15px !important;
+  }
+
+  body:has(.account-profile-page) .account-profile-card,
+  body:has(.account-profile-page) .account-stat-card,
+  body:has(.account-profile-page) .account-feature-card,
+  body:has(.account-profile-page) .account-impact-card,
+  body:has(.account-profile-page) .account-rewards-card,
+  body:has(.account-profile-page) .account-utility-card {
+    border-radius: 13px !important;
+  }
+}
+
+.nav-profile-avatar-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: inherit;
+}

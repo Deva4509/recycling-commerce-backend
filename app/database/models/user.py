@@ -2,7 +2,9 @@ from enum import StrEnum
 from typing import TYPE_CHECKING
 from uuid import UUID
 
-from sqlalchemy import Boolean, ForeignKey, String
+from datetime import date
+
+from sqlalchemy import Boolean, DateTime, Date, ForeignKey, String
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.models.base import Base, UUIDTimestampMixin
@@ -52,6 +54,26 @@ class User(UUIDTimestampMixin, Base):
 
     phone: Mapped[str | None] = mapped_column(
         String(30),
+        nullable=True,
+    )
+
+    phone_country_code: Mapped[str | None] = mapped_column(
+        String(8),
+        nullable=True,
+    )
+
+    date_of_birth: Mapped[date | None] = mapped_column(
+        Date,
+        nullable=True,
+    )
+
+    profile_photo_url: Mapped[str | None] = mapped_column(
+        String(1000),
+        nullable=True,
+    )
+
+    profile_photo_public_id: Mapped[str | None] = mapped_column(
+        String(500),
         nullable=True,
     )
 

@@ -35,6 +35,7 @@ import Shop from "./pages/Shop";
 import VisionMission from "./pages/VisionMission";
 import Vidyagyan from "./pages/Vidyagyan";
 import Contact from "./pages/Contact";
+import Donation from "./pages/Donation";
 
 import { useAuth } from "./context/AuthContext";
 import Gallery from "./pages/Gallery";
@@ -292,6 +293,7 @@ function App() {
             ===================================================== */}
         <Route path="/" element={<PageMotion><Home /></PageMotion>} />
         <Route path="/shop" element={<PageMotion><Shop /></PageMotion>} />
+        <Route path="/donate" element={<PageMotion><Donation /></PageMotion>} />
         <Route path="/calculator" element={<PageMotion><Calculator /></PageMotion>} />
         <Route path="/vision-mission" element={<PageMotion><VisionMission /></PageMotion>} />
         <Route path="/vidyagyan" element={<PageMotion><Vidyagyan /></PageMotion>} />
