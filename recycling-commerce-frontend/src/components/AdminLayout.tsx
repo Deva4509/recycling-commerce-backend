@@ -1,6 +1,7 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   BarChart3,
+  Boxes,
   ChevronRight,
   CircleDollarSign,
   LayoutDashboard,
@@ -37,6 +38,11 @@ const navigation = [
     icon: ShoppingCart,
   },
   {
+    label: "Bulk Orders",
+    to: "/admin/bulk-orders",
+    icon: Boxes,
+  },
+  {
     label: "Inventory",
     to: "/admin/inventory",
     icon: Warehouse,
@@ -59,10 +65,12 @@ const navigation = [
 ];
 
 export default function AdminLayout() {
-  const { user, logout } = useAuth();
+  const { user, logout, uploadProfilePhoto } = useAuth();
   const navigate = useNavigate();
   const [collapsed, setCollapsed] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [photoUploading, setPhotoUploading] = useState(false);
+  const [photoMessage, setPhotoMessage] = useState("");
 
   const displayName = user?.email || "Administrator";
   const initials =
@@ -158,7 +166,39 @@ export default function AdminLayout() {
         </nav>
 
         <div className="rp-admin-user-card">
-          <div className="rp-admin-avatar">{initials}</div>
+          <div className="rp-admin-avatar-upload">
+            <span className="rp-admin-avatar">
+              {user?.profile_photo_url ? (
+                <img src={user.profile_photo_url} alt="Admin profile" />
+              ) : initials}
+            </span>
+            {/* Profile photo is edited from the customer profile card. */}
+            <input
+              className="admin-photo-input"
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              disabled={photoUploading}
+              aria-label="Upload admin profile photo"
+              onChange={async (event) => {
+                const input = event.currentTarget;
+                const file = input.files?.[0];
+                input.value = "";
+                if (!file) return;
+                setPhotoMessage("");
+                if (file.size > 5 * 1024 * 1024) {
+                  setPhotoMessage("Choose an image under 5 MB.");
+                  return;
+                }
+                setPhotoUploading(true);
+                const result = await uploadProfilePhoto(file);
+                setPhotoUploading(false);
+                setPhotoMessage(
+                  result.success ? "Profile photo updated." :
+                  result.error || "Upload failed."
+                );
+              }}
+            />
+          </div>
 
           {!collapsed && (
             <div className="rp-admin-user-info">
@@ -217,7 +257,11 @@ export default function AdminLayout() {
               System operational
             </div>
 
-            <div className="rp-admin-top-avatar">{initials}</div>
+            <div className="rp-admin-top-avatar">
+              {user?.profile_photo_url ? (
+                <img src={user.profile_photo_url} alt="Admin profile" />
+              ) : initials}
+            </div>
           </div>
         </header>
 

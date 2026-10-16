@@ -10,7 +10,7 @@ import {
   Truck,
   X,
 } from "lucide-react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
   cancelOrder,
   getOrder,
@@ -53,6 +53,7 @@ const statusRank = (status?: string) => {
 
 export default function OrderDetails() {
   const { orderId } = useParams();
+  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
 
   const [order, setOrder] = useState<ApiOrder | null>(null);
@@ -159,7 +160,7 @@ export default function OrderDetails() {
     <main className="order-page rp-order-details-page">
       <div className="rp-detail-shell">
 
-        <Link className="rp-back-orders" to="/account/orders">
+        <Link className="rp-back-orders" to={searchParams.get("source") === "profile" ? "/account?section=orders" : "/account/orders"}>
           <ArrowLeft size={15} />
           Back to orders
         </Link>

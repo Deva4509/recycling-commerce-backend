@@ -1,5 +1,5 @@
 import { FormEvent, useEffect, useMemo, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
   Check,
@@ -33,7 +33,11 @@ import {
   ApiReview,
   ApiProduct,
   ApiProductImage,
+  ApiBulkOrderConfig,
+  createBulkOrder,
+  getBulkOrderConfig,
 } from "../lib/api";
+import "./BulkOrders.css";
 
 function formatPrice(value: string | number) {
   return new Intl.NumberFormat("en-IN", {
@@ -104,6 +108,7 @@ export default function ProductDetails() {
   const { addToCart } = useCart();
   const { slug } = useParams();
   const { user, isAuthenticated } = useAuth();
+  const navigate = useNavigate();
 
   const staticProduct = useMemo(
     () => products.find((item) => item.slug === slug || item.id === slug),
@@ -120,6 +125,23 @@ const product =
   const { isFavorite, toggleFavorite } = useFavorites();
   const [added, setAdded] = useState(false);
 
+  const [bulkConfig, setBulkConfig] = useState<ApiBulkOrderConfig | null>(null);
+  const [bulkConfigLoading, setBulkConfigLoading] = useState(false);
+  const [bulkConfigError, setBulkConfigError] = useState("");
+  const [bulkFormOpen, setBulkFormOpen] = useState(false);
+  const [bulkSubmitting, setBulkSubmitting] = useState(false);
+  const [bulkMessage, setBulkMessage] = useState("");
+  const [bulkForm, setBulkForm] = useState({
+    organization_name: "",
+    contact_name: "",
+    contact_email: "",
+    contact_phone: "",
+    quantity: "10",
+    delivery_address: "",
+    delivery_pin_code: "",
+    expected_delivery_date: "",
+    intended_use: "",
+  });
 
   const [backendProductId, setBackendProductId] = useState<string | null>(null);
   const [galleryImages, setGalleryImages] = useState<ApiProductImage[]>([]);
@@ -201,6 +223,56 @@ const product =
       cancelled = true;
     };
   }, [slug, staticProduct]);
+
+  useEffect(() => {
+    if (!backendProductId) {
+      setBulkConfig(null);
+      setBulkConfigError("");
+      return;
+    }
+
+    let cancelled = false;
+    setBulkConfigLoading(true);
+    setBulkConfigError("");
+    getBulkOrderConfig(backendProductId)
+      .then((config) => {
+        if (!cancelled) {
+          setBulkConfig(config);
+          setBulkForm((current) => ({
+            ...current,
+            quantity: String(config.minimum_quantity),
+          }));
+        }
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) {
+          setBulkConfig(null);
+          setBulkConfigError(
+            error instanceof Error
+              ? error.message
+              : "Bulk ordering is not available for this product.",
+          );
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setBulkConfigLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [backendProductId]);
+
+  useEffect(() => {
+    setBulkForm((current) => ({
+      ...current,
+      contact_email: current.contact_email || user?.email || "",
+      contact_phone: current.contact_phone || user?.phone || "",
+      contact_name:
+        current.contact_name ||
+        [user?.first_name, user?.last_name].filter(Boolean).join(" "),
+    }));
+  }, [user]);
 
   useEffect(() => {
     const productId = backendProductId;
@@ -378,6 +450,39 @@ const product =
     window.setTimeout(() => {
       setAdded(false);
     }, 2200);
+  }
+
+  async function handleBulkOrderSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    if (!backendProductId) {
+      setBulkMessage("This product is not connected to the ordering system.");
+      return;
+    }
+    setBulkSubmitting(true);
+    setBulkMessage("");
+    try {
+      const created = await createBulkOrder({
+        product_id: backendProductId,
+        quantity: Number(bulkForm.quantity),
+        organization_name: bulkForm.organization_name,
+        contact_name: bulkForm.contact_name,
+        contact_email: bulkForm.contact_email,
+        contact_phone: bulkForm.contact_phone,
+        delivery_address: bulkForm.delivery_address,
+        delivery_pin_code: bulkForm.delivery_pin_code,
+        expected_delivery_date: bulkForm.expected_delivery_date || undefined,
+        intended_use: bulkForm.intended_use.trim() || undefined,
+      });
+      setBulkMessage("Your wholesale quote request has been submitted.");
+      setBulkFormOpen(false);
+      navigate("/account/bulk-orders", { state: { createdRequestId: created.id } });
+    } catch (error) {
+      setBulkMessage(
+        error instanceof Error ? error.message : "Unable to submit your request.",
+      );
+    } finally {
+      setBulkSubmitting(false);
+    }
   }
 
   if (!product) {
@@ -667,6 +772,168 @@ const product =
                 />
               </button>
             </div>
+
+            {backendProductId && (
+              <section className="bulk-request-panel">
+                <div className="bulk-request-heading">
+                  <div>
+                    <h3>Bulk Order / Request Wholesale Quote</h3>
+                    {bulkConfigLoading ? (
+                      <p>Loading bulk order details…</p>
+                    ) : bulkConfig ? (
+                      <p>
+                        Minimum order: {bulkConfig.minimum_quantity} units.
+                        Pricing is confirmed in your quote.
+                      </p>
+                    ) : (
+                      <p>
+                        Request volume pricing for your organization.
+                      </p>
+                    )}
+                  </div>
+                  {isAuthenticated ? (
+                    <button
+                      type="button"
+                      className="bulk-button"
+                      onClick={() => {
+                        setBulkMessage("");
+                        setBulkFormOpen((open) => !open);
+                      }}
+                    >
+                      {bulkFormOpen ? "Close request form" : "Request a quote"}
+                    </button>
+                  ) : (
+                    <Link className="bulk-button" to="/login">
+                      Sign in to request
+                    </Link>
+                  )}
+                </div>
+                {bulkConfigError && (
+                  <p className="bulk-inline-error">{bulkConfigError}</p>
+                )}
+                {bulkMessage && (
+                  <p className="bulk-inline-message" role="status">
+                    {bulkMessage}
+                  </p>
+                )}
+                {bulkFormOpen && isAuthenticated && (
+                  <form className="bulk-form" onSubmit={handleBulkOrderSubmit}>
+                    <label>
+                      Organization
+                      <input
+                        required
+                        maxLength={200}
+                        value={bulkForm.organization_name}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, organization_name: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Contact name
+                      <input
+                        required
+                        maxLength={200}
+                        value={bulkForm.contact_name}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, contact_name: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Email
+                      <input
+                        required
+                        type="email"
+                        maxLength={320}
+                        value={bulkForm.contact_email}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, contact_email: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Phone
+                      <input
+                        required
+                        type="tel"
+                        minLength={7}
+                        maxLength={30}
+                        value={bulkForm.contact_phone}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, contact_phone: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Quantity
+                      <input
+                        required
+                        type="number"
+                        min={bulkConfig?.minimum_quantity ?? 1}
+                        step="1"
+                        value={bulkForm.quantity}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, quantity: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      PIN code
+                      <input
+                        required
+                        inputMode="numeric"
+                        pattern="[0-9]{6}"
+                        minLength={6}
+                        maxLength={6}
+                        value={bulkForm.delivery_pin_code}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, delivery_pin_code: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label className="bulk-form-wide">
+                      Delivery address
+                      <textarea
+                        required
+                        minLength={1}
+                        value={bulkForm.delivery_address}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, delivery_address: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Expected delivery date (optional)
+                      <input
+                        type="date"
+                        min={new Date().toISOString().slice(0, 10)}
+                        value={bulkForm.expected_delivery_date}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, expected_delivery_date: event.target.value })
+                        }
+                      />
+                    </label>
+                    <label>
+                      Intended use (optional)
+                      <input
+                        value={bulkForm.intended_use}
+                        onChange={(event) =>
+                          setBulkForm({ ...bulkForm, intended_use: event.target.value })
+                        }
+                      />
+                    </label>
+                    <button
+                      className="bulk-button bulk-submit"
+                      type="submit"
+                      disabled={bulkSubmitting}
+                    >
+                      {bulkSubmitting ? "Submitting…" : "Submit quote request"}
+                    </button>
+                  </form>
+                )}
+              </section>
+            )}
 
             <div className="product-detail-trust">
               <div>

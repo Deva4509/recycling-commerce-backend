@@ -56,3 +56,9 @@ class UpdateProfileRequest(BaseModel):
     phone: str | None = Field(default=None, max_length=30)
     phone_country_code: str | None = Field(default=None, max_length=8)
     date_of_birth: date | None = None
+
+
+class ChangePasswordRequest(BaseModel):
+    current_password: str = Field(min_length=1, max_length=128)
+    new_password: str = Field(min_length=12, max_length=128)
+    confirm_password: str = Field(min_length=1, max_length=128)

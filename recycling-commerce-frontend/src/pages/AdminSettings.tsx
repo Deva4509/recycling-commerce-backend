@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from "react";
 import { createPortal } from "react-dom";
+import { useAuth } from "../context/AuthContext";
 import {
   Bell,
   Check,
@@ -25,10 +26,12 @@ import {
 } from "../lib/api";
 
 export default function AdminSettings() {
+  const { user, uploadProfilePhoto } = useAuth();
   const [data, setData] = useState<AdminSettingsResponse | null>(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState("");
+  const [photoUploading, setPhotoUploading] = useState(false);
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -201,13 +204,61 @@ export default function AdminSettings() {
 
       <div className="rp-admin-settings-grid">
         <section className="rp-admin-settings-card">
-          <div className="rp-admin-settings-card-heading">
-            <div className="rp-admin-settings-icon">
-              <UserRound size={21} />
+          <div className="rp-admin-settings-card-heading admin-profile-heading">
+            <div className="admin-profile-photo-preview">
+              {user?.profile_photo_url ? (
+                <img src={user.profile_photo_url} alt="Administrator profile" />
+              ) : (
+                <UserRound size={34} />
+              )}
             </div>
-            <div>
+            <div className="admin-profile-heading-copy">
               <h2>Profile &amp; Account</h2>
               <p>Manage your administrator account information.</p>
+              <div className="admin-profile-photo-controls">
+                <strong>Profile photo</strong>
+                <span>JPG, PNG or WebP · Maximum 5 MB</span>
+                <label className="admin-profile-change-photo admin-profile-change-photo-neon">
+                  <span className="admin-photo-camera" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" fill="none">
+                      <path d="M4 7.5h3l1.5-2h7l1.5 2h3A1.5 1.5 0 0 1 21.5 9v9A1.5 1.5 0 0 1 20 19.5H4A1.5 1.5 0 0 1 2.5 18V9A1.5 1.5 0 0 1 4 7.5Z" />
+                      <circle cx="12" cy="13" r="3.5" />
+                    </svg>
+                  </span>
+                  <span className="admin-photo-button-label">{photoUploading ? "Uploading..." : "Change photo"}</span>
+                  <span className="admin-photo-chevron" aria-hidden="true">›</span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    disabled={photoUploading}
+                    aria-label="Change administrator profile photo"
+                    onChange={async (event) => {
+                      const input = event.currentTarget;
+                      const file = input.files?.[0];
+                      input.value = "";
+                      if (!file) return;
+
+                      setMessage("");
+                      if (file.size > 5 * 1024 * 1024) {
+                        setMessage("Choose a profile photo smaller than 5 MB.");
+                        return;
+                      }
+
+                      setPhotoUploading(true);
+                      try {
+                        const result = await uploadProfilePhoto(file);
+                        setMessage(
+                          result.success
+                            ? "Profile photo updated successfully."
+                            : result.error || "Unable to update profile photo."
+                        );
+                      } finally {
+                        setPhotoUploading(false);
+                      }
+                    }}
+                  />
+                </label>
+              </div>
             </div>
           </div>
 

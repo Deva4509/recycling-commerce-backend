@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { FormEvent, useEffect, useState } from "react";
+import { Link, NavLink, useNavigate, useSearchParams } from "react-router-dom";
 import {
   ArrowDownRight,
   ArrowRight,
@@ -18,18 +18,25 @@ import {
   UserRound,
   X,
   ShoppingBag,
+  Search,
+  Mail,
+  Clock3,
+  Send
 } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { useFavorites } from "../context/FavoritesContext";
 import { useCart } from "../context/CartContext";
+import PrivacyCenter from "./PrivacyCenter";
+import { request, getMyOrders, getOrder, getOrderShipment, getProduct, type ApiOrderSummary } from "../lib/api";
 import "./Account.css";
 
-type AccountSection = "overview" | "profile" | "wishlist";
+type AccountSection = "overview" | "profile" | "wishlist" | "privacy" | "help" | "orders";
 
 export default function Account() {
+  const [searchParams] = useSearchParams();
   const { user, logout, updateProfile, uploadProfilePhoto } = useAuth();
   const { favorites, toggleFavorite } = useFavorites();
-  const [section, setSection] = useState<AccountSection>("overview");
+  const [section, setSection] = useState<AccountSection>(() => searchParams.get("section") === "orders" ? "orders" : "overview");
   const { addToCart } = useCart();
   const [wishlistProducts, setWishlistProducts] = useState<import("../lib/api").ApiProduct[]>([]);
   const [wishlistLoading, setWishlistLoading] = useState(false);
@@ -58,6 +65,7 @@ export default function Account() {
   );
   const [profileSaving, setProfileSaving] = useState(false);
   const [photoUploading, setPhotoUploading] = useState(false);
+  const [photoMessage, setPhotoMessage] = useState("");
   const [profileMessage, setProfileMessage] = useState("");
   const [profileError, setProfileError] = useState("");
 
@@ -114,17 +122,17 @@ export default function Account() {
             </p>
           </div>
 
-          <Link to="/contact" className="gc-account-help-link">
+          <button type="button" onClick={() => setSection("help")} className="gc-account-help-link">
             <CircleHelp size={17} />
             <span>Need help?</span>
             <ArrowRight size={15} />
-          </Link>
+          </button>
         </header>
 
         <div className="gc-account-layout">
           <aside className="gc-account-sidebar">
             <section className="gc-account-identity">
-              <div className="gc-account-avatar-wrap">
+              <div className="gc-account-avatar-wrap gc-account-avatar-editable">
                 <div className="gc-account-avatar">
                   {user?.profile_photo_url ? (
                     <img
@@ -135,6 +143,33 @@ export default function Account() {
                     initials || <UserRound size={29} />
                   )}
                 </div>
+                <label className="gc-account-avatar-edit" title="Change profile photo">
+                  <span>Edit</span>
+                  <input
+                    type="file"
+                    accept="image/jpeg,image/png,image/webp"
+                    disabled={photoUploading}
+                    aria-label="Change profile photo"
+                    onChange={async (event) => {
+                      const input = event.currentTarget;
+                      const file = input.files?.[0];
+                      input.value = "";
+                      if (!file) return;
+                      if (file.size > 5 * 1024 * 1024) {
+                        setPhotoMessage("Choose an image under 5 MB.");
+                        return;
+                      }
+                      setPhotoMessage("");
+                      setPhotoUploading(true);
+                      const result = await uploadProfilePhoto(file);
+                      setPhotoUploading(false);
+                      setPhotoMessage(
+                        result.success ? "Profile photo updated." :
+                        result.error || "Upload failed."
+                      );
+                    }}
+                  />
+                </label>
                 <span className="gc-account-avatar-status" />
               </div>
 
@@ -181,16 +216,16 @@ export default function Account() {
                 SHOPPING & SERVICES
               </span>
 
-              <NavLink
-                to="/account/orders"
-                className={({ isActive }) =>
-                  `gc-account-nav-item${isActive ? " active" : ""}`
-                }
+              <button
+                type="button"
+                onClick={() => setSection("orders")}
+                className={`gc-account-nav-item${section === "orders" ? " active" : ""}`}
+                aria-current={section === "orders" ? "page" : undefined}
               >
                 <Package size={18} />
                 <span>My orders</span>
-                <ChevronRight className="gc-account-nav-chevron" size={15} />
-              </NavLink>
+                {section === "orders" ? <span className="gc-account-nav-indicator" /> : <ChevronRight className="gc-account-nav-chevron" size={15} />}
+              </button>
 
               <button type="button" onClick={() => setSection("wishlist")} className={`gc-account-nav-item${section === "wishlist" ? " active" : ""}`}>
 
@@ -199,17 +234,29 @@ export default function Account() {
                 <span className="gc-account-nav-count">{validWishlistProducts.length}</span>
               </button>
 
-              <Link to="/contact" className="gc-account-nav-item">
+              <button
+                type="button"
+                onClick={() => setSection("help")}
+                className={`gc-account-nav-item${section === "help" ? " active" : ""}`}
+                aria-current={section === "help" ? "page" : undefined}
+              >
                 <CircleHelp size={18} />
                 <span>Help & support</span>
-                <ChevronRight className="gc-account-nav-chevron" size={15} />
-              </Link>
+                {section === "help" && <span className="gc-account-nav-indicator" />}
+                {section !== "help" && <ChevronRight className="gc-account-nav-chevron" size={15} />}
+              </button>
 
-              <Link to="/privacy" className="gc-account-nav-item">
+              <button
+                type="button"
+                onClick={() => setSection("privacy")}
+                className={`gc-account-nav-item${section === "privacy" ? " active" : ""}`}
+                aria-current={section === "privacy" ? "page" : undefined}
+              >
                 <ShieldCheck size={18} />
                 <span>Privacy & data</span>
-                <ChevronRight className="gc-account-nav-chevron" size={15} />
-              </Link>
+                {section === "privacy" && <span className="gc-account-nav-indicator" />}
+                {section !== "privacy" && <ChevronRight className="gc-account-nav-chevron" size={15} />}
+              </button>
             </nav>
 
             <div className="gc-account-sidebar-bottom">
@@ -427,7 +474,7 @@ export default function Account() {
                       </div>
                     </div>
 
-                    <Link to="/account/orders" className="gc-account-shortcut">
+                    <button type="button" onClick={() => setSection("orders")} className="gc-account-shortcut">
                       <span className="gc-account-shortcut-icon">
                         <Package size={18} />
                       </span>
@@ -436,7 +483,7 @@ export default function Account() {
                         <small>Track your purchases</small>
                       </span>
                       <ChevronRight size={17} />
-                    </Link>
+                    </button>
 
                     <button type="button" onClick={() => setSection("wishlist")} className="gc-account-shortcut gc-account-wishlist-shortcut">
                       <span className="gc-account-shortcut-icon">
@@ -449,7 +496,7 @@ export default function Account() {
                       <ChevronRight size={17} />
                     </button>
 
-                    <Link to="/contact" className="gc-account-shortcut">
+                    <button type="button" onClick={() => setSection("help")} className="gc-account-shortcut">
                       <span className="gc-account-shortcut-icon">
                         <CircleHelp size={18} />
                       </span>
@@ -458,9 +505,9 @@ export default function Account() {
                         <small>We're here to help</small>
                       </span>
                       <ChevronRight size={17} />
-                    </Link>
+                    </button>
 
-                    <Link to="/privacy" className="gc-account-shortcut">
+                    <button type="button" onClick={() => setSection("privacy")} className="gc-account-shortcut">
                       <span className="gc-account-shortcut-icon">
                         <LockKeyhole size={18} />
                       </span>
@@ -469,7 +516,7 @@ export default function Account() {
                         <small>Review your privacy information</small>
                       </span>
                       <ChevronRight size={17} />
-                    </Link>
+                    </button>
                   </section>
                 </div>
 
@@ -609,6 +656,26 @@ export default function Account() {
                     </div>
                   </div>
                 )}
+              </section>
+            )}
+
+            {section === "help" && <HelpSupportPanel user={user} />}
+
+            {section === "orders" && <AccountOrdersPanel userId={user?.id ?? ""} />}
+
+            {section === "privacy" && (
+              <section className="gc-account-content-card gc-account-expanded-section gc-account-privacy-section">
+                <div className="gc-account-card-heading">
+                  <div className="gc-account-card-heading-icon">
+                    <ShieldCheck size={20} />
+                  </div>
+                  <div>
+                    <span className="gc-account-overline">ACCOUNT SECURITY</span>
+                    <h3>Privacy & Data</h3>
+                    <p>Manage your security, communication preferences, and personal data.</p>
+                  </div>
+                </div>
+                <PrivacyCenter />
               </section>
             )}
 
@@ -893,5 +960,302 @@ function GlobeArtwork() {
       <div className="gc-account-globe-longitude longitude-two" />
       <Leaf className="gc-account-globe-leaf" size={47} />
     </div>
+  );
+}
+
+
+const helpFaqs = [
+  { category: "Shipping", question: "Where is my order?", answer: "Open My orders in your account to review available order details. Contact support if you need clarification." },
+  { category: "Shipping", question: "How long does delivery take?", answer: "Delivery timing depends on the product and destination. Check your order confirmation for the available details." },
+  { category: "Returns", question: "How do I request a return?", answer: "Send GreenCore a message with your order reference and the reason for your request. The team can review the applicable return conditions." },
+  { category: "Refunds", question: "When will my refund arrive?", answer: "Refund timing depends on order review and the payment provider. Contact support with your order reference for assistance." },
+  { category: "Account", question: "How do I update my profile?", answer: "Choose Personal information in the account sidebar to manage the profile fields available to you." },
+  { category: "Account", question: "I cannot sign in. What should I do?", answer: "Try the available sign-in recovery options. If you still need help, send a message using the form below." },
+];
+
+
+function HelpSupportPanel({ user }: { user: { name?: string | null; email?: string | null } | null }) {
+  const [query, setQuery] = useState("");
+  const [category, setCategory] = useState("All");
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
+  const [sending, setSending] = useState(false);
+  const [sent, setSent] = useState(false);
+  const [error, setError] = useState("");
+
+  const categories = ["All", "Shipping", "Returns", "Refunds", "Account"];
+  const faqs = helpFaqs.filter((item) =>
+    (category === "All" || item.category === category) &&
+    `${item.category} ${item.question} ${item.answer}`.toLowerCase().includes(query.toLowerCase())
+  );
+
+  async function submit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    setSending(true);
+    setError("");
+    try {
+      await request<{ message: string }>("/contact", {
+        method: "POST",
+        body: JSON.stringify({
+          name: String(data.get("name") || ""),
+          email: String(data.get("email") || ""),
+          phone: String(data.get("phone") || "") || null,
+          subject: String(data.get("subject") || "other"),
+          message: String(data.get("message") || ""),
+        }),
+      });
+      form.reset();
+      setSent(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Unable to send your message. Please try again.");
+    } finally {
+      setSending(false);
+    }
+  }
+
+  return (
+    <div className="gc-help-page">
+      <section className="gc-help-hero">
+        <div className="gc-help-hero-copy">
+          <span className="gc-account-overline">WE'RE HERE TO HELP</span>
+          <h2>Help &amp; <em>Support</em></h2>
+          <p>Find answers, get guidance, or send a message to the GreenCore support team. We're here to make your experience smooth and sustainable.</p>
+          <div className="gc-help-hero-tags"><span>Account assistance</span><span>Order guidance</span><span>Customer care</span></div>
+        </div>
+        <div className="gc-help-hero-art" aria-hidden="true"><span className="gc-help-orbit">?</span><span className="gc-help-headset"><CircleHelp size={54} /></span><span className="gc-help-art-leaf">✦</span></div>
+      </section>
+
+      <div className="gc-help-contact-cards">
+        <article className="gc-help-contact-card">
+          <span className="gc-help-card-icon"><CircleHelp size={21} /></span>
+          <h3>Help centre</h3><p>Find quick answers to common questions.</p>
+          <a href="#gc-help-faqs">Browse FAQs <ArrowRight size={15} /></a>
+        </article>
+        <article className="gc-help-contact-card">
+          <span className="gc-help-card-icon"><Mail size={21} /></span>
+          <h3>Email support</h3><p>Send a message to our team using the form below.</p>
+          <a href="#gc-help-contact-form">Send a message <ArrowRight size={15} /></a>
+        </article>
+        <article className="gc-help-contact-card">
+          <span className="gc-help-card-icon"><Clock3 size={21} /></span>
+          <h3>Support requests</h3><p>Submit an enquiry and receive confirmation when it is accepted.</p>
+          <a href="#gc-help-contact-form">Contact us <ArrowRight size={15} /></a>
+        </article>
+      </div>
+
+      <section className="gc-help-section" id="gc-help-faqs">
+        <div className="gc-help-section-heading">
+          <span className="gc-help-card-icon"><Search size={20} /></span>
+          <div><span className="gc-account-overline">FIND QUICK ANSWERS</span><h3>Frequently asked questions</h3><p>Search topics about shipping, returns, refunds, and account issues.</p></div>
+        </div>
+        <label className="gc-help-search"><Search size={17} /><input value={query} onChange={e => setQuery(e.target.value)} placeholder="Search questions..." /></label>
+        <div className="gc-help-filters">{categories.map(item => <button type="button" key={item} className={category === item ? "active" : ""} onClick={() => { setCategory(item); setOpenFaq(null); }}>{item}</button>)}</div>
+        <div className="gc-help-faq-list">
+          {faqs.map(item => {
+            const index = helpFaqs.indexOf(item);
+            const expanded = openFaq === index;
+            return <article className={`gc-help-faq-item${expanded ? " is-open" : ""}`} key={item.question}>
+              <button type="button" aria-expanded={expanded} onClick={() => setOpenFaq(expanded ? null : index)}>
+                <span className="gc-help-faq-mark"><CheckCircle2 size={18} /></span>
+                <span className="gc-help-faq-question"><small>{item.category}</small><strong>{item.question}</strong></span>
+                <ChevronRight size={18} />
+              </button>
+              {expanded && <p>{item.answer}</p>}
+            </article>;
+          })}
+          {!faqs.length && <p className="gc-help-muted">No matching questions. Try another search or category.</p>}
+        </div>
+      </section>
+
+      <section className="gc-help-section gc-help-form-section" id="gc-help-contact-form">
+        {sent ? (
+          <div className="gc-help-success-panel">
+            <div className="gc-help-success-symbol"><CheckCircle2 size={38} /></div>
+            <span className="gc-account-overline">MESSAGE SENT</span>
+            <h3>Thank you for contacting GreenCore!</h3>
+            <p>Your message was submitted successfully. Our team can respond using the email address you provided.</p>
+            <div className="gc-help-success-actions">
+              <button type="button" onClick={() => setSent(false)}>Send another message <ArrowRight size={15} /></button>
+              <button type="button" className="secondary" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>Back to top</button>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="gc-help-section-heading">
+              <span className="gc-help-card-icon"><Send size={20} /></span>
+              <div><span className="gc-account-overline">CONTACT OUR TEAM</span><h3>Send us a message</h3><p>Fill in the form below and our team will get back to you as soon as possible.</p></div>
+            </div>
+            <form className="gc-help-form" onSubmit={submit}>
+              <div className="gc-help-form-row">
+                <label>Full name<input name="name" defaultValue={user?.name ?? ""} required maxLength={160} /></label>
+                <label>Email address<input name="email" type="email" defaultValue={user?.email ?? ""} required maxLength={254} /></label>
+              </div>
+              <div className="gc-help-form-row">
+                <label>Phone number (optional)<input name="phone" type="tel" placeholder="+91 XXXXX XXXXX" /></label>
+                <label>Topic<select name="subject" defaultValue="other" required><option value="order">Order support</option><option value="product">Product question</option><option value="returns">Returns &amp; refunds</option><option value="partnership">Partnership</option><option value="recycling">Recycling enquiry</option><option value="other">Account or other issue</option></select></label>
+              </div>
+              <label>How can we help?<textarea name="message" rows={5} required maxLength={5000} placeholder="Describe your question or issue. Please do not include passwords or payment secrets." /></label>
+              <div className="gc-help-info"><Mail size={17} /><span>Image attachments and ticket tracking are not available through the current contact service.</span></div>
+              {error && <p className="gc-help-error" role="alert">{error}</p>}
+              <button className="gc-help-submit" type="submit" disabled={sending}>{sending ? "Sending your message…" : "Send support message"} <Send size={16} /></button>
+              <p className="gc-help-privacy-note"><ShieldCheck size={14} /> Your information is used to respond to your enquiry.</p>
+            </form>
+          </>
+        )}
+      </section>
+    </div>
+  );
+}
+
+
+
+function AccountOrdersPanel({
+  userId,
+}: { userId: string }) {
+  const navigate = useNavigate();
+  const [orders, setOrders] = useState<ApiOrderSummary[]>([]);
+  const [filter, setFilter] = useState("ALL");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [busy, setBusy] = useState<string | null>(null);
+  const [notice, setNotice] = useState("");
+  const [details, setDetails] = useState<Record<string, any>>({});
+  const [tracking, setTracking] = useState<Record<string, any>>({});
+  const { addToCart } = useCart();
+
+  useEffect(() => {
+    if (!userId) {
+      setLoading(false);
+      setError("Sign in to view your orders.");
+      return;
+    }
+    let active = true;
+    getMyOrders(userId)
+      .then((data) => { if (active) setOrders(data); })
+      .catch((e) => { if (active) setError(e instanceof Error ? e.message : "Could not load orders."); })
+      .finally(() => { if (active) setLoading(false); });
+    return () => { active = false; };
+  }, [userId]);
+
+  const groups: Record<string, string[]> = {
+    ALL: [],
+    PROCESSING: ["PENDING", "CONFIRMED", "PROCESSING", "SHIPPED", "IN_TRANSIT", "OUT_FOR_DELIVERY"],
+    DELIVERED: ["DELIVERED"],
+    CANCELLED: ["CANCELLED", "RETURNED", "REFUNDED"],
+  };
+  const filtered = orders.filter((o) => filter === "ALL" || groups[filter].includes((o.status || "PENDING").toUpperCase()));
+  const money = (v: unknown, currency = "INR") =>
+    new Intl.NumberFormat("en-IN", { style: "currency", currency, maximumFractionDigits: 2 }).format(Number(v || 0));
+  const date = (v?: string) => v ? new Date(v).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }) : "Date unavailable";
+  const label = (v?: string) => (v || "PENDING").replaceAll("_", " ");
+
+  async function loadDetails(id: string) {
+    setBusy(id);
+    setError("");
+    try {
+      const order = await getOrder(id);
+      setDetails((prev) => ({ ...prev, [id]: order }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Unable to load order details.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function loadTracking(id: string) {
+    setBusy(id);
+    setNotice("");
+    try {
+      const shipment = await getOrderShipment(id);
+      setTracking((prev) => ({ ...prev, [id]: shipment }));
+    } catch (e) {
+      setNotice(e instanceof Error ? e.message : "Tracking information is not available for this order yet.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  async function reorder(id: string) {
+    setBusy(id);
+    setNotice("");
+    try {
+      const order = details[id] || await getOrder(id);
+      setDetails((prev) => ({ ...prev, [id]: order }));
+      if (!order.items?.length) {
+        setNotice("This order has no available item details to reorder.");
+        return;
+      }
+      const products = await Promise.allSettled(
+        order.items.map((item: any) => getProduct(String(item.product_id)))
+      );
+      let added = 0;
+      products.forEach((result, i) => {
+        if (result.status === "fulfilled" && result.value?.is_active) {
+          addToCart(result.value as any, Math.max(1, Number(order.items[i].quantity || 1)));
+          added++;
+        }
+      });
+      setNotice(added ? `${added} product${added === 1 ? "" : "s"} added to your cart.` : "No items from this order are currently available to reorder.");
+    } catch (e) {
+      setNotice(e instanceof Error ? e.message : "Unable to reorder this purchase.");
+    } finally {
+      setBusy(null);
+    }
+  }
+
+  function printInvoice(order: any) {
+    const win = window.open("", "_blank", "width=760,height=850");
+    if (!win) {
+      setNotice("Allow pop-ups to open the printable invoice.");
+      return;
+    }
+    const rows = (order.items || []).map((item: any) =>
+      `<tr><td>${String(item.product_id || "Product").replace(/[<>&"]/g, "")}</td><td>${Number(item.quantity || 1)}</td><td>${money(item.unit_price, order.currency)}</td><td>${money(item.total_price, order.currency)}</td></tr>`
+    ).join("");
+    win.document.write(`<!doctype html><html><head><title>GreenCore invoice</title><style>body{font:15px Arial;padding:36px;color:#183b2e}h1{color:#087d52}table{width:100%;border-collapse:collapse;margin-top:24px}th,td{text-align:left;border-bottom:1px solid #d6e5dc;padding:12px}small{color:#527364}</style></head><body><h1>GreenCore</h1><small>A Vidyagyan Initiative</small><h2>Order invoice</h2><p>Order #${String(order.id).replace(/[<>&"]/g, "")}</p><p>Date: ${date(order.created_at)}</p><table><thead><tr><th>Product ID</th><th>Qty</th><th>Unit price</th><th>Total</th></tr></thead><tbody>${rows}</tbody></table><h3>Total: ${money(order.total_amount, order.currency)}</h3><p>Thank you for supporting circular commerce.</p><script>window.onload=()=>window.print()</script></body></html>`);
+    win.document.close();
+  }
+
+  return (
+    <section className="gc-account-content-card gc-account-expanded-section gc-account-orders-panel">
+      <div className="gc-account-card-heading">
+        <div className="gc-account-card-heading-icon"><Package size={21} /></div>
+        <div><span className="gc-account-overline">YOUR PURCHASE HISTORY</span><h3>My Orders</h3><p>Track purchases, review order details and shop again.</p></div>
+      </div>
+      <div className="gc-orders-summary">
+        <div><span>Total orders</span><strong>{orders.length}</strong></div>
+        <div><span>In progress</span><strong>{orders.filter(o => groups.PROCESSING.includes((o.status || "PENDING").toUpperCase())).length}</strong></div>
+        <div><span>Delivered</span><strong>{orders.filter(o => (o.status || "").toUpperCase() === "DELIVERED").length}</strong></div>
+      </div>
+      <div className="gc-orders-filters" role="group" aria-label="Filter orders">
+        {[["ALL","All orders"],["PROCESSING","In progress"],["DELIVERED","Delivered"],["CANCELLED","Cancelled / returned"]].map(([value,text]) =>
+          <button type="button" key={value} className={filter === value ? "active" : ""} onClick={() => setFilter(value)}>{text}</button>
+        )}
+      </div>
+      {notice && <p className="gc-orders-notice" role="status">{notice}</p>}
+      {error && <p className="gc-orders-error" role="alert">{error}</p>}
+      {loading ? <div className="gc-orders-empty"><span className="gc-orders-spinner" /> Loading your orders…</div> :
+        filtered.length === 0 ? <div className="gc-orders-empty"><Package size={34}/><h4>{orders.length ? "No orders in this category" : "Your journey starts here"}</h4><p>{orders.length ? "Choose another filter to see your purchases." : "Your purchases will appear here after you place an order."}</p><Link to="/shop">Explore products <ArrowRight size={15}/></Link></div> :
+        <div className="gc-orders-list">{filtered.map(order => {
+          const id = order.id;
+          const detail = details[id];
+          const status = (order.status || "PENDING").toUpperCase();
+          return <article className="gc-orders-card" key={id}>
+            <div className="gc-orders-card-top"><div><span className="gc-account-overline">ORDER REFERENCE</span><h4>#{id.slice(0, 12).toUpperCase()}</h4><small>Placed {date(order.created_at)}</small></div><span className={`gc-orders-status ${status.toLowerCase().replaceAll("_","-")}`}>{label(status)}</span></div>
+            <div className="gc-orders-card-total"><span>Order total</span><strong>{money(order.total_amount, order.currency)}</strong></div>
+            {detail && <div className="gc-orders-items">{(detail.items || []).map((item: any, i: number) => <div key={item.id || `${id}-${i}`}><span><Package size={15}/>{`Product ${String(item.product_id).slice(0, 10)} · Qty ${item.quantity}`}</span><strong>{money(item.total_price ?? item.unit_price, detail.currency)}</strong></div>)}</div>}
+            {tracking[id] && <div className="gc-orders-tracking"><strong>Tracking information</strong><p>{tracking[id].carrier || "Carrier not specified"}{tracking[id].tracking_number ? ` · ${tracking[id].tracking_number}` : ""}</p><small>{label(tracking[id].status || "Tracking pending")}</small></div>}
+            <div className="gc-orders-actions">
+              <button type="button" onClick={() => detail ? setDetails(prev => { const next={...prev}; delete next[id]; return next; }) : loadDetails(id)} disabled={busy === id}>{detail ? "Hide details" : busy === id ? "Loading…" : "View details"}</button>
+              <button type="button" onClick={() => navigate(`/account/orders/${encodeURIComponent(id)}?source=profile`)}>Track package</button>
+              <button type="button" onClick={() => detail ? printInvoice(detail) : loadDetails(id).then(() => setNotice("Open order details, then select invoice after details load."))}>Print invoice</button>
+              <button type="button" className="primary" onClick={() => reorder(id)} disabled={busy === id}>{busy === id ? "Please wait…" : "Buy again"}</button>
+            </div>
+          </article>;
+        })}</div>
+      }
+      <p className="gc-orders-footnote">Tracking and product details appear when provided by the order and shipping services. Returns and reviews can be added when the corresponding workflows are available.</p>
+    </section>
   );
 }

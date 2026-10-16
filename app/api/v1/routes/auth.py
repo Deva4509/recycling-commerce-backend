@@ -16,6 +16,7 @@ from app.services.cloudinary_storage import (
 )
 from app.schemas.auth import (
     CurrentUserResponse,
+    ChangePasswordRequest,
     LoginRequest,
     RegisterRequest,
     TokenResponse,
@@ -231,6 +232,44 @@ def update_me(
         "role": current_user.role.name,
     }
 
+
+
+
+@router.post("/change-password")
+def change_password(
+    payload: ChangePasswordRequest,
+    current_user: User = Depends(get_current_user),
+    session: Session = Depends(get_db),
+) -> dict:
+    """Change the authenticated user's password after verifying the current one."""
+    if payload.new_password != payload.confirm_password:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="New password and confirmation do not match.",
+        )
+
+    if payload.current_password == payload.new_password:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Your new password must differ from your current password.",
+        )
+
+    if not current_user.password_hash or not verify_password(
+        payload.current_password, current_user.password_hash
+    ):
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Your current password is incorrect.",
+        )
+
+    current_user.password_hash = hash_password(payload.new_password)
+    try:
+        session.commit()
+    except Exception:
+        session.rollback()
+        raise
+
+    return {"message": "Password changed successfully."}
 
 @router.post("/me/profile-photo", response_model=CurrentUserResponse)
 async def update_profile_photo(

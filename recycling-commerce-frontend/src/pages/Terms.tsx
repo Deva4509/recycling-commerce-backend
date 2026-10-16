@@ -1,8 +1,12 @@
 import { ArrowLeft, FileText } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Legal.css";
 
 export default function Terms() {
+  const location = useLocation();
+  const fromPrivacySettings = location.state?.from === "privacy-settings";
+  const backPath = fromPrivacySettings ? "/privacy" : "/register";
+  const backLabel = fromPrivacySettings ? "Back to Privacy & Data" : "Back to Register";
   return (
     <main className="legal-page">
       <section className="legal-hero">
@@ -10,9 +14,9 @@ export default function Terms() {
         <div className="legal-glow legal-glow-two" />
 
         <div className="legal-container">
-          <Link to="/register" className="legal-back-button">
+          <Link to={backPath} className="legal-back-button">
             <ArrowLeft size={16} />
-            <span>Back to Register</span>
+            <span>{backLabel}</span>
           </Link>
 
           <div className="legal-icon">
@@ -79,9 +83,9 @@ export default function Terms() {
           </article>
 
           <div className="legal-actions">
-            <Link to="/register" className="legal-action-secondary">
+            <Link to={backPath} className="legal-action-secondary">
               <ArrowLeft size={16} />
-              Back to Register
+              {backLabel}
             </Link>
 
             <Link to="/login" className="legal-action-primary">

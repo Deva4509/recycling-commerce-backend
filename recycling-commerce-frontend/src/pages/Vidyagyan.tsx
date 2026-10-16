@@ -1,5 +1,7 @@
+import { useState } from "react";
 import {
   ArrowDown,
+  BookOpen,
   ArrowRight,
   CheckCircle2,
   Leaf,
@@ -10,6 +12,9 @@ import {
   Users,
   Workflow,
   Zap,
+  Globe2,
+  MapPin,
+  Navigation,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 
@@ -70,10 +75,11 @@ const operatingModel = [
 ];
 
 export default function Vidyagyan() {
+
   return (
     <main className="vidyagyan-page">
       {/* =====================================================
-          HERO
+          HERO — VIDYAGYAN CAMPUS
           ===================================================== */}
       <section className="vidyagyan-hero">
         <div className="vidyagyan-hero-grid" />
@@ -85,102 +91,85 @@ export default function Vidyagyan() {
         <div className="vidyagyan-container vidyagyan-hero-layout">
           <div className="vidyagyan-hero-copy">
             <div className="vidyagyan-eyebrow">
-              <span>
-                <Sparkles size={14} />
-              </span>
-              {siteBrand.organizationName.toUpperCase()}
-              <i />
-              INSTITUTIONAL LEADERSHIP
+              <span><Sparkles size={14} /></span>
+              A VIDYAGYAN INITIATIVE
             </div>
 
             <p className="vidyagyan-hero-kicker">
-              {siteBrand.initiativeLabel}
+              A PLACE TO LEARN, LEAD &amp; GROW
             </p>
 
-            <h1>
-              GreenCore
-              <span>under {siteBrand.organizationName}</span>
-            </h1>
+            <h1 className="vidyagyan-campus-title">Vidyagyan</h1>
 
             <p className="vidyagyan-lead">
-              {siteBrand.leadershipStatement}.
+              A Place to Learn, Lead &amp; Grow.
             </p>
 
             <p className="vidyagyan-intro">
-              GreenCore is a sustainability, recycling, and circular-commerce
-              initiative focused on innovation, responsible consumption, and
-              giving recovered materials a second life.
+              Vidyagyan is dedicated to helping students learn, develop
+              leadership, and build a brighter future. GreenCore brings
+              sustainability and responsible consumption into this vision
+              through practical circular-commerce solutions.
             </p>
 
             <div className="vidyagyan-hero-actions">
-              <Link to="/shop" className="vidyagyan-button vidyagyan-button-primary">
-                Explore GreenCore
-                <ArrowRight size={17} />
-              </Link>
-
               <a
-                href="#relationship"
+                href="https://vidyagyan.in/"
+                target="_blank"
+                rel="noreferrer"
+                className="vidyagyan-button vidyagyan-button-primary"
+              >
+                Learn more about Vidyagyan
+                <ArrowRight size={17} />
+              </a>
+
+              <Link
+                to="/shop"
                 className="vidyagyan-button vidyagyan-button-secondary"
               >
-                Understand the relationship
-                <ArrowDown size={16} />
-              </a>
+                Explore GreenCore
+                <Leaf size={17} />
+              </Link>
             </div>
           </div>
+        </div>
 
-          <div className="vidyagyan-hero-visual">
-            <div className="vidyagyan-status-card">
-              <div className="vidyagyan-status-top">
-                <span className="vidyagyan-status-dot" />
-                INSTITUTIONAL STATUS
-                <span>01</span>
-              </div>
-
-              <div className="vidyagyan-status-core">
-                <div className="vidyagyan-status-icon">
-                  <ShieldCheck size={30} />
-                </div>
-
-                <div>
-                  <strong>Officially approved</strong>
-                  <p>and led by Vidyagyan</p>
-                </div>
-              </div>
-
-              <div className="vidyagyan-status-line">
-                <span />
-              </div>
-
-              <div className="vidyagyan-status-footer">
-                <span>VIDYAGYAN</span>
-                <b>→</b>
-                <span>GREENCORE</span>
-              </div>
+        <div className="vidyagyan-campus-highlights">
+          <article className="vidyagyan-campus-highlight">
+            <Users size={35} />
+            <div>
+              <span>Students</span>
+              <strong>Potential &amp; Opportunity</strong>
+              <p>Supporting learners and their ambitions.</p>
             </div>
+          </article>
 
-            <div className="vidyagyan-hero-orb">
-              <div className="vidyagyan-orb-ring ring-a" />
-              <div className="vidyagyan-orb-ring ring-b" />
-              <div className="vidyagyan-orb-ring ring-c" />
-
-              <div className="vidyagyan-orb-core">
-                <Leaf size={35} />
-              </div>
-
-              <span className="vidyagyan-orb-label orb-label-top">
-                LEADERSHIP
-              </span>
-              <span className="vidyagyan-orb-label orb-label-right">
-                INNOVATION
-              </span>
-              <span className="vidyagyan-orb-label orb-label-bottom">
-                IMPACT
-              </span>
-              <span className="vidyagyan-orb-label orb-label-left">
-                SUSTAINABILITY
-              </span>
+          <article className="vidyagyan-campus-highlight">
+            <BookOpen size={35} />
+            <div>
+              <span>Holistic Education</span>
+              <strong>Learning &amp; Leadership</strong>
+              <p>Building knowledge, values, and confidence.</p>
             </div>
-          </div>
+          </article>
+
+          <article className="vidyagyan-campus-highlight">
+            <Leaf size={35} />
+            <div>
+              <span>Sustainable Impact</span>
+              <strong>Learning Through GreenCore</strong>
+              <p>Connecting sustainability with everyday life.</p>
+            </div>
+          </article>
+
+          <article className="vidyagyan-campus-highlight">
+            <Sparkles size={35} />
+            <div>
+              <span>Brighter Futures</span>
+              <strong>People &amp; Planet</strong>
+              <p>Encouraging responsible choices for tomorrow.</p>
+            </div>
+          </article>
         </div>
 
         <div className="vidyagyan-scroll-hint">
@@ -483,6 +472,94 @@ export default function Vidyagyan() {
               Discover GreenCore products
               <ArrowRight size={17} />
             </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* =====================================================
+          EARTH TO VIDYAGYAN — CAMPUS DISCOVERY
+          ===================================================== */}
+      {/* CAMPUS LOCATION — MAP ONLY */}
+      {/* VIDYAGYAN CAMPUS MAP */}
+      <section className="vidyagyan-earth-section vgy-location-section" id="campus-location">
+        <div className="vidyagyan-container">
+          <div className="vgy-location-intro">
+            <div className="vgy-location-copy">
+              <span className="vgy-location-eyebrow">
+                <MapPin size={15} /> FIND YOUR WAY
+              </span>
+              <h2>Closer to a world of <span>opportunity.</span></h2>
+              <p>
+                Explore the area around Vidyagyan Bulandshahr and find the
+                campus on the interactive map.
+              </p>
+            </div>
+            <a
+              className="vgy-location-directions"
+              href="https://www.google.com/maps/search/?api=1&query=Vidyagyan+Bulandshahr"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Navigation size={17} /> Get directions
+            </a>
+          </div>
+
+          <div className="vgy-location-layout">
+            <aside className="vgy-location-card">
+              <div className="vgy-location-icon"><MapPin size={23} /></div>
+              <span className="vgy-location-card-kicker">OUR CAMPUS</span>
+              <h3>Vidyagyan<br />Bulandshahr</h3>
+              <div className="vgy-location-divider" />
+              <div className="vgy-location-detail">
+                <span className="vgy-location-detail-icon"><MapPin size={17} /></span>
+                <div>
+                  <strong>Location</strong>
+                  <p>Bulandshahr, Uttar Pradesh, India</p>
+                </div>
+              </div>
+              <div className="vgy-location-detail">
+                <span className="vgy-location-detail-icon"><Globe2 size={17} /></span>
+                <div>
+                  <strong>Explore the area</strong>
+                  <p>Move around, zoom in, and inspect nearby streets.</p>
+                </div>
+              </div>
+              <a
+                className="vgy-location-open"
+                href="https://www.google.com/maps/search/?api=1&query=Vidyagyan+Bulandshahr"
+                target="_blank"
+                rel="noreferrer"
+              >
+                Open in Google Maps <Navigation size={15} />
+              </a>
+              <small className="vgy-location-attribution">
+                Map © OpenStreetMap contributors
+              </small>
+            </aside>
+
+            <div className="vgy-location-map-frame">
+              <div className="vgy-location-map-top">
+                <span><span className="vgy-location-live-dot" /> INTERACTIVE CAMPUS MAP</span>
+                <span className="vgy-location-map-hint">Drag to move · Scroll to zoom</span>
+              </div>
+              <iframe
+                title="Interactive map around Vidyagyan Bulandshahr"
+                src="https://maps.google.com/maps?q=Vidyagyan%20Leadership%20Academy%2C%20Bulandshahr&t=&z=18&ie=UTF8&iwloc=&output=embed"
+                loading="lazy"
+                allowFullScreen
+                referrerPolicy="no-referrer-when-downgrade"
+              />
+              <div className="vgy-location-map-bottom">
+                <span><MapPin size={15} /> Vidyagyan Bulandshahr area</span>
+                <a
+                  href="https://www.google.com/maps/search/?api=1&query=Vidyagyan+Bulandshahr"
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  View larger map <Navigation size={14} />
+                </a>
+              </div>
+            </div>
           </div>
         </div>
       </section>

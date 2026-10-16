@@ -2858,3 +2858,515 @@
   background: rgba(16, 185, 129, .09);
 }
 
+
+/* Privacy & Data integrated into the account dashboard */
+.gc-account-privacy-section {
+  min-width: 0;
+  overflow: hidden;
+}
+
+.gc-account-privacy-section > .gc-privacy-center {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 20px 0 0;
+}
+
+.gc-account-privacy-section .gc-privacy-hero {
+  margin-top: 0;
+}
+
+.gc-account-privacy-section .gc-privacy-section {
+  margin-top: 18px;
+}
+
+.gc-account-privacy-section .gc-privacy-footer {
+  margin-bottom: 0;
+}
+
+
+/* Help & Support — account-matched GreenCore styling */
+.gc-help-panel { min-width: 0; }
+.gc-help-contact-strip,
+.gc-help-ticket-note,
+.gc-help-success {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(52,211,153,.2);
+  border-radius: 13px;
+  background: linear-gradient(110deg, rgba(5,70,48,.55), rgba(1,35,25,.7));
+}
+.gc-help-contact-strip { justify-content: space-between; margin-top: 22px; }
+.gc-help-contact-strip > div { display:flex; align-items:center; gap:12px; color:#65eab0; }
+.gc-help-contact-strip span { display:grid; gap:4px; }
+.gc-help-contact-strip strong,.gc-help-ticket-note strong,.gc-help-success strong { color:#edfff5; font-size:.9rem; }
+.gc-help-contact-strip small,.gc-help-ticket-note p,.gc-help-success p { display:block; margin:4px 0 0; color:#a6c8b7; font-size:.8rem; line-height:1.6; }
+.gc-help-contact-strip a { display:inline-flex; align-items:center; gap:7px; color:#5cebb1; font-size:.82rem; font-weight:750; text-decoration:none; }
+.gc-help-faq-section { margin-top:26px; }
+.gc-help-subheading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:13px; }
+.gc-help-subheading h4 { margin:0; color:#edfff5; font-size:1rem; font-weight:800; }
+.gc-help-subheading > span { color:#8fbba5; font-size:.76rem; }
+.gc-help-search { display:flex; align-items:center; gap:10px; padding:0 13px; min-height:46px; border:1px solid rgba(52,211,153,.23); border-radius:11px; background:rgba(0,27,19,.65); color:#5cebb1; }
+.gc-help-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#edfff5; font:inherit; font-size:.85rem; }
+.gc-help-search input::placeholder { color:#789d8b; }
+.gc-help-faq-list { display:grid; gap:9px; margin-top:12px; }
+.gc-help-faq-item { overflow:hidden; border:1px solid rgba(52,211,153,.16); border-radius:11px; background:rgba(1,33,24,.42); }
+.gc-help-faq-item.is-open { border-color:rgba(52,211,153,.38); background:rgba(4,55,38,.42); }
+.gc-help-faq-item > button { display:flex; width:100%; align-items:center; justify-content:space-between; gap:12px; padding:14px; border:0; background:transparent; color:#eafff3; text-align:left; cursor:pointer; }
+.gc-help-faq-item > button > span { display:grid; gap:5px; }
+.gc-help-faq-item > button small { color:#58e6ac; font-size:.67rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; }
+.gc-help-faq-item > button strong { font-size:.85rem; }
+.gc-help-faq-item > button > svg { flex:0 0 auto; color:#5cebb1; transition:transform .2s ease; }
+.gc-help-faq-item.is-open > button > svg { transform:rotate(90deg); }
+.gc-help-faq-item > p { margin:0; padding:0 14px 15px; color:#b2d0c0; font-size:.82rem; line-height:1.75; }
+.gc-help-ticket-note { align-items:flex-start; margin-top:23px; color:#62e8b1; }
+.gc-help-ticket-note > svg { flex:0 0 auto; margin-top:2px; }
+.gc-help-form { display:grid; gap:14px; }
+.gc-help-form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+.gc-help-form label { display:grid; gap:7px; color:#cce8d9; font-size:.8rem; font-weight:700; }
+.gc-help-form input,.gc-help-form select,.gc-help-form textarea { width:100%; min-width:0; box-sizing:border-box; padding:12px; border:1px solid rgba(52,211,153,.23); border-radius:10px; outline:0; background:#01251a; color:#effff7; font:inherit; font-size:.84rem; }
+.gc-help-form textarea { resize:vertical; }
+.gc-help-form input:focus,.gc-help-form select:focus,.gc-help-form textarea:focus { border-color:#39e9a1; box-shadow:0 0 0 3px rgba(35,232,155,.08); }
+.gc-help-muted { color:#8fb6a3; font-size:.77rem; line-height:1.65; }
+.gc-help-error { color:#ffb5b5; font-size:.83rem; }
+.gc-help-submit { display:inline-flex; justify-content:center; align-items:center; gap:9px; min-height:45px; padding:0 17px; border:1px solid rgba(93,255,187,.3); border-radius:10px; background:linear-gradient(110deg,#087c51,#10aa70); color:#f0fff7; font:inherit; font-size:.84rem; font-weight:800; cursor:pointer; }
+.gc-help-submit:disabled { opacity:.65; cursor:wait; }
+.gc-help-success { align-items:flex-start; color:#65eab0; }
+.gc-help-success button { margin-top:12px; padding:8px 11px; border:1px solid rgba(52,211,153,.3); border-radius:8px; background:rgba(7,119,78,.3); color:#75f0bd; cursor:pointer; }
+@media(max-width:600px) { .gc-help-form-row { grid-template-columns:minmax(0,1fr); } .gc-help-contact-strip { align-items:flex-start; flex-direction:column; } }
+
+/* Help & Support — account-matched GreenCore styling */
+.gc-help-panel { min-width: 0; }
+.gc-help-contact-strip,
+.gc-help-ticket-note,
+.gc-help-success {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px;
+  border: 1px solid rgba(52,211,153,.2);
+  border-radius: 13px;
+  background: linear-gradient(110deg, rgba(5,70,48,.55), rgba(1,35,25,.7));
+}
+.gc-help-contact-strip { justify-content: space-between; margin-top: 22px; }
+.gc-help-contact-strip > div { display:flex; align-items:center; gap:12px; color:#65eab0; }
+.gc-help-contact-strip span { display:grid; gap:4px; }
+.gc-help-contact-strip strong,.gc-help-ticket-note strong,.gc-help-success strong { color:#edfff5; font-size:.9rem; }
+.gc-help-contact-strip small,.gc-help-ticket-note p,.gc-help-success p { display:block; margin:4px 0 0; color:#a6c8b7; font-size:.8rem; line-height:1.6; }
+.gc-help-contact-strip a { display:inline-flex; align-items:center; gap:7px; color:#5cebb1; font-size:.82rem; font-weight:750; text-decoration:none; }
+.gc-help-faq-section { margin-top:26px; }
+.gc-help-subheading { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:13px; }
+.gc-help-subheading h4 { margin:0; color:#edfff5; font-size:1rem; font-weight:800; }
+.gc-help-subheading > span { color:#8fbba5; font-size:.76rem; }
+.gc-help-search { display:flex; align-items:center; gap:10px; padding:0 13px; min-height:46px; border:1px solid rgba(52,211,153,.23); border-radius:11px; background:rgba(0,27,19,.65); color:#5cebb1; }
+.gc-help-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#edfff5; font:inherit; font-size:.85rem; }
+.gc-help-search input::placeholder { color:#789d8b; }
+.gc-help-faq-list { display:grid; gap:9px; margin-top:12px; }
+.gc-help-faq-item { overflow:hidden; border:1px solid rgba(52,211,153,.16); border-radius:11px; background:rgba(1,33,24,.42); }
+.gc-help-faq-item.is-open { border-color:rgba(52,211,153,.38); background:rgba(4,55,38,.42); }
+.gc-help-faq-item > button { display:flex; width:100%; align-items:center; justify-content:space-between; gap:12px; padding:14px; border:0; background:transparent; color:#eafff3; text-align:left; cursor:pointer; }
+.gc-help-faq-item > button > span { display:grid; gap:5px; }
+.gc-help-faq-item > button small { color:#58e6ac; font-size:.67rem; font-weight:800; text-transform:uppercase; letter-spacing:.07em; }
+.gc-help-faq-item > button strong { font-size:.85rem; }
+.gc-help-faq-item > button > svg { flex:0 0 auto; color:#5cebb1; transition:transform .2s ease; }
+.gc-help-faq-item.is-open > button > svg { transform:rotate(90deg); }
+.gc-help-faq-item > p { margin:0; padding:0 14px 15px; color:#b2d0c0; font-size:.82rem; line-height:1.75; }
+.gc-help-ticket-note { align-items:flex-start; margin-top:23px; color:#62e8b1; }
+.gc-help-ticket-note > svg { flex:0 0 auto; margin-top:2px; }
+.gc-help-form { display:grid; gap:14px; }
+.gc-help-form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+.gc-help-form label { display:grid; gap:7px; color:#cce8d9; font-size:.8rem; font-weight:700; }
+.gc-help-form input,.gc-help-form select,.gc-help-form textarea { width:100%; min-width:0; box-sizing:border-box; padding:12px; border:1px solid rgba(52,211,153,.23); border-radius:10px; outline:0; background:#01251a; color:#effff7; font:inherit; font-size:.84rem; }
+.gc-help-form textarea { resize:vertical; }
+.gc-help-form input:focus,.gc-help-form select:focus,.gc-help-form textarea:focus { border-color:#39e9a1; box-shadow:0 0 0 3px rgba(35,232,155,.08); }
+.gc-help-muted { color:#8fb6a3; font-size:.77rem; line-height:1.65; }
+.gc-help-error { color:#ffb5b5; font-size:.83rem; }
+.gc-help-submit { display:inline-flex; justify-content:center; align-items:center; gap:9px; min-height:45px; padding:0 17px; border:1px solid rgba(93,255,187,.3); border-radius:10px; background:linear-gradient(110deg,#087c51,#10aa70); color:#f0fff7; font:inherit; font-size:.84rem; font-weight:800; cursor:pointer; }
+.gc-help-submit:disabled { opacity:.65; cursor:wait; }
+.gc-help-success { align-items:flex-start; color:#65eab0; }
+.gc-help-success button { margin-top:12px; padding:8px 11px; border:1px solid rgba(52,211,153,.3); border-radius:8px; background:rgba(7,119,78,.3); color:#75f0bd; cursor:pointer; }
+@media(max-width:600px) { .gc-help-form-row { grid-template-columns:minmax(0,1fr); } .gc-help-contact-strip { align-items:flex-start; flex-direction:column; } }
+
+/* Help & Support premium responsive dashboard */
+.gc-help-page { display:grid; gap:16px; min-width:0; color:#edfff5; }
+.gc-help-hero,.gc-help-section,.gc-help-contact-card {
+  position:relative; overflow:hidden; border:1px solid rgba(35,207,137,.22);
+  border-radius:17px; background:linear-gradient(135deg,rgba(4,55,38,.92),rgba(1,28,21,.97));
+  box-shadow:inset 0 1px 0 rgba(255,255,255,.025);
+}
+.gc-help-hero { display:flex; align-items:center; justify-content:space-between; min-height:180px; padding:26px; gap:20px; }
+.gc-help-hero:after { content:""; position:absolute; width:260px; height:260px; right:-80px; top:-150px; border:1px solid rgba(35,232,155,.13); border-radius:50%; box-shadow:0 0 0 18px rgba(35,232,155,.025),0 0 0 38px rgba(35,232,155,.02); pointer-events:none; }
+.gc-help-hero-copy { position:relative; z-index:1; max-width:620px; }
+.gc-help-hero h2 { margin:8px 0; font-size:clamp(1.65rem,3vw,2.3rem); font-weight:900; letter-spacing:-.045em; }
+.gc-help-hero h2 em { color:#52e8ad; font-style:normal; }
+.gc-help-hero p,.gc-help-section-heading p { max-width:620px; margin:0; color:#a9cdbb; font-size:.87rem; line-height:1.75; }
+.gc-help-hero-tags { display:flex; flex-wrap:wrap; gap:7px; margin-top:16px; }
+.gc-help-hero-tags span { padding:6px 10px; border:1px solid rgba(52,211,153,.18); border-radius:99px; background:rgba(0,22,16,.35); color:#b8dfcc; font-size:.7rem; }
+.gc-help-hero-art { position:relative; display:grid; flex:0 0 130px; width:130px; height:130px; place-items:center; border:1px solid rgba(35,232,155,.22); border-radius:50%; background:radial-gradient(circle,rgba(10,173,109,.24),rgba(0,25,18,.05) 68%); color:#57f0b6; }
+.gc-help-orbit { position:absolute; display:grid; width:62px; height:62px; place-items:center; border:1px solid rgba(52,211,153,.42); border-radius:18px; background:rgba(3,67,47,.8); font-size:2rem; font-weight:900; transform:translate(-20px,-10px) rotate(-9deg); }
+.gc-help-headset { position:absolute; right:7px; bottom:11px; display:grid; place-items:center; width:53px; height:53px; border:1px solid rgba(52,211,153,.35); border-radius:16px; background:#063b2b; }
+.gc-help-art-leaf { position:absolute; top:13px; right:14px; font-size:1.2rem; }
+.gc-help-contact-cards { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:11px; }
+.gc-help-contact-card { padding:17px; transition:transform .2s,border-color .2s,background .2s; }
+.gc-help-contact-card:hover { transform:translateY(-2px); border-color:rgba(52,211,153,.48); background:linear-gradient(135deg,rgba(5,75,51,.9),rgba(1,32,23,.97)); }
+.gc-help-card-icon { display:grid; flex:0 0 auto; width:40px; height:40px; place-items:center; border:1px solid rgba(52,211,153,.25); border-radius:12px; background:linear-gradient(145deg,rgba(16,185,129,.23),rgba(0,45,31,.6)); color:#5cebb1; }
+.gc-help-contact-card h3 { margin:12px 0 5px; font-size:.93rem; font-weight:850; }
+.gc-help-contact-card p { min-height:37px; margin:0; color:#9fc4b1; font-size:.77rem; line-height:1.65; }
+.gc-help-contact-card a { display:inline-flex; align-items:center; gap:7px; margin-top:13px; color:#57e9ad; font-size:.76rem; font-weight:800; text-decoration:none; }
+.gc-help-contact-card a:hover { color:#a0ffd7; }
+.gc-help-section { padding:22px; scroll-margin-top:90px; }
+.gc-help-section-heading { display:flex; align-items:center; gap:13px; margin-bottom:18px; }
+.gc-help-section-heading h3 { margin:4px 0 5px; font-size:1.16rem; font-weight:900; letter-spacing:-.025em; }
+.gc-help-section-heading > div { min-width:0; }
+.gc-help-search { display:flex; align-items:center; gap:10px; min-height:44px; padding:0 13px; border:1px solid rgba(52,211,153,.27); border-radius:11px; background:rgba(0,24,17,.7); color:#5cebb1; }
+.gc-help-search input { width:100%; min-width:0; border:0; outline:0; background:transparent; color:#edfff5; font:inherit; font-size:.83rem; }
+.gc-help-search input::placeholder { color:#789e8b; }
+.gc-help-filters { display:flex; flex-wrap:wrap; gap:7px; margin:13px 0; }
+.gc-help-filters button { padding:7px 13px; border:1px solid rgba(52,211,153,.22); border-radius:99px; background:rgba(0,30,21,.65); color:#a9cdbb; font:inherit; font-size:.72rem; cursor:pointer; transition:all .18s; }
+.gc-help-filters button:hover,.gc-help-filters button.active { border-color:transparent; background:linear-gradient(110deg,#0ab77b,#23d69a); color:#002a1b; font-weight:850; }
+.gc-help-faq-list { display:grid; gap:8px; }
+.gc-help-faq-item { overflow:hidden; border:1px solid rgba(52,211,153,.16); border-radius:12px; background:rgba(0,27,19,.48); transition:border-color .2s,background .2s; }
+.gc-help-faq-item.is-open { border-color:rgba(52,211,153,.42); background:linear-gradient(110deg,rgba(4,60,41,.75),rgba(0,29,21,.75)); }
+.gc-help-faq-item > button { display:flex; width:100%; align-items:center; gap:12px; padding:12px; border:0; background:transparent; color:#edfff5; text-align:left; cursor:pointer; }
+.gc-help-faq-mark { display:grid; flex:0 0 auto; width:34px; height:34px; place-items:center; border:1px solid rgba(52,211,153,.2); border-radius:10px; background:rgba(10,137,88,.15); color:#55e9ad; }
+.gc-help-faq-question { display:grid; flex:1; gap:4px; }
+.gc-help-faq-question small { color:#4de5a7; font-size:.64rem; font-weight:850; letter-spacing:.08em; text-transform:uppercase; }
+.gc-help-faq-question strong { font-size:.83rem; font-weight:800; }
+.gc-help-faq-item > button > svg:last-child { flex:0 0 auto; color:#55e9ad; transition:transform .18s; }
+.gc-help-faq-item.is-open > button > svg:last-child { transform:rotate(90deg); }
+.gc-help-faq-item > p { margin:0; padding:0 18px 16px 58px; color:#b1d0bf; font-size:.8rem; line-height:1.75; }
+.gc-help-form-section { padding:22px; }
+.gc-help-form { display:grid; gap:14px; }
+.gc-help-form-row { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:13px; }
+.gc-help-form label { display:grid; gap:7px; color:#c9e6d6; font-size:.77rem; font-weight:750; }
+.gc-help-form input,.gc-help-form select,.gc-help-form textarea { box-sizing:border-box; width:100%; min-width:0; padding:11px 12px; border:1px solid rgba(52,211,153,.24); border-radius:10px; outline:0; background:rgba(0,31,22,.8); color:#edfff5; font:inherit; font-size:.82rem; transition:border-color .18s,box-shadow .18s; }
+.gc-help-form textarea { resize:vertical; }
+.gc-help-form input:focus,.gc-help-form select:focus,.gc-help-form textarea:focus { border-color:#39e9a1; box-shadow:0 0 0 3px rgba(35,232,155,.09); }
+.gc-help-info { display:flex; align-items:center; gap:9px; padding:11px 12px; border:1px solid rgba(52,211,153,.18); border-radius:10px; background:rgba(0,36,26,.55); color:#a8cdb9; font-size:.74rem; line-height:1.6; }
+.gc-help-info svg { flex:0 0 auto; color:#55d9e8; }
+.gc-help-error { color:#ffb5b5; font-size:.82rem; }
+.gc-help-submit,.gc-help-success-actions button { display:inline-flex; justify-content:center; align-items:center; gap:9px; min-height:44px; padding:0 17px; border:1px solid rgba(93,255,187,.35); border-radius:10px; background:linear-gradient(110deg,#078453,#13b77a); color:#f0fff7; font:inherit; font-size:.8rem; font-weight:850; cursor:pointer; transition:filter .18s,transform .18s; }
+.gc-help-submit:hover,.gc-help-success-actions button:hover { filter:brightness(1.12); transform:translateY(-1px); }
+.gc-help-submit:disabled { opacity:.65; cursor:wait; transform:none; }
+.gc-help-privacy-note { display:flex; align-items:center; gap:7px; margin:0; color:#82ad98; font-size:.72rem; }
+.gc-help-privacy-note svg { color:#53dca7; }
+.gc-help-success-panel { display:flex; flex-direction:column; align-items:flex-start; padding:25px; border:1px solid rgba(52,211,153,.28); border-radius:15px; background:radial-gradient(ellipse at 12% 45%,rgba(16,185,129,.18),transparent 42%),linear-gradient(120deg,rgba(4,67,45,.8),rgba(0,30,22,.9)); }
+.gc-help-success-symbol { display:grid; width:66px; height:66px; place-items:center; margin-bottom:16px; border:1px solid rgba(52,211,153,.38); border-radius:50%; background:rgba(16,185,129,.16); color:#65f0b8; box-shadow:0 0 35px rgba(16,185,129,.12); }
+.gc-help-success-panel h3 { margin:8px 0; font-size:clamp(1.2rem,2.5vw,1.65rem); font-weight:900; }
+.gc-help-success-panel > p { max-width:570px; margin:0; color:#afd0bd; font-size:.84rem; line-height:1.75; }
+.gc-help-success-actions { display:flex; flex-wrap:wrap; gap:9px; margin-top:19px; }
+.gc-help-success-actions button.secondary { border-color:rgba(52,211,153,.26); background:rgba(0,30,21,.6); color:#c7e8d7; }
+@media(max-width:760px) { .gc-help-hero { padding:21px; } .gc-help-hero-art { flex-basis:90px; width:90px; height:90px; } .gc-help-contact-cards { grid-template-columns:1fr; } .gc-help-contact-card p { min-height:0; } .gc-help-section,.gc-help-form-section { padding:16px; } }
+@media(max-width:560px) { .gc-help-hero-art { display:none; } .gc-help-form-row { grid-template-columns:minmax(0,1fr); } .gc-help-faq-item > p { padding-left:14px; } .gc-help-filters { gap:6px; } .gc-help-filters button { padding:7px 10px; } }
+
+/* Account orders dashboard */
+.gc-account-orders-panel{min-width:0}
+.gc-orders-summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:22px 0}
+.gc-orders-summary>div{display:grid;gap:7px;padding:15px;border:1px solid rgba(52,211,153,.2);border-radius:12px;background:linear-gradient(135deg,rgba(5,76,51,.55),rgba(1,31,23,.7))}
+.gc-orders-summary span,.gc-orders-card-top small,.gc-orders-card-total>span{color:#9fc7b3;font-size:.78rem}
+.gc-orders-summary strong{color:#62efb4;font-size:1.45rem}
+.gc-orders-filters{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0}
+.gc-orders-filters button,.gc-orders-actions button{border:1px solid rgba(52,211,153,.25);border-radius:9px;background:rgba(1,37,27,.75);color:#bfe5d2;padding:9px 12px;font:inherit;font-size:.78rem;font-weight:750;cursor:pointer;transition:background .2s,border-color .2s,transform .2s}
+.gc-orders-filters button:hover,.gc-orders-actions button:hover{border-color:#35e6a0;background:rgba(8,117,75,.35);transform:translateY(-1px)}
+.gc-orders-filters button.active,.gc-orders-actions button.primary{background:linear-gradient(110deg,#087e52,#12a66d);border-color:#25d995;color:#fff}
+.gc-orders-list{display:grid;gap:13px}
+.gc-orders-card{padding:17px;border:1px solid rgba(52,211,153,.2);border-radius:14px;background:linear-gradient(145deg,rgba(4,53,38,.65),rgba(1,29,22,.8));transition:border-color .2s,box-shadow .2s}
+.gc-orders-card:hover{border-color:rgba(52,211,153,.42);box-shadow:0 8px 26px rgba(0,0,0,.12)}
+.gc-orders-card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.gc-orders-card-top h4{margin:5px 0;color:#effff6;font-size:1rem}
+.gc-orders-status{display:inline-flex;padding:6px 10px;border:1px solid rgba(52,211,153,.23);border-radius:99px;background:rgba(9,115,75,.2);color:#76efb8;font-size:.7rem;font-weight:800}
+.gc-orders-status.cancelled,.gc-orders-status.returned,.gc-orders-status.refunded{color:#ffb4a8;border-color:rgba(255,130,110,.3);background:rgba(130,45,35,.14)}
+.gc-orders-status.delivered{color:#8cefc1}
+.gc-orders-card-total{display:flex;justify-content:space-between;align-items:center;margin-top:15px;padding:12px 0;border-top:1px solid rgba(52,211,153,.12);border-bottom:1px solid rgba(52,211,153,.12)}
+.gc-orders-card-total strong{color:#effff6;font-size:1.05rem}
+.gc-orders-items{display:grid;gap:8px;margin-top:12px}
+.gc-orders-items>div{display:flex;justify-content:space-between;gap:10px;align-items:center;color:#b9d7c8;font-size:.78rem}
+.gc-orders-items>div span{display:flex;gap:8px;align-items:center;min-width:0}
+.gc-orders-items svg{color:#55e8ac;flex-shrink:0}
+.gc-orders-tracking{margin-top:12px;padding:12px;border:1px solid rgba(52,211,153,.2);border-radius:10px;background:rgba(0,25,18,.5)}
+.gc-orders-tracking p{margin:6px 0;color:#b9d7c8;font-size:.82rem}
+.gc-orders-tracking small{color:#63e9ae}
+.gc-orders-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:15px}
+.gc-orders-notice,.gc-orders-error{padding:11px 13px;border-radius:9px;background:rgba(7,119,78,.15);color:#75efb9;font-size:.82rem}
+.gc-orders-error{background:rgba(140,40,40,.15);color:#ffb8b8}
+.gc-orders-empty{display:grid;justify-items:center;gap:10px;padding:34px 15px;border:1px dashed rgba(52,211,153,.23);border-radius:13px;color:#a7c9b8;text-align:center}
+.gc-orders-empty svg{color:#5cebb1}
+.gc-orders-empty h4{margin:0;color:#edfff5}
+.gc-orders-empty p{margin:0;font-size:.82rem}
+.gc-orders-empty a{display:inline-flex;align-items:center;gap:7px;margin-top:5px;padding:10px 13px;border-radius:9px;background:#0c9862;color:white;text-decoration:none;font-size:.8rem;font-weight:800}
+.gc-orders-spinner{width:22px;height:22px;border:2px solid rgba(52,211,153,.2);border-top-color:#5cebb1;border-radius:50%;animation:gc-orders-spin .8s linear infinite}
+@keyframes gc-orders-spin{to{transform:rotate(360deg)}}
+.gc-orders-footnote{margin:16px 0 0;color:#86ad98;font-size:.75rem;line-height:1.65}
+@media(max-width:620px){.gc-orders-summary{grid-template-columns:1fr 1fr}.gc-orders-summary>div:last-child{grid-column:1/-1}.gc-orders-card-top{flex-direction:column}.gc-orders-actions button{flex:1 1 calc(50% - 8px)}}
+
+/* Fix grey focus/active background in Quick Access */
+.gc-account-shortcut,
+.gc-account-wishlist-shortcut {
+  background: transparent;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.gc-account-shortcut:focus,
+.gc-account-shortcut:active,
+.gc-account-shortcut:focus-visible,
+.gc-account-wishlist-shortcut:focus,
+.gc-account-wishlist-shortcut:active,
+.gc-account-wishlist-shortcut:focus-visible {
+  background: rgba(5, 75, 49, 0.42);
+  color: #edfff5;
+  outline: none;
+  box-shadow: none;
+}
+
+.gc-account-shortcut:focus-visible,
+.gc-account-wishlist-shortcut:focus-visible {
+  outline: 2px solid #35e6a0;
+  outline-offset: 2px;
+}
+
+.gc-account-shortcut:hover {
+  background: rgba(5, 75, 49, 0.28);
+  border-radius: 9px;
+}
+
+/* Quick Access: remove the unwanted white focus rectangle */
+.gc-account-shortcuts-card .gc-account-shortcut:focus,
+.gc-account-shortcuts-card .gc-account-shortcut:active,
+.gc-account-shortcuts-card .gc-account-shortcut:focus-visible {
+  outline: none !important;
+  outline-offset: 0 !important;
+  box-shadow: none !important;
+  border-color: rgba(64, 181, 130, .12);
+}
+
+.gc-account-shortcuts-card .gc-account-shortcut:focus-visible {
+  background: rgba(35, 232, 155, .08);
+}
+
+/* Keep a visible focus indicator for keyboard navigation */
+.gc-account-shortcuts-card .gc-account-shortcut:focus-visible {
+  box-shadow: inset 0 0 0 2px #35e6a0 !important;
+  border-radius: 8px;
+}
+
+/* Remove white outline from Quick Access links */
+.gc-account-shortcuts-card .gc-account-shortcut,
+.gc-account-shortcuts-card .gc-account-shortcut:hover,
+.gc-account-shortcuts-card .gc-account-shortcut:focus,
+.gc-account-shortcuts-card .gc-account-shortcut:focus-visible,
+.gc-account-shortcuts-card .gc-account-shortcut:active {
+  outline: none !important;
+  border-top-color: transparent !important;
+  border-left-color: transparent !important;
+  border-right-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Keep the normal GreenCore hover effect */
+.gc-account-shortcuts-card .gc-account-shortcut:hover {
+  background: rgba(35, 232, 155, 0.08) !important;
+  border-radius: 9px;
+}
+
+
+/* Align Customer Support arrow with every other Quick Access arrow */
+.gc-account-shortcuts-card .gc-account-shortcut > svg:last-child {
+  flex: 0 0 auto;
+  margin-left: auto;
+  align-self: center;
+  color: #6cbd96;
+  transition: transform .18s ease, color .18s ease;
+}
+
+.gc-account-shortcuts-card .gc-account-shortcut:hover > svg:last-child {
+  color: #35e6a0;
+  transform: translateX(3px);
+}
+
+/* Keep shortcut content and arrows consistently aligned */
+.gc-account-shortcuts-card .gc-account-shortcut {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.gc-account-shortcuts-card .gc-account-shortcut > span:nth-child(2) {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+/* Fix Customer Support shortcut alignment */
+.gc-account-shortcuts-card .gc-account-shortcut {
+  justify-content: flex-start !important;
+  text-align: left !important;
+  gap: 10px !important;
+}
+
+.gc-account-shortcuts-card .gc-account-shortcut > span:nth-child(2) {
+  display: flex !important;
+  flex: 1 1 auto !important;
+  flex-direction: column !important;
+  align-items: flex-start !important;
+  justify-content: center !important;
+  min-width: 0 !important;
+  text-align: left !important;
+  margin: 0 !important;
+}
+
+.gc-account-shortcuts-card .gc-account-shortcut > svg:last-child {
+  flex: 0 0 auto !important;
+  margin-left: auto !important;
+}
+
+/* ==========================================
+   GreenCore — Premium My Orders Dashboard
+   ========================================== */
+
+.gc-account-orders-section {
+  min-width: 0;
+}
+
+.gc-account-orders-section .gc-account-card-heading {
+  margin-bottom: 25px;
+}
+
+.gc-account-orders-section .gc-account-card-heading h3 {
+  color: #effff6;
+  font-size: clamp(21px, 2vw, 29px);
+  font-weight: 850;
+  letter-spacing: -0.045em;
+}
+
+.gc-account-orders-section .gc-account-card-heading p {
+  color: #a5c9b7;
+  line-height: 1.7;
+}
+
+/* Order statistics */
+.gc-account-orders-section [class*="stats"],
+.gc-account-orders-section [class*="summary"] {
+  gap: 12px;
+}
+
+.gc-account-orders-section [class*="stat"],
+.gc-account-orders-section [class*="metric"] {
+  border: 1px solid rgba(57, 220, 155, .19);
+  border-radius: 14px;
+  background:
+    radial-gradient(ellipse at top left, rgba(15, 155, 99, .12), transparent 75%),
+    rgba(0, 31, 22, .78);
+  transition: border-color .2s ease, transform .2s ease;
+}
+
+.gc-account-orders-section [class*="stat"]:hover,
+.gc-account-orders-section [class*="metric"]:hover {
+  border-color: rgba(57, 220, 155, .42);
+  transform: translateY(-2px);
+}
+
+/* Order filters */
+.gc-account-orders-section button[aria-pressed],
+.gc-account-orders-section [role="tab"] {
+  border-radius: 999px;
+  transition: background .2s ease, border-color .2s ease,
+    color .2s ease, transform .2s ease;
+}
+
+.gc-account-orders-section button[aria-pressed="true"],
+.gc-account-orders-section [role="tab"][aria-selected="true"] {
+  border-color: #20d995;
+  background: linear-gradient(120deg, #08794f, #13a96f);
+  color: #f1fff7;
+  box-shadow: 0 4px 16px rgba(12, 173, 111, .16);
+}
+
+.gc-account-orders-section button[aria-pressed]:hover,
+.gc-account-orders-section [role="tab"]:hover {
+  transform: translateY(-1px);
+}
+
+/* Individual order cards */
+.gc-account-orders-section article,
+.gc-account-orders-section [class*="order-card"],
+.gc-account-orders-section [class*="order-item"] {
+  border: 1px solid rgba(50, 202, 139, .19);
+  border-radius: 15px;
+  background:
+    linear-gradient(135deg, rgba(5, 54, 38, .65), rgba(1, 29, 21, .94));
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .018);
+  transition: border-color .22s ease, background .22s ease,
+    transform .22s ease, box-shadow .22s ease;
+}
+
+.gc-account-orders-section article:hover,
+.gc-account-orders-section [class*="order-card"]:hover,
+.gc-account-orders-section [class*="order-item"]:hover {
+  border-color: rgba(57, 226, 159, .38);
+  background:
+    linear-gradient(135deg, rgba(5, 65, 44, .76), rgba(1, 34, 24, .97));
+  box-shadow: 0 9px 26px rgba(0, 0, 0, .12);
+}
+
+/* Order references and supporting text */
+.gc-account-orders-section small,
+.gc-account-orders-section [class*="muted"] {
+  color: #9cbfac;
+}
+
+.gc-account-orders-section h4,
+.gc-account-orders-section article strong {
+  color: #effff6;
+}
+
+/* Status badges */
+.gc-account-orders-section [class*="status"],
+.gc-account-orders-section [class*="badge"] {
+  border-radius: 999px;
+  font-weight: 800;
+  letter-spacing: .035em;
+}
+
+/* Action buttons */
+.gc-account-orders-section article button,
+.gc-account-orders-section [class*="order-card"] button,
+.gc-account-orders-section [class*="order-item"] button {
+  min-height: 34px;
+  border-radius: 9px;
+  transition: background .18s ease, border-color .18s ease,
+    transform .18s ease, box-shadow .18s ease;
+}
+
+.gc-account-orders-section article button:hover,
+.gc-account-orders-section [class*="order-card"] button:hover,
+.gc-account-orders-section [class*="order-item"] button:hover {
+  transform: translateY(-1px);
+}
+
+.gc-account-orders-section article button:focus-visible,
+.gc-account-orders-section [class*="order-card"] button:focus-visible,
+.gc-account-orders-section [class*="order-item"] button:focus-visible {
+  outline: 2px solid #52efb3;
+  outline-offset: 3px;
+}
+
+/* Avoid awkward overflow on smaller screens */
+@media (max-width: 640px) {
+  .gc-account-orders-section .gc-account-card-heading h3 {
+    font-size: 22px;
+  }
+
+  .gc-account-orders-section article,
+  .gc-account-orders-section [class*="order-card"],
+  .gc-account-orders-section [class*="order-item"] {
+    border-radius: 12px;
+  }
+
+  .gc-account-orders-section article button,
+  .gc-account-orders-section [class*="order-card"] button,
+  .gc-account-orders-section [class*="order-item"] button {
+    min-height: 36px;
+  }
+}

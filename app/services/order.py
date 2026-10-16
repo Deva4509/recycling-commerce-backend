@@ -48,6 +48,7 @@ class OrderService:
         shipping_amount: Decimal = Decimal("0"),
         tax_amount: Decimal = Decimal("0"),
         discount_amount: Decimal = Decimal("0"),
+        item_unit_price_overrides: dict[UUID, Decimal] | None = None,
     ) -> Order:
         """Create an order and reserve inventory."""
 
@@ -78,6 +79,12 @@ class OrderService:
 
         prepared_items: list[dict] = []
         subtotal = Decimal("0")
+        overrides = item_unit_price_overrides or {}
+        item_product_ids = {payload["product_id"] for payload in items}
+        if not set(overrides).issubset(item_product_ids):
+            raise OrderValidationError(
+                "Price overrides must correspond to an order item."
+            )
 
         for payload in items:
             product_id = payload["product_id"]
@@ -127,7 +134,14 @@ class OrderService:
                     f"Requested {quantity}, available {available}."
                 )
 
-            unit_price = Decimal(str(product.base_price))
+            unit_price = overrides.get(
+                product_id,
+                Decimal(str(product.base_price)),
+            )
+            if not unit_price.is_finite() or unit_price < 0:
+                raise OrderValidationError(
+                    "Order item unit price must be a finite, nonnegative amount."
+                )
 
             line_subtotal = unit_price * quantity
             subtotal += line_subtotal
