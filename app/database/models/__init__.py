@@ -1,5 +1,3 @@
-from app.database.models.bulk_order import BulkOrderPricingTier, BulkOrderProductConfig
-from app.database.models.bulk_order import BulkOrderRequest, BulkOrderStatus
 from app.database.models.address import Address
 from app.database.models.cart import Cart
 from app.database.models.cart_item import CartItem
@@ -23,10 +21,6 @@ from app.database.models.user import AccountStatus, User
 from app.database.models.variant import ProductVariant
 
 __all__ = [
-    "BulkOrderPricingTier",
-    "BulkOrderProductConfig",
-    "BulkOrderRequest",
-    "BulkOrderStatus",
     "AccountStatus",
     "Address",
     "Cart",

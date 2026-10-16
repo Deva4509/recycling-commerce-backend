@@ -1,7 +1,6 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import {
   BarChart3,
-  Boxes,
   ChevronRight,
   CircleDollarSign,
   LayoutDashboard,
@@ -36,11 +35,6 @@ const navigation = [
     label: "Orders",
     to: "/admin/orders",
     icon: ShoppingCart,
-  },
-  {
-    label: "Bulk Orders",
-    to: "/admin/bulk-orders",
-    icon: Boxes,
   },
   {
     label: "Inventory",

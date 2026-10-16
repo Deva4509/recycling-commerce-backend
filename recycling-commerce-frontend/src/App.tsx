@@ -17,10 +17,8 @@ import AdminPayments from "./pages/AdminPayments";
 import AdminShipments from "./pages/AdminShipments";
 import AdminSettings from "./pages/AdminSettings";
 import AdminProducts from "./pages/AdminProducts";
-import AdminBulkOrders from "./pages/AdminBulkOrders";
 
 import Account from "./pages/Account";
-import BulkOrders from "./pages/BulkOrders";
 import Calculator from "./pages/Calculator";
 import Cart from "./pages/Cart";
 import Checkout from "./pages/Checkout";
@@ -284,7 +282,6 @@ function App() {
             <Route path="/admin/products" element={<PageMotion><AdminProducts /></PageMotion>} />
             <Route path="/admin/inventory" element={<PageMotion><AdminInventory /></PageMotion>} />
             <Route path="/admin/orders" element={<PageMotion><AdminOrders /></PageMotion>} />
-            <Route path="/admin/bulk-orders" element={<PageMotion><AdminBulkOrders /></PageMotion>} />
             <Route path="/admin/customers" element={<PageMotion><AdminCustomers /></PageMotion>} />
             <Route path="/admin/payments" element={<PageMotion><AdminPayments /></PageMotion>} />
             <Route path="/admin/shipments" element={<PageMotion><AdminShipments /></PageMotion>} />
@@ -307,7 +304,6 @@ function App() {
           <Route path="/checkout" element={<PageMotion><Checkout /></PageMotion>} />
           <Route path="/account" element={<PageMotion><Account /></PageMotion>} />
           <Route path="/account/orders" element={<PageMotion><Orders /></PageMotion>} />
-          <Route path="/account/bulk-orders" element={<PageMotion><BulkOrders /></PageMotion>} />
           <Route
             path="/account/orders/:orderId"
             element={<PageMotion><OrderDetails /></PageMotion>}

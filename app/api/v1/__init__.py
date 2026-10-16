@@ -10,7 +10,6 @@ from app.api.v1.routes.payments import router as payments_router
 from app.api.v1.routes.shipments import router as shipments_router
 from app.api.v1.routes.reviews import router as reviews_router
 from app.api.v1.routes.contact import router as contact_router
-from app.api.v1.routes.bulk_orders import router as bulk_orders_router
 
 api_router = APIRouter(prefix="/api/v1")
 
@@ -29,4 +28,3 @@ __all__ = ["api_router"]
 api_router.include_router(reviews_router)
 
 api_router.include_router(contact_router)
-api_router.include_router(bulk_orders_router)
