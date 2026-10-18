@@ -772,3 +772,29 @@ export const deleteProductReview = (reviewId: string) =>
   request<void>(`/reviews/${reviewId}`, {
     method: "DELETE",
   });
+
+
+export type AdminOrderNotification = {
+  id: string;
+  order_id: string;
+  order_number: string;
+  total_amount: number;
+  currency: string;
+  created_at: string;
+  read_at: string | null;
+  message: string;
+};
+
+export type AdminOrderNotificationsResponse = {
+  items: AdminOrderNotification[];
+  unread_count: number;
+};
+
+export const getAdminOrderNotifications = () =>
+  request<AdminOrderNotificationsResponse>("/notifications");
+
+export const markAdminOrderNotificationRead = (id: string) =>
+  request<{ id: string; read: boolean }>(
+    `/notifications/${encodeURIComponent(id)}/read`,
+    { method: "POST" },
+  );

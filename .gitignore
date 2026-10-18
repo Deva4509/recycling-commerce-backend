@@ -1,8 +1,0 @@
-node_modules/
-.codespaces/
-package.json
-package-lock.json
-__pycache__/
-*.pyc
-.env.*
-!*.env.example

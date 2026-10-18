@@ -79,3 +79,189 @@ body {
   margin: 0;
   background: #03150f !important;
 }
+.gc-dashboard-welcome {
+  position: relative;
+  isolation: isolate;
+  padding: 12px 0 28px;
+  animation: gc-card-enter .8s ease both;
+}
+
+.gc-dashboard-welcome h1,
+.gc-dashboard-welcome h2 {
+  color: #effff6;
+  letter-spacing: -.055em;
+  text-shadow: 0 8px 35px rgba(0, 230, 128, .09);
+}
+
+.gc-dashboard-welcome .gc-admin-highlight {
+  color: #5dffad;
+  background: linear-gradient(100deg, #d4ffe6, #42f6a1, #14c47a);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+/* ==========================================================
+   GREENCORE — DARK GREEN CHECKOUT & ORDER CONFIRMATION THEME
+   Preserve existing layouts and functionality.
+   ========================================================== */
+
+:root {
+  --gc-page-bg: #031c14;
+  --gc-surface: #06271c;
+  --gc-surface-raised: #0a3425;
+  --gc-surface-hover: #104632;
+  --gc-border: rgba(77, 232, 155, 0.19);
+  --gc-border-active: rgba(65, 245, 157, 0.58);
+  --gc-text: #e9fff2;
+  --gc-text-secondary: #a4c9b5;
+  --gc-text-muted: #78a58d;
+  --gc-accent: #35e994;
+  --gc-accent-dark: #087a4a;
+}
+
+/* Main page surfaces */
+body:has(input[autocomplete="street-address"]),
+body:has(input[autocomplete="email"]) {
+  color: var(--gc-text);
+}
+
+main:has(form),
+section:has(input[autocomplete="street-address"]),
+section:has(input[autocomplete="email"]) {
+  color: var(--gc-text);
+}
+
+/* Forms and cards */
+:where(main, section, form, aside, article)
+  :where(input:not([type="checkbox"]):not([type="radio"]),
+         select, textarea) {
+  color: var(--gc-text);
+  background-color: #082b1f;
+  border-color: var(--gc-border);
+  color-scheme: dark;
+}
+
+:where(main, section, form, aside, article)
+  :where(input, select, textarea)::placeholder {
+  color: #789c88;
+  opacity: 1;
+}
+
+:where(main, section, form, aside, article)
+  :where(input, select, textarea):focus {
+  outline: none;
+  border-color: var(--gc-accent);
+  box-shadow: 0 0 0 3px rgba(53, 233, 148, .12);
+}
+
+:where(main, section, form, aside, article)
+  :where(label, p, small, span) {
+  color: inherit;
+}
+
+/* Common light surface utilities used by checkout and confirmation */
+.bg-white,
+.bg-gray-50,
+.bg-gray-100,
+.bg-slate-50,
+.bg-slate-100,
+.bg-neutral-50,
+.bg-neutral-100 {
+  background-color: var(--gc-surface) !important;
+}
+
+.text-gray-400,
+.text-gray-500,
+.text-gray-600,
+.text-slate-400,
+.text-slate-500,
+.text-slate-600,
+.text-neutral-400,
+.text-neutral-500,
+.text-neutral-600 {
+  color: var(--gc-text-secondary) !important;
+}
+
+.border-gray-100,
+.border-gray-200,
+.border-gray-300,
+.border-slate-100,
+.border-slate-200,
+.border-neutral-100,
+.border-neutral-200 {
+  border-color: var(--gc-border) !important;
+}
+
+/* Checkout and order-confirmation panels */
+.rounded-xl.bg-white,
+.rounded-2xl.bg-white,
+.rounded-lg.bg-white,
+[class*="checkout"] .bg-white,
+[class*="confirmation"] .bg-white,
+[class*="order-success"] .bg-white {
+  background:
+    linear-gradient(145deg, rgba(11, 54, 37, .98), rgba(5, 35, 25, .99)) !important;
+  border-color: var(--gc-border) !important;
+  color: var(--gc-text) !important;
+  box-shadow: 0 16px 38px rgba(0, 0, 0, .16);
+}
+
+/* Payment selection cards */
+input[type="radio"] {
+  accent-color: var(--gc-accent);
+}
+
+label:has(input[type="radio"]),
+label:has(input[type="checkbox"]) {
+  color: var(--gc-text);
+}
+
+label:has(input[type="radio"]:checked) {
+  border-color: var(--gc-accent) !important;
+  background-color: rgba(13, 106, 66, .25) !important;
+  box-shadow: inset 0 0 0 1px rgba(53, 233, 148, .13);
+}
+
+/* Confirmation summary and status */
+[class*="order-number"],
+[class*="delivery"],
+[class*="summary"],
+[class*="confirmation"] [class*="card"] {
+  border-color: var(--gc-border);
+}
+
+/* Buttons retain the existing shape and layout */
+button,
+a[role="button"],
+button[type="submit"] {
+  transition: background-color .2s ease, border-color .2s ease,
+              box-shadow .2s ease, transform .2s ease;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--gc-accent);
+  outline-offset: 3px;
+}
+
+/* Footer stays dark green and blends into the page */
+footer {
+  color: var(--gc-text);
+  background-color: #043c29;
+}
+
+/* Avoid accidental bright browser autofill fields */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: var(--gc-text);
+  box-shadow: 0 0 0 1000px #082b1f inset;
+  transition: background-color 99999s ease-in-out 0s;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  button, a {
+    transition: none !important;
+  }
+}

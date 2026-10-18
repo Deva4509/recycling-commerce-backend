@@ -1,0 +1,120 @@
+[
+  {
+    "id": "greencore-tab",
+    "type": "tab",
+    "label": "GreenCore Order Notifications",
+    "disabled": false,
+    "info": "Polls the FastAPI transactional outbox and asks FastAPI to process each event idempotently."
+  },
+  {
+    "id": "greencore-poll",
+    "type": "inject",
+    "z": "greencore-tab",
+    "name": "Poll committed orders every 5 seconds",
+    "props": [
+      {
+        "p": "payload"
+      }
+    ],
+    "repeat": "5",
+    "once": true,
+    "onceDelay": 2,
+    "payload": "",
+    "payloadType": "date",
+    "x": 190,
+    "y": 120,
+    "wires": [
+      [
+        "greencore-get-setup"
+      ]
+    ]
+  },
+  {
+    "id": "greencore-get-setup",
+    "type": "function",
+    "z": "greencore-tab",
+    "name": "Prepare authenticated poll",
+    "func": "const base = env.get('GREENCORE_API_URL');\nconst token = env.get('NODE_RED_SHARED_SECRET');\nif (!base || !token) { node.error('Set GREENCORE_API_URL and NODE_RED_SHARED_SECRET in Node-RED environment'); return null; }\nmsg.method = 'GET';\nmsg.url = base.replace(/\\\\/$/, '') + '/api/v1/notifications/node-red/pending';\nmsg.headers = { 'X-Node-RED-Token': token, 'Accept': 'application/json' };\nreturn msg;",
+    "outputs": 1,
+    "x": 440,
+    "y": 120,
+    "wires": [
+      [
+        "greencore-get"
+      ]
+    ]
+  },
+  {
+    "id": "greencore-get",
+    "type": "http request",
+    "z": "greencore-tab",
+    "name": "Fetch pending outbox events",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "persist": false,
+    "authType": "",
+    "senderr": false,
+    "x": 700,
+    "y": 120,
+    "wires": [
+      [
+        "greencore-split"
+      ]
+    ]
+  },
+  {
+    "id": "greencore-split",
+    "type": "split",
+    "z": "greencore-tab",
+    "name": "One message per event",
+    "splt": "\\n",
+    "spltType": "str",
+    "arraySplt": 1,
+    "arraySpltType": "len",
+    "stream": false,
+    "addname": "",
+    "property": "payload.items",
+    "x": 930,
+    "y": 120,
+    "wires": [
+      [
+        "greencore-post-setup"
+      ]
+    ]
+  },
+  {
+    "id": "greencore-post-setup",
+    "type": "function",
+    "z": "greencore-tab",
+    "name": "Prepare idempotent processing request",
+    "func": "const base = env.get('GREENCORE_API_URL');\nconst token = env.get('NODE_RED_SHARED_SECRET');\nconst event = msg.payload;\nif (!base || !token || !event || !event.id) return null;\nmsg.method = 'POST';\nmsg.url = base.replace(/\\\\/$/, '') + '/api/v1/notifications/node-red/process/' + encodeURIComponent(event.id);\nmsg.headers = { 'X-Node-RED-Token': token, 'Content-Type': 'application/json' };\nmsg.payload = {};\nreturn msg;",
+    "outputs": 1,
+    "x": 1190,
+    "y": 120,
+    "wires": [
+      [
+        "greencore-post"
+      ]
+    ]
+  },
+  {
+    "id": "greencore-post",
+    "type": "http request",
+    "z": "greencore-tab",
+    "name": "Persist admin notification via FastAPI",
+    "method": "use",
+    "ret": "obj",
+    "paytoqs": "ignore",
+    "url": "",
+    "persist": false,
+    "authType": "",
+    "senderr": false,
+    "x": 1480,
+    "y": 120,
+    "wires": [
+      []
+    ]
+  }
+]

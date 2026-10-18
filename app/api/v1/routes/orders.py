@@ -59,6 +59,8 @@ def create_order(
                 for item in payload.items
             ],
         )
+        from app.database.models.order_notification import OrderEventOutbox
+        service.session.add(OrderEventOutbox(event_key=f"order.created:{order.id}", order_id=order.id, event_type="order.created"))
         service.session.commit()
         service.session.refresh(order)
         return order

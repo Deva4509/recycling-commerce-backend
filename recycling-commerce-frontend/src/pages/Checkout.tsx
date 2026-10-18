@@ -714,10 +714,10 @@ export default function Checkout() {
                 <div className="checkout-payment-secure">
                   <LockKeyhole size={18} />
                   <div>
-                    <strong>Secure payment with Razorpay</strong>
+                    <strong>Growing a Greener Future</strong>
                     <span>
-                      Your payment details are handled securely by Razorpay.
-                      GreenCore never stores your card number, CVV, or UPI PIN.
+                      Every thoughtful purchase helps give useful materials a second life.
+                      Thank you for supporting reuse and a more circular future.
                     </span>
                   </div>
                 </div>
@@ -726,15 +726,15 @@ export default function Checkout() {
 
 
 
-            {payment === "cod" && (
-              <div className="checkout-cod-note">
-                <ShieldCheck size={19} />
-                <span>
-                  You can pay safely in cash when your GreenCore order is
-                  delivered.
-                </span>
-              </div>
-            )}
+              {(
+                <div className="checkout-cod-note">
+                  <span className="checkout-eco-note-icon" aria-hidden="true">i</span>
+                  <div className="checkout-eco-note-copy">
+                    <strong>Cash on Delivery Only</strong>
+                    <span>Online payments coming soon. Currently, only Cash on Delivery (COD) is available.</span>
+                  </div>
+                </div>
+              )}
           </div>
 
           {error && (

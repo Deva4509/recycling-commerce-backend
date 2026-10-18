@@ -1,3 +1,4 @@
+import AdminOrderNotifications from "../components/AdminOrderNotifications";
 import { useEffect, useMemo, useState } from "react";
 import {
   ArrowUpRight,
@@ -167,7 +168,7 @@ export default function AdminDashboard() {
 
   return (
     <section className="rp-admin-modern-page">
-      <div className="rp-admin-modern-heading">
+      <AdminOrderNotifications />      <div className="rp-admin-modern-heading">
         <div>
           <span className="rp-admin-modern-eyebrow">
             GREENCORE CONTROL CENTER

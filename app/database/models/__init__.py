@@ -52,3 +52,5 @@ __all__ = [
 from app.database.models.admin_settings import AdminSettings
 
 from app.database.models.review import Review
+
+from app.database.models.order_notification import AdminOrderNotification, OrderEventOutbox

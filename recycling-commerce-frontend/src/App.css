@@ -61131,3 +61131,601 @@ body:has(.account-profile-page) .account-rewards-card button:hover {
     min-width: 42px;
   }
 }
+
+/* =========================================================
+   GREENCORE DARK FOREST THEME — CHECKOUT + CONFIRMATION
+   Page-scoped overrides; preserves existing layout/behavior.
+   ========================================================= */
+
+.checkout-page,
+.order-page {
+  color: #e7fff1 !important;
+  background: #031d15 !important;
+  background-image:
+    radial-gradient(ellipse at 85% 0%, rgba(12, 113, 69, .22), transparent 42%),
+    radial-gradient(ellipse at 10% 65%, rgba(9, 78, 49, .16), transparent 38%) !important;
+  min-height: 60vh;
+}
+
+.checkout-page *,
+.order-page * {
+  scrollbar-color: #176747 #05271b;
+}
+
+.checkout-page .checkout-hero {
+  color: #e7fff1 !important;
+  background: linear-gradient(115deg, #052e21, #07583b 65%, #087047) !important;
+  border-color: rgba(65, 226, 145, .2) !important;
+}
+
+.checkout-page .checkout-hero h1,
+.checkout-page .checkout-section-heading h2,
+.checkout-page .checkout-summary,
+.checkout-page .checkout-summary strong,
+.checkout-page .checkout-total,
+.checkout-page .checkout-total strong,
+.checkout-page .checkout-product-info strong,
+.checkout-page .checkout-success h1,
+.order-page .order-confirmation h1,
+.order-page .order-confirmation strong {
+  color: #e7fff1 !important;
+}
+
+.checkout-page .checkout-hero p,
+.checkout-page .checkout-section-heading p,
+.checkout-page .checkout-section label,
+.checkout-page .checkout-product-info span,
+.checkout-page .checkout-price-row,
+.checkout-page .checkout-summary-note,
+.order-page .order-confirmation > p,
+.order-page .order-confirmation span {
+  color: #a7cbb7 !important;
+}
+
+.checkout-page .checkout-section,
+.checkout-page .checkout-summary,
+.checkout-page .checkout-order-card,
+.checkout-page .checkout-payment-option,
+.checkout-page .checkout-payment-fields,
+.checkout-page .checkout-cod-note,
+.checkout-page .checkout-trust-row > div,
+.order-page .order-confirmation,
+.order-page .order-confirmation-card,
+.order-page .order-tracking-preview,
+.order-page .order-loading,
+.order-page .order-empty {
+  color: #e7fff1 !important;
+  background: linear-gradient(145deg, #0a3526, #06291e) !important;
+  border: 1px solid rgba(69, 220, 143, .2) !important;
+  box-shadow: 0 14px 38px rgba(0, 0, 0, .16) !important;
+}
+
+.checkout-page .checkout-section input,
+.checkout-page .checkout-section textarea,
+.checkout-page .checkout-section select {
+  color: #e7fff1 !important;
+  background: #041f17 !important;
+  border: 1px solid #1b5b40 !important;
+  color-scheme: dark;
+}
+
+.checkout-page .checkout-section input::placeholder,
+.checkout-page .checkout-section textarea::placeholder {
+  color: #7fa891 !important;
+  opacity: 1;
+}
+
+.checkout-page .checkout-section input:focus,
+.checkout-page .checkout-section textarea:focus,
+.checkout-page .checkout-section select:focus {
+  border-color: #39e695 !important;
+  box-shadow: 0 0 0 3px rgba(57, 230, 149, .12) !important;
+  outline: none;
+}
+
+.checkout-page .checkout-payment-option:hover,
+.checkout-page .checkout-payment-option.active {
+  background: linear-gradient(120deg, #104a32, #0a3827) !important;
+  border-color: #35df8b !important;
+}
+
+.checkout-page .checkout-payment-option strong,
+.checkout-page .checkout-payment-option small,
+.checkout-page .checkout-summary-header,
+.checkout-page .checkout-price-row strong,
+.checkout-page .checkout-step,
+.checkout-page .checkout-summary-header span {
+  color: #c7efda !important;
+}
+
+.checkout-page .checkout-step,
+.checkout-page .checkout-upi-icon,
+.checkout-page .checkout-recycle-icon {
+  background: #104a32 !important;
+  color: #67f2a7 !important;
+}
+
+.checkout-page .checkout-summary-divider {
+  background: rgba(82, 220, 147, .19) !important;
+}
+
+.checkout-page .checkout-place-order,
+.checkout-page .checkout-primary-button,
+.order-page .order-primary-button {
+  color: #022416 !important;
+  background: linear-gradient(110deg, #36e58c, #13b96d) !important;
+  border: 1px solid rgba(135, 255, 188, .32) !important;
+  box-shadow: 0 8px 22px rgba(14, 190, 105, .2) !important;
+}
+
+.checkout-page .checkout-place-order:hover,
+.checkout-page .checkout-primary-button:hover,
+.order-page .order-primary-button:hover {
+  background: linear-gradient(110deg, #65f5a7, #20d780) !important;
+  transform: translateY(-1px);
+}
+
+.checkout-page .checkout-back,
+.checkout-page .checkout-secondary-button,
+.order-page .order-secondary-button {
+  color: #bcebd0 !important;
+  background: #082d20 !important;
+  border: 1px solid #1b5b40 !important;
+}
+
+.checkout-page .checkout-success-icon,
+.order-page .order-success-icon {
+  color: #052c1d !important;
+  background: linear-gradient(135deg, #68f3a7, #12b96c) !important;
+  box-shadow: 0 0 34px rgba(42, 224, 133, .19) !important;
+}
+
+.checkout-page .checkout-kicker,
+.order-page .order-eyebrow {
+  color: #42e998 !important;
+}
+
+.checkout-page .checkout-total strong,
+.checkout-page .checkout-price-row.checkout-discount,
+.checkout-page .checkout-price-row.checkout-discount strong {
+  color: #54eba0 !important;
+}
+
+.checkout-page .checkout-secure-badge {
+  color: #c9f8dd !important;
+  background: rgba(50, 201, 125, .13) !important;
+  border-color: rgba(73, 228, 151, .22) !important;
+}
+
+.checkout-page .checkout-summary-note {
+  background: #0b3a28 !important;
+  border-color: rgba(73, 228, 151, .15) !important;
+}
+
+.checkout-page .checkout-success {
+  color: #e7fff1 !important;
+  background: transparent !important;
+}
+
+.order-page .order-confirmation-card > div {
+  background: transparent !important;
+  border-color: rgba(69, 220, 143, .18) !important;
+}
+
+.order-page .order-confirmation-card span {
+  color: #8fbba3 !important;
+}
+
+.order-page .order-confirmation-card strong {
+  color: #e7fff1 !important;
+}
+
+.checkout-page .checkout-section svg,
+.checkout-page .checkout-trust-row svg,
+.order-page .order-tracking-preview svg {
+  color: #54e99b;
+}
+
+.checkout-page .checkout-section,
+.checkout-page .checkout-summary,
+.checkout-page .checkout-payment-option,
+.order-page .order-confirmation,
+.order-page .order-confirmation-card {
+  backdrop-filter: blur(12px);
+}
+
+@media (max-width: 720px) {
+  .checkout-page,
+  .order-page {
+    background-image: linear-gradient(180deg, #062b1e, #031d15) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout-page *,
+  .order-page * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* GreenCore — Premium Return to Cart Button */
+.checkout-page .checkout-back {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  min-height: 46px !important;
+  padding: 0 22px !important;
+  border: 1px solid rgba(67, 239, 157, .38) !important;
+  border-radius: 12px !important;
+  background: linear-gradient(135deg, #0b3b29, #06271c) !important;
+  color: #b9f8d4 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  letter-spacing: .15px !important;
+  text-decoration: none !important;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,.045),
+              0 5px 18px rgba(0,0,0,.16) !important;
+  transition: transform .22s ease, background .22s ease,
+              border-color .22s ease, box-shadow .22s ease !important;
+}
+
+.checkout-page .checkout-back:hover {
+  color: #eafff2 !important;
+  background: linear-gradient(135deg, #11623f, #0a432d) !important;
+  border-color: #42f0a0 !important;
+  box-shadow: 0 0 0 3px rgba(53,233,148,.09),
+              0 8px 25px rgba(20,220,120,.15) !important;
+  transform: translateY(-2px) !important;
+}
+
+.checkout-page .checkout-back:active {
+  transform: translateY(0) scale(.98) !important;
+}
+
+.checkout-page .checkout-back svg {
+  color: #55efa0 !important;
+  transition: transform .22s ease !important;
+}
+
+.checkout-page .checkout-back:hover svg {
+  transform: translateX(-4px) !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout-page .checkout-back,
+  .checkout-page .checkout-back svg {
+    transition: none !important;
+  }
+}
+
+/* GreenCore — Equal-size premium checkout trust badges */
+.checkout-page .checkout-trust-row {
+  display: grid !important;
+  grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
+  gap: 14px !important;
+  width: 100% !important;
+  align-items: stretch !important;
+}
+
+.checkout-page .checkout-trust-row > div {
+  box-sizing: border-box !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  min-height: 76px !important;
+  padding: 16px 12px !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 10px !important;
+  border: 1px solid rgba(67, 239, 157, .22) !important;
+  border-radius: 18px !important;
+  color: #d9ffea !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(42, 221, 135, .09), transparent 75%),
+    linear-gradient(145deg, #0b3325, #06271c) !important;
+  box-shadow: inset 0 1px 0 rgba(210, 255, 229, .035),
+              0 8px 22px rgba(0, 0, 0, .12) !important;
+  text-align: center !important;
+  transition: transform .22s ease, border-color .22s ease,
+              box-shadow .22s ease, background .22s ease !important;
+}
+
+.checkout-page .checkout-trust-row > div:hover {
+  transform: translateY(-3px) !important;
+  border-color: rgba(67, 245, 158, .58) !important;
+  background: linear-gradient(145deg, #104632, #082d20) !important;
+  box-shadow: 0 9px 25px rgba(22, 222, 127, .09),
+              inset 0 1px 0 rgba(210, 255, 229, .07) !important;
+}
+
+.checkout-page .checkout-trust-row > div svg {
+  flex: 0 0 auto !important;
+  width: 22px !important;
+  height: 22px !important;
+  color: #48efa0 !important;
+  filter: drop-shadow(0 0 7px rgba(53, 233, 148, .2));
+}
+
+.checkout-page .checkout-trust-row > div span,
+.checkout-page .checkout-trust-row > div p,
+.checkout-page .checkout-trust-row > div strong {
+  margin: 0 !important;
+  color: #d9ffea !important;
+  font-size: 13px !important;
+  line-height: 1.35 !important;
+  font-weight: 700 !important;
+  overflow-wrap: anywhere !important;
+}
+
+@media (max-width: 560px) {
+  .checkout-page .checkout-trust-row {
+    grid-template-columns: 1fr !important;
+    gap: 9px !important;
+  }
+
+  .checkout-page .checkout-trust-row > div {
+    min-height: 58px !important;
+    border-radius: 14px !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .checkout-page .checkout-trust-row > div {
+    transition: none !important;
+  }
+}
+
+/* GreenCore — Sustainability message in checkout */
+.checkout-page .checkout-cod-note {
+  box-sizing: border-box !important;
+  min-height: 76px !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 13px !important;
+  padding: 16px 18px !important;
+  border: 1px solid rgba(63, 237, 151, .22) !important;
+  border-radius: 16px !important;
+  color: #dfffee !important;
+  background: linear-gradient(115deg, #0b3827, #06291d) !important;
+}
+.checkout-page .checkout-eco-note-icon {
+  flex: 0 0 34px;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 11px;
+  color: #073522;
+  font-size: 20px;
+  background: linear-gradient(135deg, #7af5ad, #27d982);
+  box-shadow: 0 0 18px rgba(39, 217, 130, .13);
+}
+.checkout-page .checkout-eco-note-copy {
+  min-width: 0;
+  display: grid;
+  gap: 4px;
+}
+.checkout-page .checkout-eco-note-copy strong {
+  color: #a6ffcb !important;
+  font-size: 14px;
+  font-weight: 800;
+}
+.checkout-page .checkout-eco-note-copy span {
+  color: #b7d9c5 !important;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* GreenCore — Spacious COD-only notice */
+.checkout-page .checkout-cod-note {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 14px !important;
+  width: 100% !important;
+  min-height: 86px !important;
+  padding: 20px 22px !important;
+  margin-top: 14px !important;
+  border: 1px solid rgba(62, 231, 147, .24) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #0b3827, #06281d) !important;
+  color: #e5ffef !important;
+}
+
+.checkout-page .checkout-eco-note-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 8px !important;
+  min-width: 0 !important;
+  line-height: 1.6 !important;
+}
+
+.checkout-page .checkout-eco-note-copy strong {
+  display: block !important;
+  color: #8fffc0 !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  line-height: 1.4 !important;
+}
+
+.checkout-page .checkout-eco-note-copy span {
+  display: block !important;
+  max-width: 440px !important;
+  color: #c0decc !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1.75 !important;
+  overflow-wrap: anywhere !important;
+}
+
+.checkout-page .checkout-eco-note-icon {
+  flex: 0 0 36px !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 11px !important;
+  color: #062b1c !important;
+  background: linear-gradient(135deg, #83f5b2, #31d985) !important;
+}
+
+@media (max-width: 480px) {
+  .checkout-page .checkout-cod-note {
+    padding: 17px !important;
+    gap: 11px !important;
+  }
+
+  .checkout-page .checkout-eco-note-copy span {
+    font-size: 12px !important;
+  }
+}
+
+
+
+/* GreenCore — Spacious COD-only notice */
+.checkout-page .checkout-cod-note {
+  box-sizing: border-box !important;
+  display: flex !important;
+  align-items: flex-start !important;
+  gap: 15px !important;
+  width: 100% !important;
+  min-height: 90px !important;
+  padding: 22px 24px !important;
+  margin-top: 16px !important;
+  border: 1px solid rgba(62, 231, 147, .28) !important;
+  border-radius: 16px !important;
+  background: linear-gradient(135deg, #0b3827, #06281d) !important;
+  color: #e5ffef !important;
+}
+
+.checkout-page .checkout-eco-note-copy {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 9px !important;
+  min-width: 0 !important;
+  line-height: 1.7 !important;
+}
+
+.checkout-page .checkout-eco-note-copy strong {
+  display: block !important;
+  color: #8fffc0 !important;
+  font-size: 14px !important;
+  font-weight: 800 !important;
+  line-height: 1.5 !important;
+}
+
+.checkout-page .checkout-eco-note-copy span {
+  display: block !important;
+  max-width: 440px !important;
+  color: #c0decc !important;
+  font-size: 13px !important;
+  font-weight: 400 !important;
+  line-height: 1.8 !important;
+  overflow-wrap: anywhere !important;
+}
+
+.checkout-page .checkout-eco-note-icon {
+  flex: 0 0 36px !important;
+  width: 36px !important;
+  height: 36px !important;
+  display: grid !important;
+  place-items: center !important;
+  border-radius: 11px !important;
+  color: #062b1c !important;
+  background: linear-gradient(135deg, #83f5b2, #31d985) !important;
+}
+
+@media (max-width: 480px) {
+  .checkout-page .checkout-cod-note {
+    padding: 17px !important;
+    gap: 11px !important;
+  }
+
+  .checkout-page .checkout-eco-note-copy span {
+    font-size: 12px !important;
+  }
+}
+
+
+/* GreenCore checkout: readable COD-only notice */
+.checkout-page .checkout-cod-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  width: 100%;
+  box-sizing: border-box;
+  margin: 18px 0;
+  padding: 18px 20px;
+  border: 1px solid rgba(34, 197, 94, 0.28);
+  border-radius: 14px;
+  background: rgba(34, 197, 94, 0.07);
+}
+
+.checkout-page .checkout-eco-note-icon {
+  display: flex;
+  flex: 0 0 28px;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(34, 197, 94, 0.16);
+  color: #16a34a;
+  font-weight: 700;
+}
+
+.checkout-page .checkout-eco-note-copy {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 7px;
+  min-width: 0;
+  line-height: 1.6;
+}
+
+.checkout-page .checkout-eco-note-copy strong {
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+.checkout-page .checkout-eco-note-copy span {
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+@media (max-width: 480px) {
+  .checkout-page .checkout-cod-note {
+    gap: 10px;
+    padding: 15px;
+  }
+}
+.checkout-page .checkout-payment-secure {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 20px 24px;
+}
+
+.checkout-page .checkout-payment-secure > div {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.checkout-page .checkout-payment-secure strong {
+  display: block;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+.checkout-page .checkout-payment-secure span {
+  display: block;
+  font-size: 14px;
+  line-height: 1.6;
+}

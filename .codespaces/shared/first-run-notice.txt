@@ -1,0 +1,5 @@
+This codespace is currently running in recovery mode due to a container error.
+1. Use Cmd/Ctrl + Shift + P -> "Codespaces: View Creation Log" to see full logs
+2. Update your devcontainer configuration as needed
+3. Use Cmd/Ctrl + Shift + P -> "Codespaces: Rebuild Container" to retry
+4. For help, read more about custom configuration: https://aka.ms/ghcs-custom-configuration
