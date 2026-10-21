@@ -101,7 +101,9 @@ export default function AdminOrderNotifications() {
     setBusy(id);
     try {
       await markAdminOrderNotificationRead(id);
-      await load();
+      setItems((current) => current.filter((item) => item.id !== id));
+      setUnread((current) => Math.max(0, current - 1));
+      setError("");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Could not mark as read.");
     } finally {

@@ -49,6 +49,7 @@ class OrderService:
         tax_amount: Decimal = Decimal("0"),
         discount_amount: Decimal = Decimal("0"),
         item_unit_price_overrides: dict[UUID, Decimal] | None = None,
+        idempotency_key: str | None = None,
     ) -> Order:
         """Create an order and reserve inventory."""
 
@@ -174,6 +175,7 @@ class OrderService:
         order = Order(
             id=uuid4(),
             order_number=self._generate_order_number(),
+            idempotency_key=idempotency_key,
             user_id=user_id,
             status=OrderStatus.PENDING.value,
             payment_status=PaymentStatus.PENDING.value,

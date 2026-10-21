@@ -1,6 +1,6 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useCart } from "../context/CartContext";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { useAuth } from "../context/AuthContext";
 
 import {
@@ -110,6 +110,12 @@ export default function Checkout() {
   const [orderNumber, setOrderNumber] = useState("");
   const [orderTotal, setOrderTotal] = useState(checkoutSubtotal);
   const [placingOrder, setPlacingOrder] = useState(false);
+  const submitLock = useRef(false);
+  const checkoutRequestKey = useRef(
+    typeof crypto !== "undefined" && typeof crypto.randomUUID === "function"
+      ? crypto.randomUUID()
+      : `checkout-${Date.now()}-${Math.random().toString(36).slice(2)}`
+  );
   const [error, setError] = useState("");
 
   const [form, setForm] = useState({
@@ -155,8 +161,11 @@ export default function Checkout() {
       return;
     }
 
+    if (submitLock.current) return;
+    submitLock.current = true;
     setPlacingOrder(true);
     setError("");
+    let orderCreated = false;
 
     try {
       const productsResponse = await fetch(
@@ -222,6 +231,7 @@ export default function Checkout() {
         },
         body: JSON.stringify({
           user_id: user.id,
+          idempotency_key: checkoutRequestKey.current,
           shipping_address: shippingAddress,
           billing_address: shippingAddress,
           notes: `Payment method: ${paymentMethodToApi(payment)}`,
@@ -243,6 +253,7 @@ export default function Checkout() {
       }
 
       const order = orderPayload as OrderResponse;
+      orderCreated = true;
 
       const paymentResponse = await fetch(`${API_BASE}/payments`, {
         method: "POST",
@@ -461,6 +472,11 @@ export default function Checkout() {
           : "Something went wrong while placing your order.",
       );
     } finally {
+      // Never release this checkout's lock after an order has been created.
+      // This prevents retrying payment/checkout from creating another order.
+      if (!orderCreated) {
+        submitLock.current = false;
+      }
       setPlacingOrder(false);
     }
   }
@@ -708,21 +724,6 @@ export default function Checkout() {
                 </span>
               </button>
             </div>
-
-            {(payment === "card" || payment === "upi") && (
-              <div className="checkout-payment-fields">
-                <div className="checkout-payment-secure">
-                  <LockKeyhole size={18} />
-                  <div>
-                    <strong>Growing a Greener Future</strong>
-                    <span>
-                      Every thoughtful purchase helps give useful materials a second life.
-                      Thank you for supporting reuse and a more circular future.
-                    </span>
-                  </div>
-                </div>
-              </div>
-            )}
 
 
 
