@@ -31,7 +31,7 @@ def list_notifications(
 ):
     limit = max(1, min(limit, 100))
     rows = db.scalars(
-        select(AdminOrderNotification).order_by(AdminOrderNotification.created_at.desc()).limit(limit)
+        select(AdminOrderNotification).where(AdminOrderNotification.read_at.is_(None)).order_by(AdminOrderNotification.created_at.desc()).limit(limit)
     ).all()
     return {
         "items": [{

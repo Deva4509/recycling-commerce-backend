@@ -117,6 +117,8 @@ export default function AdminOrders() {
   const [status, setStatus] = useState<"ALL" | OrderStatus>("ALL");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
   const [openStatusId, setOpenStatusId] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   async function loadOrders(showSpinner = true) {
     if (showSpinner) setLoading(true);
@@ -154,6 +156,10 @@ export default function AdminOrders() {
     return () => window.removeEventListener("keydown", handleEscape);
   }, []);
 
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [query, status, pageSize]);
+
   const filteredOrders = useMemo(() => {
     const normalizedQuery = query.trim().toLowerCase();
 
@@ -173,6 +179,13 @@ export default function AdminOrders() {
       return matchesQuery && matchesStatus;
     });
   }, [orders, query, status]);
+
+  const totalPages = Math.max(1, Math.ceil(filteredOrders.length / pageSize));
+  const safePage = Math.min(currentPage, totalPages);
+  const visibleOrders = filteredOrders.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize,
+  );
 
   const counts = useMemo(() => {
     return {
@@ -364,16 +377,15 @@ export default function AdminOrders() {
       <div className="rp-admin-orders-card">
         <div className="rp-admin-orders-scroll">
           <div className="rp-admin-table-header">
-          <div>ORDER</div>
-          <div>CUSTOMER</div>
-          <div>ITEMS</div>
-          <div>TOTAL</div>
-          <div>DATE</div>
-          <div>ORDER STATUS</div>
-          <div>PAYMENT STATUS</div>
-        </div>
-
-        {loading ? (
+            <div>ORDER</div>
+            <div>CUSTOMER</div>
+            <div>ITEMS</div>
+            <div>TOTAL</div>
+            <div>DATE</div>
+            <div>PAYMENT</div>
+            <div>ORDER STATUS</div>
+            <div>ACTIONS</div>
+          </div>{loading ? (
           <div className="rp-admin-table-empty">
             <LoaderCircle size={24} className="rp-spin" />
             <span>Loading orders from backend...</span>
@@ -387,7 +399,7 @@ export default function AdminOrders() {
             </span>
           </div>
         ) : (
-          filteredOrders.map((order) => {
+          visibleOrders.map((order) => {
             const orderId = getOrderId(order);
             const currentStatus = getOrderStatus(order);
             const meta = statusMeta[currentStatus];
@@ -417,6 +429,17 @@ export default function AdminOrders() {
                 </div>
 
                 <div>{formatDate(order.created_at)}</div>
+
+                <div className="rp-admin-payment-status">
+                  <span>Payment</span>
+                  <strong
+                    className={`rp-admin-payment-status-value ${String(
+                      order.payment_status ?? "PENDING",
+                    ).toLowerCase()}`}
+                  >
+                    {String(order.payment_status ?? "PENDING").toUpperCase()}
+                  </strong>
+                </div>
 
                 <div className="rp-admin-order-status-cell">
                   <span className={`rp-admin-status ${meta.className}`}>
@@ -526,20 +549,48 @@ export default function AdminOrders() {
                   </div>
                 </div>
 
-                <div className="rp-admin-payment-status">
-                  <span>Payment</span>
-                  <strong
-                    className={`rp-admin-payment-status-value ${String(
-                      order.payment_status ?? "PENDING",
-                    ).toLowerCase()}`}
+                <div className="rp-admin-order-actions">
+                  <button
+                    type="button"
+                    title="Copy full order ID"
+                    aria-label={`Copy order ID ${orderId}`}
+                    onClick={() => {
+                      void navigator.clipboard?.writeText(orderId);
+                    }}
                   >
-                    {String(order.payment_status ?? "PENDING").toUpperCase()}
-                  </strong>
+                    Copy ID
+                  </button>
                 </div>
               </div>
             );
           })
         )}
+        </div>
+      </div>
+
+      <div className="rp-admin-orders-pagination">
+        <span>
+          Showing {filteredOrders.length ? (safePage - 1) * pageSize + 1 : 0}
+          {" to "}
+          {Math.min(safePage * pageSize, filteredOrders.length)}
+          {" of "}{filteredOrders.length} orders
+        </span>
+        <div className="rp-admin-pagination-controls">
+          <button type="button" disabled={safePage <= 1}
+            onClick={() => setCurrentPage((page) => Math.max(1, page - 1))}>
+            Previous
+          </button>
+          <strong>Page {safePage} of {totalPages}</strong>
+          <button type="button" disabled={safePage >= totalPages}
+            onClick={() => setCurrentPage((page) => Math.min(totalPages, page + 1))}>
+            Next
+          </button>
+          <select value={pageSize} onChange={(event) => setPageSize(Number(event.target.value))}
+            aria-label="Orders per page">
+            <option value={10}>10 per page</option>
+            <option value={20}>20 per page</option>
+            <option value={50}>50 per page</option>
+          </select>
         </div>
       </div>
     </section>

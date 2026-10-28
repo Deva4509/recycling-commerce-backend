@@ -1,6 +1,6 @@
 from uuid import UUID
 
-from app.database.models.order import OrderStatus
+from app.database.models.order import Order, OrderStatus
 
 from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
@@ -54,13 +54,38 @@ def create_order(
             shipping_amount=payload.shipping_amount,
             tax_amount=payload.tax_amount,
             discount_amount=payload.discount_amount,
+            idempotency_key=payload.idempotency_key,
             items=[
                 item.model_dump()
                 for item in payload.items
             ],
         )
-        from app.database.models.order_notification import OrderEventOutbox
-        service.session.add(OrderEventOutbox(event_key=f"order.created:{order.id}", order_id=order.id, event_type="order.created"))
+        from app.database.models.order_notification import (
+            AdminOrderNotification,
+            OrderEventOutbox,
+        )
+
+        event_key = f"order.created:{order.id}"
+
+        service.session.add(
+            OrderEventOutbox(
+                event_key=event_key,
+                order_id=order.id,
+                event_type="order.created",
+            )
+        )
+
+        # Persist the admin alert with the order; Node-RED is not required.
+        service.session.add(
+            AdminOrderNotification(
+                event_key=event_key,
+                order_id=order.id,
+                order_number=order.order_number,
+                total_amount=order.total_amount,
+                currency=order.currency,
+            )
+        )
+
         service.session.commit()
         service.session.refresh(order)
         return order
@@ -68,6 +93,11 @@ def create_order(
         OrderValidationError,
         InventoryNotFoundError,
     ) as exc:
+        service.session.rollback()
+        if payload.idempotency_key:
+            existing = service.session.query(Order).filter_by(user_id=current_user.id, idempotency_key=payload.idempotency_key).first()
+            if existing is not None:
+                return existing
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail=str(exc),

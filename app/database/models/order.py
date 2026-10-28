@@ -46,6 +46,8 @@ class Order(UUIDTimestampMixin, Base):
         nullable=False,
     )
 
+    idempotency_key: Mapped[str | None] = mapped_column(String(64), nullable=True, unique=True, index=True)
+
     user_id: Mapped[UUID] = mapped_column(
         ForeignKey("users.id", ondelete="RESTRICT"),
         nullable=False,

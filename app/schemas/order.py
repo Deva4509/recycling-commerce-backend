@@ -18,6 +18,7 @@ class OrderCreate(BaseModel):
     """Create an order during checkout."""
 
     user_id: UUID
+    idempotency_key: str | None = Field(default=None, min_length=8, max_length=64, pattern=r"^[A-Za-z0-9_-]+$")
     shipping_address: str = Field(min_length=1)
     billing_address: str | None = None
     notes: str | None = None
